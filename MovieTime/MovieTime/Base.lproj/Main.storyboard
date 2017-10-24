@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gaM-EE-6Vx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lsa-ba-asF">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -73,7 +73,45 @@
             </objects>
             <point key="canvasLocation" x="-414" y="752"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings-->
+        <scene sceneID="Ekz-JT-Bfb">
+            <objects>
+                <viewController storyboardIdentifier="settingsViewControllerID" id="HBH-qh-H5h" customClass="SettingsViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZyG-xe-BKO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4n-LC-kZs" customClass="FlatButton" customModule="Material">
+                                <rect key="frame" x="20" y="657" width="374" height="59"/>
+                                <color key="backgroundColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <state key="normal" title="Login / Sign Up">
+                                    <color key="titleColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
+                                </state>
+                                <connections>
+                                    <action selector="lsOrLogoutButtonPressed:" destination="HBH-qh-H5h" eventType="touchUpInside" id="VVf-bB-6t9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="WyT-yn-SWE" firstAttribute="trailing" secondItem="g4n-LC-kZs" secondAttribute="trailing" constant="20" id="KJC-pW-IqY"/>
+                            <constraint firstItem="WyT-yn-SWE" firstAttribute="bottom" secondItem="g4n-LC-kZs" secondAttribute="bottom" constant="20" id="a1x-eJ-aDZ"/>
+                            <constraint firstItem="g4n-LC-kZs" firstAttribute="leading" secondItem="WyT-yn-SWE" secondAttribute="leading" constant="20" id="a35-dO-z35"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="WyT-yn-SWE"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="dhD-ME-7ap"/>
+                    <connections>
+                        <outlet property="lsOrLogoutButton" destination="g4n-LC-kZs" id="fY0-ai-VV5"/>
+                        <segue destination="gaM-EE-6Vx" kind="show" identifier="settingsToLS" id="DQd-eQ-JDY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ih9-Dc-eJx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1275.3623188405797" y="1583.967391304348"/>
+        </scene>
+        <!--Account-->
         <scene sceneID="pSd-Qo-DkI">
             <objects>
                 <viewController id="gaM-EE-6Vx" customClass="LSViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,7 +120,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXE-Mt-sJX">
-                                <rect key="frame" x="37" y="135" width="340" height="57"/>
+                                <rect key="frame" x="37" y="124" width="340" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -110,9 +148,8 @@
                                     <action selector="createButtonPressed:" destination="gaM-EE-6Vx" eventType="touchUpInside" id="sCh-LP-ixO"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hKq-Ft-Tj0">
-                                <rect key="frame" x="37" y="89" width="340" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hKq-Ft-Tj0">
+                                <rect key="frame" x="37" y="97" width="340" height="29"/>
                                 <color key="backgroundColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
                                 <segments>
                                     <segment title="LOGIN"/>
@@ -125,8 +162,14 @@
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="zYE-Zi-O2W" firstAttribute="trailing" secondItem="hKq-Ft-Tj0" secondAttribute="trailing" constant="37" id="0mm-sc-eKB"/>
+                            <constraint firstItem="hKq-Ft-Tj0" firstAttribute="leading" secondItem="zYE-Zi-O2W" secondAttribute="leading" constant="37" id="h8B-XQ-Kz9"/>
+                            <constraint firstItem="hKq-Ft-Tj0" firstAttribute="top" secondItem="zYE-Zi-O2W" secondAttribute="top" constant="33" id="rma-I2-0gY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="zYE-Zi-O2W"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Account" id="ToV-me-7xN"/>
                     <connections>
                         <outlet property="alertLabel" destination="BXE-Mt-sJX" id="FKR-16-k0D"/>
                         <outlet property="createButton" destination="WiD-HT-unb" id="FND-Uk-sIi"/>
@@ -136,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32r-Nv-O9N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-414.49275362318843" y="1493.4782608695652"/>
+            <point key="canvasLocation" x="-1274" y="2313"/>
         </scene>
         <!--Bottom Navigation Controller-->
         <scene sceneID="Ofb-oL-IWt">
@@ -157,6 +200,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g00-g9-b01" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="759" y="-9"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8uu-r8-9SP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lsa-ba-asF" customClass="NavigationController" customModule="Material" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cj3-ID-UEC">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="HBH-qh-H5h" kind="relationship" relationship="rootViewController" id="C9v-po-hQf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H3r-QQ-Qmb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2075" y="1584"/>
         </scene>
     </scenes>
 </document>
