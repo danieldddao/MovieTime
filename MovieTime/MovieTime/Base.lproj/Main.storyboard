@@ -44,7 +44,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imgView" destination="9sy-W3-fIN" id="SAu-7b-VPS"/>
-                                    <segue destination="zSN-ng-Mms" kind="show" identifier="toMovieDetails" id="eVt-yB-tbq"/>
+                                    <segue destination="zSN-ng-Mms" kind="show" identifier="toMovieDetails" id="ZFU-mS-Uz1"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -82,6 +82,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="Tle-Ba-BDX"/>
                     </view>
+                    <navigationItem key="navigationItem" id="oPq-Dy-xHp"/>
                     <connections>
                         <outlet property="posterImgView" destination="FTk-pf-S3l" id="p2g-IY-lEK"/>
                         <outlet property="titleLbl" destination="WN4-V4-20v" id="fxI-mV-A5q"/>

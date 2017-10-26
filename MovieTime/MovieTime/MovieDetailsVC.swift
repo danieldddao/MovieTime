@@ -12,11 +12,13 @@ class MovieDetailsVC: UIViewController {
 
     @IBOutlet weak var posterImgView: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
-    var clickedMovieId = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("clicked movie ID: \(self.clickedMovieId)")
+        print("clicked movie ID: \(clickedMovieId)")
+        
+        // Import Data
+        titleLbl.text = popularMovies[clickedMovieId]?.title
     }
 
 }

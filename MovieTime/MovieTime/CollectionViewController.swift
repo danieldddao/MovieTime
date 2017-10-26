@@ -26,7 +26,7 @@ struct Movie: Codable {
 
 
 var popularMovies = [Int: Movie]()
-
+var clickedMovieId = 0
 
 
 class CollectionViewController: UICollectionViewController {
@@ -36,7 +36,7 @@ class CollectionViewController: UICollectionViewController {
     
 
     var popularMoviesAsArray = [Int]()
-    var clickedMovieId = 0
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,15 +87,6 @@ class CollectionViewController: UICollectionViewController {
         clickedMovieId = popularMovies[movieID]!.id
         print("in function id: \(clickedMovieId)")
         
-    }
-
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toMovieDetails"{
-            let destinationViewController = segue.destination as! MovieDetailsVC
-            destinationViewController.clickedMovieId = self.clickedMovieId
-            print("in prepare id: \(clickedMovieId)")
-        }
     }
 
     
