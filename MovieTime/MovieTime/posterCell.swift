@@ -10,6 +10,7 @@ import UIKit
 
 class posterCell: UICollectionViewCell {
     
+
     @IBOutlet weak var imgView: UIImageView!
     
     override func awakeFromNib() {

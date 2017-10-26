@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 struct PopularMoviesPage: Codable {
     let page: Int
     let total_results: Int
@@ -15,13 +16,17 @@ struct PopularMoviesPage: Codable {
     let results: [Movie]
 }
 
+
 struct Movie: Codable {
+
     let id: Int
     let poster_path: String
     let title: String
 }
 
+
 var popularMovies = [Int: Movie]()
+
 
 
 class CollectionViewController: UICollectionViewController {
@@ -29,18 +34,25 @@ class CollectionViewController: UICollectionViewController {
     var baseURI: String = "api.themoviedb.org/3"
     var apiKey: String = "3cc9e662a8461532d3d5e5d722ef582b"
     
+
     var popularMoviesAsArray = [Int]()
     var clickedMovieId = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         populatePosters(page: 1)
         populatePosters(page: 2)
         populatePosters(page: 3)
         
-        
     }
-     
+
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return popularMovies.count
@@ -69,11 +81,12 @@ class CollectionViewController: UICollectionViewController {
         return cell
     }
     
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieID = self.popularMoviesAsArray[indexPath.row]
         clickedMovieId = popularMovies[movieID]!.id
         print("in function id: \(clickedMovieId)")
-
+        
     }
 
 
@@ -113,5 +126,5 @@ class CollectionViewController: UICollectionViewController {
             }.resume()
     }
 
-
 }
+
