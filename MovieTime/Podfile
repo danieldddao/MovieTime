@@ -8,13 +8,18 @@ target 'MovieTime' do
   # ignore all warnings from all pods
   inhibit_all_warnings!
 
-  # Pods for MovieTime
+  # Firebase database
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  
 
-  # Pods for MDC-Tutorial
+  pod 'HCSStarRatingView', '~> 1.5'
+
+  # Popup view
+  pod 'PopupDialog', '~> 0.6'
+
+  # UI frameworks
   pod 'MaterialComponents', :inhibit_warnings => true
-
   pod 'Material', '~> 2.0', :inhibit_warnings => true
 
 end

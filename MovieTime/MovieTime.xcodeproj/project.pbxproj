@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB1C9A911F998E4E002E79CB /* LSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C9A901F998E4E002E79CB /* LSViewController.swift */; };
+		AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */; };
+		AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E20B51FA5732500B426A2 /* ReviewRatingVC.swift */; };
+		AB55853E1FA58BAB00BF73BD /* ReviewRatingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB55853D1FA58BAB00BF73BD /* ReviewRatingVC.xib */; };
 		AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72A7E71F9940A70007000C /* AppDelegate.swift */; };
 		AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72A7E91F9940A70007000C /* ViewController.swift */; };
 		AB72A7ED1F9940A70007000C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB72A7EB1F9940A70007000C /* Main.storyboard */; };
@@ -23,7 +25,9 @@
 
 /* Begin PBXFileReference section */
 		67305EE376C5002E28F45264 /* Pods_MovieTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB1C9A901F998E4E002E79CB /* LSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSViewController.swift; sourceTree = "<group>"; };
+		AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupVC.swift; sourceTree = "<group>"; };
+		AB1E20B51FA5732500B426A2 /* ReviewRatingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewRatingVC.swift; sourceTree = "<group>"; };
+		AB55853D1FA58BAB00BF73BD /* ReviewRatingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewRatingVC.xib; sourceTree = "<group>"; };
 		AB72A7E41F9940A70007000C /* MovieTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB72A7E71F9940A70007000C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB72A7E91F9940A70007000C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,12 +94,11 @@
 		AB72A7E61F9940A70007000C /* MovieTime */ = {
 			isa = PBXGroup;
 			children = (
-				ABDB72B01F9D562800EE4AAA /* ViewControllers */,
 				AB72A7E71F9940A70007000C /* AppDelegate.swift */,
-				E13B014D1F9EAA0F003E11F8 /* CollectionViewController.swift */,
-				E13B014E1F9EAA0F003E11F8 /* posterCell.swift */,
-				AB72A7E91F9940A70007000C /* ViewController.swift */,
-				E132B9C01F9FB13E0046554E /* MovieDetailsVC.swift */,
+				AB8A14A41FA51CE000B611F8 /* MoviesTab */,
+				ABDB72B01F9D562800EE4AAA /* RecommendationsTab */,
+				AB8A14A51FA51D1200B611F8 /* ListsTab */,
+				AB8A14A61FA51D1B00B611F8 /* ShowtimesTabs */,
 				AB72A7EB1F9940A70007000C /* Main.storyboard */,
 				AB72A7E91F9940A70007000C /* ViewController.swift */,
 				AB72A7F01F9940A70007000C /* LaunchScreen.storyboard */,
@@ -106,13 +109,47 @@
 			path = MovieTime;
 			sourceTree = "<group>";
 		};
-		ABDB72B01F9D562800EE4AAA /* ViewControllers */ = {
+		AB8A14A41FA51CE000B611F8 /* MoviesTab */ = {
 			isa = PBXGroup;
 			children = (
-				AB1C9A901F998E4E002E79CB /* LSViewController.swift */,
+				AB98BE701FA5485600EE828E /* ReviewRating */,
+				E13B014D1F9EAA0F003E11F8 /* CollectionViewController.swift */,
 				ABDB72AE1F9D560F00EE4AAA /* SettingsViewController.swift */,
+				AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */,
+				E132B9C01F9FB13E0046554E /* MovieDetailsVC.swift */,
+				E13B014E1F9EAA0F003E11F8 /* posterCell.swift */,
 			);
-			path = ViewControllers;
+			path = MoviesTab;
+			sourceTree = "<group>";
+		};
+		AB8A14A51FA51D1200B611F8 /* ListsTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ListsTab;
+			sourceTree = "<group>";
+		};
+		AB8A14A61FA51D1B00B611F8 /* ShowtimesTabs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ShowtimesTabs;
+			sourceTree = "<group>";
+		};
+		AB98BE701FA5485600EE828E /* ReviewRating */ = {
+			isa = PBXGroup;
+			children = (
+				AB1E20B51FA5732500B426A2 /* ReviewRatingVC.swift */,
+				AB55853D1FA58BAB00BF73BD /* ReviewRatingVC.xib */,
+			);
+			path = ReviewRating;
+			sourceTree = "<group>";
+		};
+		ABDB72B01F9D562800EE4AAA /* RecommendationsTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RecommendationsTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB55853E1FA58BAB00BF73BD /* ReviewRatingVC.xib in Resources */,
 				AB72A7F21F9940A70007000C /* LaunchScreen.storyboard in Resources */,
 				ABFBE9F21F99651100B64C5E /* GoogleService-Info.plist in Resources */,
 				AB72A7EF1F9940A70007000C /* Assets.xcassets in Resources */,
@@ -229,6 +267,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MovieTime/Pods-MovieTime-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/HCSStarRatingView/HCSStarRatingView.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFTextAccessibility/MDFTextAccessibility.framework",
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
@@ -237,12 +276,14 @@
 				"${BUILT_PRODUCTS_DIR}/MotionAnimator/MotionAnimator.framework",
 				"${BUILT_PRODUCTS_DIR}/MotionInterchange/MotionInterchange.framework",
 				"${BUILT_PRODUCTS_DIR}/MotionTransitioning/MotionTransitioning.framework",
+				"${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HCSStarRatingView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFInternationalization.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFTextAccessibility.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
@@ -251,6 +292,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionAnimator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionInterchange.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionTransitioning.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopupDialog.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,15 +307,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB1C9A911F998E4E002E79CB /* LSViewController.swift in Sources */,
+				AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */,
 				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
 				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
 				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
 				E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */,
 				E13B014F1F9EAA0F003E11F8 /* CollectionViewController.swift in Sources */,
-				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
-				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
 				E132B9C11F9FB13E0046554E /* MovieDetailsVC.swift in Sources */,
+				AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +442,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -418,7 +459,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.MovieTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -434,7 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.MovieTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

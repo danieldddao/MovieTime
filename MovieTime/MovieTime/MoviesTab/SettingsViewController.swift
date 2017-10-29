@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController {
     // Prepare for login/signup page
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingsToLS" {
-            let lsVC:LSViewController = segue.destination as! LSViewController
+            let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
             lsVC.seguefromSettings = true
         }
     }

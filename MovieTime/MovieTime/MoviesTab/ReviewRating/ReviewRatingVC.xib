@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReviewRatingVC" customModule="MovieTime" customModuleProvider="target">
+            <connections>
+                <outlet property="alertLabel" destination="jYs-9O-OeY" id="Lfa-do-hlZ"/>
+                <outlet property="reviewTextView" destination="OU1-Z7-Kq7" id="FnT-Gm-Y39"/>
+                <outlet property="starRating" destination="zK4-1S-Ybu" id="4eO-SC-uZB"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="337"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IS1-mO-qkH">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="337"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WRITE A REVIEW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLW-Lu-VBj">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                            <color key="backgroundColor" red="0.97309011219999997" green="0.81748557089999996" blue="0.0037695523350000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                            <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWith">
+                                    <integer key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="keyPath">
+                                    <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OU1-Z7-Kq7" customClass="TextView" customModule="Material">
+                            <rect key="frame" x="8" y="153" width="284" height="165"/>
+                            <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                    <integer key="value" value="2"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Review"/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                    <color key="value" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.70069028253424659" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jYs-9O-OeY">
+                            <rect key="frame" x="8" y="58" width="284" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="nWJ-xv-yC6"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zK4-1S-Ybu" customClass="HCSStarRatingView">
+                            <rect key="frame" x="30" y="91" width="240" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="allowsHalfStars" value="YES"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="goldStarEmpty"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="goldStarFilled"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="continuous" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="jYs-9O-OeY" firstAttribute="leading" secondItem="IS1-mO-qkH" secondAttribute="leading" constant="8" id="3ny-q5-CqJ"/>
+                        <constraint firstAttribute="trailing" secondItem="OU1-Z7-Kq7" secondAttribute="trailing" constant="8" id="9R7-Ac-gwZ"/>
+                        <constraint firstAttribute="trailing" secondItem="zK4-1S-Ybu" secondAttribute="trailing" constant="30" id="S2w-HP-PDz"/>
+                        <constraint firstItem="OU1-Z7-Kq7" firstAttribute="top" secondItem="zK4-1S-Ybu" secondAttribute="bottom" constant="18" id="UNv-aX-ejD"/>
+                        <constraint firstItem="XLW-Lu-VBj" firstAttribute="leading" secondItem="IS1-mO-qkH" secondAttribute="leading" id="eC6-Mf-j5y"/>
+                        <constraint firstAttribute="bottom" secondItem="OU1-Z7-Kq7" secondAttribute="bottom" constant="19" id="hei-dd-OOZ"/>
+                        <constraint firstItem="jYs-9O-OeY" firstAttribute="top" secondItem="XLW-Lu-VBj" secondAttribute="bottom" constant="8" id="imf-uL-2HL"/>
+                        <constraint firstItem="zK4-1S-Ybu" firstAttribute="top" secondItem="jYs-9O-OeY" secondAttribute="bottom" constant="8" id="lhD-GC-Dpa"/>
+                        <constraint firstItem="OU1-Z7-Kq7" firstAttribute="leading" secondItem="IS1-mO-qkH" secondAttribute="leading" constant="8" id="lz3-kZ-Xqa"/>
+                        <constraint firstItem="XLW-Lu-VBj" firstAttribute="top" secondItem="IS1-mO-qkH" secondAttribute="top" id="o0N-Vn-WuF"/>
+                        <constraint firstAttribute="trailing" secondItem="XLW-Lu-VBj" secondAttribute="trailing" id="sKN-PK-XF4"/>
+                        <constraint firstAttribute="trailing" secondItem="jYs-9O-OeY" secondAttribute="trailing" constant="8" id="tKs-WX-Whb"/>
+                        <constraint firstAttribute="bottom" secondItem="XLW-Lu-VBj" secondAttribute="bottom" constant="287" id="wQA-Q1-DkX"/>
+                        <constraint firstItem="zK4-1S-Ybu" firstAttribute="leading" secondItem="IS1-mO-qkH" secondAttribute="leading" constant="30" id="wto-9z-d7d"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="IS1-mO-qkH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3F1-cQ-ehK"/>
+                <constraint firstAttribute="trailing" secondItem="IS1-mO-qkH" secondAttribute="trailing" id="5ph-Ur-XJI"/>
+                <constraint firstAttribute="bottom" secondItem="IS1-mO-qkH" secondAttribute="bottom" id="MRV-re-Mae"/>
+                <constraint firstItem="IS1-mO-qkH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sZ5-rg-vXe"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="263" y="236.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="goldStarEmpty" width="53" height="51"/>
+        <image name="goldStarFilled" width="53" height="51"/>
+    </resources>
+</document>

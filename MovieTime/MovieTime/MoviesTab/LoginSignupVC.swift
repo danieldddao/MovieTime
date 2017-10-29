@@ -12,7 +12,7 @@ import Motion
 import Material
 import MaterialComponents
 
-class LSViewController: UIViewController, TextFieldDelegate {
+class LoginSignupVC: UIViewController, TextFieldDelegate {
     
     @IBOutlet weak var loginButton: MDCRaisedButton!
     @IBOutlet weak var createButton: MDCRaisedButton!
