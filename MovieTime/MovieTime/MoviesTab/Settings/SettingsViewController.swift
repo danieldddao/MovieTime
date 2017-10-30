@@ -38,7 +38,6 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingsToLS" {
             let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
-            lsVC.seguefromSettings = true
         }
     }
     

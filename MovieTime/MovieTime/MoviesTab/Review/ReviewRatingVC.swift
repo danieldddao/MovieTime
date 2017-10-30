@@ -1,9 +1,9 @@
 //
-//  RatingViewController.swift
+//  ReviewRatingVC.swift
 //  PopupDialog
 //
-//  Created by Martin Wildfeuer on 11.07.16.
-//  Copyright © 2016 CocoaPods. All rights reserved.
+//  Created by Daniel Dao on 10/29/17.
+//  Copyright © 2017 Team 4. All rights reserved.
 //
 
 import UIKit

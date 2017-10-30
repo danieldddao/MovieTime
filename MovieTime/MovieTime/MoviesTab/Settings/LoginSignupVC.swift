@@ -25,12 +25,7 @@ class LoginSignupVC: UIViewController, TextFieldDelegate {
     var signupPasswordField: ErrorTextField!
     var signupPasswordConfirmationField: ErrorTextField!
 
-    var seguefromSettings = false;
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "lsToSettings" {
-        }
-    }
+    var alert = "";
     
     @IBAction func LSControlChanged(_ sender: UISegmentedControl) {
         self.alertLabel.text = ""
@@ -104,13 +99,7 @@ class LoginSignupVC: UIViewController, TextFieldDelegate {
             }
         }
     }
-    
-    func isValidEmail(input:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: input)
-    }
-    
+
     func loginPageSetup() {
         
         loginEmailField.isHidden = false
@@ -190,7 +179,7 @@ class LoginSignupVC: UIViewController, TextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        alertLabel.text = alert
         loginEmailField = ErrorTextField()
         loginPasswordField = ErrorTextField()
         signupEmailField = ErrorTextField()

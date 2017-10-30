@@ -11,12 +11,16 @@ target 'MovieTime' do
   # Firebase database
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-  
+  pod 'Firebase/Database'
 
+  # Rating Star
   pod 'HCSStarRatingView', '~> 1.5'
 
   # Popup view
   pod 'PopupDialog', '~> 0.6'
+
+  # Alert 
+  pod 'CDAlertView', '~> 0.7'
 
   # UI frameworks
   pod 'MaterialComponents', :inhibit_warnings => true
