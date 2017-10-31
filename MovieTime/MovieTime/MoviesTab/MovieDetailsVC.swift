@@ -14,19 +14,29 @@ import FirebaseDatabase
 import HCSStarRatingView
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
-    var dataSourceItems: [DataSourceItem] = []
-
-    var reviewDB:ReviewDB?
+    
     var movieId: Int = 1
     private var currentUser:User? = nil
-
+    
     @IBOutlet weak var posterImgView: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
     
+    
+    
+    
+    
+    
+    //
+    // Reviews And Ratings
+    //
+    var dataSourceItems: [DataSourceItem] = []
+    var reviewDB:ReviewDB?
+    var reviews = [Review]()
+    
     @IBOutlet weak var writeReviewButton: FlatButton!
     @IBOutlet weak var reviewTableView: TableView!
-    @IBOutlet weak var starRating: HCSStarRatingView!
-    @IBOutlet weak var starRatingValue: UILabel!
+    @IBOutlet weak var starRatingBar: HCSStarRatingView!
+    @IBOutlet weak var starRatingValueLabel: UILabel!
     
     // Write a review
     @IBAction func writeReviewBtnPressed(_ sender: FlatButton) {
@@ -100,16 +110,25 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
         headerView.backgroundColor = UIColor.clear
         return headerView
     }
+    // Set the height of each row
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let review = reviews[indexPath.row]
+        let review = reviews[indexPath.section]
+        print("Create cell for \(review.getUserEmail())")
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
-        cell.userLabel.text = review.getUserEmail()
+        let email = review.getUserEmail()
+        cell.usernameLabel.text = String(email[..<(email.index(of: "@")!)])
+        cell.ratedDateLabel.text = "On \(review.getDate())"
         cell.userRating.value = CGFloat(review.getRating())
-//        cell.userComment.text = review.getComment()
+        cell.userComment.text = review.getComment()
         return cell
     }
     
-    var reviews = [Review]()
     func fetchReview() {
         reviewDB?.getDBReference().child("reviews").child(String(movieId)).observe(.childAdded, with: { (snapshot) in
             if let reviewDict = snapshot.value as? [String: Any] {
@@ -125,14 +144,16 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
     }
     
     func checkIfCurrentUserPostedReview() {
-        reviewDB?.getDBReference().child("reviews").child(String(movieId)).child((reviewDB?.encodeUserEmail(userEmail: (currentUser?.email)!))!).observeSingleEvent(of: .value, with: { snapshot in
-            if snapshot.exists() {
-                self.writeReviewButton.isEnabled = false
-                self.writeReviewButton.title = "Already Posted Review"
-                self.writeReviewButton.titleColor = UIColor.black
-                self.writeReviewButton.backgroundColor = UIColor.lightGray
-            }
-        }, withCancel: nil)
+        if (currentUser != nil) {
+            reviewDB?.getDBReference().child("reviews").child(String(movieId)).child((reviewDB?.encodeUserEmail(userEmail: (currentUser!.email)!))!).observeSingleEvent(of: .value, with: { snapshot in
+                if snapshot.exists() {
+                    self.writeReviewButton.isEnabled = false
+                    self.writeReviewButton.title = "Already Posted Review"
+                    self.writeReviewButton.titleColor = UIColor.black
+                    self.writeReviewButton.backgroundColor = UIColor.lightGray
+                }
+            }, withCancel: nil)
+        }
     }
     
     func loadAvgRating() {
@@ -142,27 +163,30 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
                 for child in snapshot.children.allObjects as! [DataSnapshot] {
                     let avgRating = child.value as! Float
                     print("avgRating: \(avgRating)")
-                    self.starRating.value = CGFloat(avgRating)
-                    self.starRatingValue.text = String(format: "%.1f", avgRating)
+                    self.starRatingBar.value = CGFloat(avgRating)
+                    self.starRatingBar.tintColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
+                    self.starRatingValueLabel.textColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
+                    self.starRatingValueLabel.text = String(format: "%.1f", avgRating)
                 }
             } else {
                 // This movie hasn't been reviewed yet
-                self.starRating.value = CGFloat(0)
-                self.starRating.tintColor = UIColor.lightGray
-                self.starRatingValue.textColor = UIColor.lightGray
-                self.starRatingValue.text = "N/A"
+                self.starRatingBar.value = CGFloat(0)
+                self.starRatingBar.tintColor = UIColor.lightGray
+                self.starRatingValueLabel.textColor = UIColor.lightGray
+                self.starRatingValueLabel.text = "N/A"
             }
         }, withCancel: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         // Create a reference to Firebase database
         reviewDB = ReviewDB()
-        currentUser = Auth.auth().currentUser
         fetchReview()
-
+        
         print("clicked movie ID: \(clickedMovieId)")
+        titleLbl.text = "\(clickedMovieId)"
         // Import Data
         titleLbl.text = popularMovies[clickedMovieId]?.title
     }
@@ -178,3 +202,5 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
     }
 
 }
+
+

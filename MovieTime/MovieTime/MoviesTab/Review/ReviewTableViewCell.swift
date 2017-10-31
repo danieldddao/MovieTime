@@ -12,7 +12,8 @@ import Material
 
 class ReviewTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var ratedDateLabel: UILabel!
     @IBOutlet weak var userRating: HCSStarRatingView!
     @IBOutlet var userComment: TextView!
     
