@@ -1,0 +1,29 @@
+# Uncomment the next line to define a global platform for your project
+  platform :ios, '9.0'
+
+target 'MovieTime' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # ignore all warnings from all pods
+  inhibit_all_warnings!
+
+  # Firebase database
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+
+  # Rating Star
+  pod 'HCSStarRatingView', '~> 1.5'
+
+  # Popup view
+  pod 'PopupDialog', '~> 0.6'
+
+  # Alert 
+  pod 'CDAlertView', '~> 0.7'
+
+  # UI frameworks
+  pod 'MaterialComponents', :inhibit_warnings => true
+  pod 'Material', '~> 2.0', :inhibit_warnings => true
+
+end
