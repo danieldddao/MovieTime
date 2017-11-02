@@ -8,58 +8,74 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "cell"
 
 class RecommendationCollectionViewController: UICollectionViewController {
+    
+    var baseURI: String = "api.themoviedb.org/3"
+    var apiKey: String = "3cc9e662a8461532d3d5e5d722ef582b"
+    
+    
+    var recommendMovieId = [Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        recommend(num: 12)
+        
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    // MARK: UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
+    
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return popularMovies.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
+        
+        let baseUrlString = "http://image.tmdb.org/t/p/w185"
+        let movieID = self.recommendMovieId[indexPath.row]
+        print(indexPath.row)
+        let posterPath = "\(popularMovies[movieID]!.poster_path)"
+        if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
+            DispatchQueue.global().async {
+                let data = try? Data(contentsOf: imageURL)
+                if let data = data {
+                    let image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        cell.imgView.image = image
+                    }
+                }
+            }
+        }
+        
+        
         return cell
     }
-
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieID = self.recommendMovieId[indexPath.row]
+        clickedMovieId = popularMovies[movieID]!.id
+        print("in function id: \(clickedMovieId)")
+        
+    }
+    
+    
+    func recommend(num: Int) {
+        //generate recommendMovieId with size: num
+        
+        self.recommendMovieId = popularMoviesAsArray.slice(start: 0, end: num-1)
+        print(self.recommendMovieId)
+        self.collectionView?.reloadData()
+    }
     // MARK: UICollectionViewDelegate
 
     /*

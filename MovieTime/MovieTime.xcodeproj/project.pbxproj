@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */; };
 		AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */; };
 		AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3FB1FA66477008F73B7 /* Review.swift */; };
 		AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecommendationCollectionViewController.swift; path = MovieTime/RecommendationCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		67305EE376C5002E28F45264 /* Pods_MovieTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDB.swift; sourceTree = "<group>"; };
 		AB16C3FB1FA66477008F73B7 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		ABDB72B01F9D562800EE4AAA /* RecommendationsTab */ = {
 			isa = PBXGroup;
 			children = (
+				2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */,
 			);
 			path = RecommendationsTab;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */,
 				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
 				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
+				2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */,
 				AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */,
 				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
 				AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */,
