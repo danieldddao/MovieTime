@@ -34,13 +34,6 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    // Prepare for login/signup page
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "settingsToLS" {
-            let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

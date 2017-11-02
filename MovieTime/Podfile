@@ -23,7 +23,7 @@ target 'MovieTime' do
   pod 'CDAlertView', '~> 0.7'
 
   # UI frameworks
-  pod 'MaterialComponents', :inhibit_warnings => true
+  #pod 'MaterialComponents', :inhibit_warnings => true
   pod 'Material', '~> 2.0', :inhibit_warnings => true
 
 end

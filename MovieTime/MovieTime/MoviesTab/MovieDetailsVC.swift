@@ -15,7 +15,7 @@ import HCSStarRatingView
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
     
-    var movieId: Int = 1
+    var movieId: Int = 0
     private var currentUser:User? = nil
     
     @IBOutlet weak var posterImgView: UIImageView!
