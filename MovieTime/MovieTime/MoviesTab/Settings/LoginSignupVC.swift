@@ -10,12 +10,11 @@ import UIKit
 import FirebaseAuth
 import Motion
 import Material
-import MaterialComponents
 
 class LoginSignupVC: UIViewController, TextFieldDelegate {
     
-    @IBOutlet weak var loginButton: MDCRaisedButton!
-    @IBOutlet weak var createButton: MDCRaisedButton!
+    @IBOutlet weak var loginButton: RaisedButton!
+    @IBOutlet weak var createButton: RaisedButton!
     @IBOutlet weak var lsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var alertLabel: UILabel!
     
@@ -36,7 +35,7 @@ class LoginSignupVC: UIViewController, TextFieldDelegate {
         }
     }
     
-    @IBAction func loginButtonPressed(_ sender: MDCRaisedButton) {
+    @IBAction func loginButtonPressed(_ sender: RaisedButton) {
         loginEmailField.isErrorRevealed = false
         loginPasswordField.isErrorRevealed = false
         Auth.auth().signIn(withEmail: loginEmailField.text!, password: loginPasswordField.text!) { (user, error) in
@@ -64,7 +63,7 @@ class LoginSignupVC: UIViewController, TextFieldDelegate {
         }
     }
     
-    @IBAction func createButtonPressed(_ sender: MDCRaisedButton) {
+    @IBAction func createButtonPressed(_ sender: RaisedButton) {
         signupEmailField.isErrorRevealed = false
         signupPasswordField.isErrorRevealed = false
         signupPasswordConfirmationField.isErrorRevealed = false
