@@ -15,10 +15,9 @@ class MovieDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("clicked movie ID: \(clickedMovieId)")
         
         // Import Data
-        titleLbl.text = popularMovies[clickedMovieId]?.title
+        titleLbl.text = "\(String(describing: clickedMovie!.title))"
     }
 
 }

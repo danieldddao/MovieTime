@@ -54,8 +54,19 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="uuI-yD-gge"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="CHY-2V-NCD" id="GcA-eE-IGx"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Aw-J4-rzX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="CHY-2V-NCD">
+                    <connections>
+                        <outlet property="delegate" destination="BVL-zV-k8Y" id="JfZ-WZ-k9K"/>
+                        <outlet property="searchContentsController" destination="BVL-zV-k8Y" id="JYX-YL-eh6"/>
+                        <outlet property="searchResultsDataSource" destination="BVL-zV-k8Y" id="buE-aD-Wua"/>
+                        <outlet property="searchResultsDelegate" destination="BVL-zV-k8Y" id="xoo-80-ihY"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-194" y="808"/>
         </scene>
@@ -158,7 +169,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g00-g9-b01" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="-15"/>
+            <point key="canvasLocation" x="683" y="-29"/>
         </scene>
         <!--Movies-->
         <scene sceneID="83M-lD-aDX">

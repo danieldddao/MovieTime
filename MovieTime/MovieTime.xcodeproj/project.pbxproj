@@ -15,6 +15,7 @@
 		E132B9C11F9FB13E0046554E /* MovieDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E132B9C01F9FB13E0046554E /* MovieDetailsVC.swift */; };
 		E13B014F1F9EAA0F003E11F8 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13B014D1F9EAA0F003E11F8 /* CollectionViewController.swift */; };
 		E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13B014E1F9EAA0F003E11F8 /* posterCell.swift */; };
+		E1EB82EE1FA9185200CA34F4 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EB82ED1FA9185200CA34F4 /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		E132B9C01F9FB13E0046554E /* MovieDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsVC.swift; sourceTree = "<group>"; };
 		E13B014D1F9EAA0F003E11F8 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E13B014E1F9EAA0F003E11F8 /* posterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = posterCell.swift; sourceTree = "<group>"; };
+		E1EB82ED1FA9185200CA34F4 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				AB72A7E71F9940A70007000C /* AppDelegate.swift */,
 				E13B014D1F9EAA0F003E11F8 /* CollectionViewController.swift */,
+				E1EB82ED1FA9185200CA34F4 /* Movie.swift */,
 				E13B014E1F9EAA0F003E11F8 /* posterCell.swift */,
 				AB72A7E91F9940A70007000C /* ViewController.swift */,
 				E132B9C01F9FB13E0046554E /* MovieDetailsVC.swift */,
@@ -147,6 +150,7 @@
 			files = (
 				E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */,
 				E13B014F1F9EAA0F003E11F8 /* CollectionViewController.swift in Sources */,
+				E1EB82EE1FA9185200CA34F4 /* Movie.swift in Sources */,
 				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
 				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
 				E132B9C11F9FB13E0046554E /* MovieDetailsVC.swift in Sources */,
