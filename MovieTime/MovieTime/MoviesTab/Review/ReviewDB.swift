@@ -10,15 +10,8 @@ import Foundation
 import FirebaseDatabase
 import CDAlertView
 
-class ReviewDB {
-    
-    private var ref: DatabaseReference!
-    private var alert: CDAlertView!
-    
-    init() {
-        ref = Database.database().reference()
-    }
-    
+extension MovieDetailsVC {
+
     func addReviewToDatabase(review: Review) {
         let reviewVal = [
             "comment": review.getComment(),
@@ -58,6 +51,9 @@ class ReviewDB {
                             self.showAlert()
                         } else {
                             print("Successfully updated new average rating for movie with id=\(review.getMovieId()), rating:\(avgRating)")
+                            
+                            // Load new average rating
+                            self.loadAvgRating()
                         }
                     }
                 }
@@ -70,43 +66,62 @@ class ReviewDB {
                         self.showAlert()
                     } else {
                         print("Successfully added new average rating for movie with id=\(review.getMovieId()), rating:\(review.getRating())")
+                        
+                        // Load new average rating
+                        self.loadAvgRating()
                     }
                 }
             }
         }, withCancel: nil)
     }
     
-    func getDBReference() -> DatabaseReference {
-        return ref
-    }
-    
-    func loadReviewsFromDatabase(tmdbMovieId: Int) {
-        print("Geting all reviews of movie id=\(tmdbMovieId)")
-        var reviews = [Review]()
-//        ref.child("reviews").child(String(tmdbMovieId)).observe(.childAdded, with: { snapshot in
-//            // Get review values for each review
-//            let userEmail: String = self.decodeUserEmail(userEmail: snapshot.key)
-//            if let reviewDict = snapshot.value as? [String:Any] {
-//                let review = Review(userEmail: userEmail, tmdbMovieId: tmdbMovieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
-//                reviews.append(review)
-//            }
-//            DispatchQueue.main.async() {
-//                completion(reviews)
-//            }
-        ref.child("reviews").child(String(tmdbMovieId)).observeSingleEvent(of: .value, with: { snapshot in
-            // Get review values for each review
-            for child in snapshot.children.allObjects as! [DataSnapshot] {
-                print(child)
-                let userEmail: String = self.decodeUserEmail(userEmail: child.key)
-                if let reviewDict = child.value as? [String:Any] {
-                    let review = Review(userEmail: userEmail, tmdbMovieId: tmdbMovieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
-                    reviews.append(review)
+    func loadReviewsToReviewTable() {
+        self.ref.child("reviews").child(String(movieId)).observe(.childAdded, with: { (snapshot) in
+            if let reviewDict = snapshot.value as? [String: Any] {
+                let userEmail: String = self.decodeUserEmail(userEmail: snapshot.key)
+                let review = Review(userEmail: userEmail, tmdbMovieId: self.movieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
+                
+                self.reviews.append(review)
+                DispatchQueue.main.async {
+                    self.reviewTableView.reloadData()
                 }
             }
-//
-//            DispatchQueue.main.async() {
-//                completion(reviews)
-//            }
+        }, withCancel: nil)
+    }
+    
+    func checkIfCurrentUserPostedReview() {
+        if (self.currentUser != nil) {
+            self.ref.child("reviews").child(String(movieId)).child((self.encodeUserEmail(userEmail: (self.currentUser!.email)!))).observeSingleEvent(of: .value, with: { snapshot in
+                if snapshot.exists() {
+                    self.writeReviewButton.isEnabled = false
+                    self.writeReviewButton.title = "Already Posted Review"
+                    self.writeReviewButton.titleColor = UIColor.black
+                    self.writeReviewButton.backgroundColor = UIColor.lightGray
+                }
+            }, withCancel: nil)
+        }
+    }
+    
+    func loadAvgRating() {
+        print("Loading Average Rating")
+        self.ref.child("averageRatings").child(String(movieId)).observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.exists() {
+                // Get average rating value
+                for child in snapshot.children.allObjects as! [DataSnapshot] {
+                    let avgRating = child.value as! Float
+                    print("avgRating: \(avgRating)")
+                    self.starRatingBar.value = CGFloat(avgRating)
+                    self.starRatingBar.tintColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
+                    self.starRatingValueLabel.textColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
+                    self.starRatingValueLabel.text = String(format: "%.1f", avgRating)
+                }
+            } else {
+                // This movie hasn't been reviewed yet
+                self.starRatingBar.value = CGFloat(0)
+                self.starRatingBar.tintColor = UIColor.lightGray
+                self.starRatingValueLabel.textColor = UIColor.lightGray
+                self.starRatingValueLabel.text = "N/A"
+            }
         }, withCancel: nil)
     }
     

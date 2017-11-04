@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct Movie: Codable {
+    var id: Int
+    var title: String
+    var poster_path: String
+}
 
 struct PopularMoviesPage: Codable {
     let page: Int
@@ -15,15 +20,6 @@ struct PopularMoviesPage: Codable {
     let total_pages: Int
     let results: [Movie]
 }
-
-
-struct Movie: Codable {
-
-    let id: Int
-    let poster_path: String
-    let title: String
-}
-
 
 var popularMovies = [Int: Movie]()
 var clickedMovieId = 0
@@ -100,9 +96,8 @@ class CollectionViewController: UICollectionViewController {
             guard let data = data else { return }
 
             do {
-
                 let popularMoviesPage =  try JSONDecoder().decode(PopularMoviesPage.self, from: data)
-                
+                print("popularMoviesPage: \(popularMoviesPage)")
                 for movie in popularMoviesPage.results{
                     popularMovies[movie.id] = movie
                 }

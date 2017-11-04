@@ -12,25 +12,161 @@ import PopupDialog
 import FirebaseAuth
 import FirebaseDatabase
 import HCSStarRatingView
+import TMDBSwift
+import CDAlertView
+import UICircularProgressRing
 
-class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
+class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource {
     
-    var movieId: Int = 0
-    private var currentUser:User? = nil
+    var movieId: Int = 440021
+    var currentUser:User? = nil
     
-    @IBOutlet weak var posterImgView: UIImageView!
-    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var nativationItem: UINavigationItem!
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "writeReviewMustLogin" {
+            let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
+            lsVC.alert = "Please Login to write a review!"
+        }
+    }
     
+    //
+    // Movie' Details
+    //
+    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var overviewTextView: UITextView!
+    @IBOutlet weak var movieDetailView: UIImageView!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var runtimeLabel: UILabel!
+    @IBOutlet weak var userScoreIndicator: UICircularProgressRingView!
+    @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var crewCollectionView: CollectionView!
     
+    var crewMembers: [CrewMDB] = []
+    var castMembers: [MovieCastMDB] = []
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return crewMembers.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("Crews: \(crewMembers.count)")
+        let member = crewMembers[indexPath.row]
+        let cell = crewCollectionView.dequeueReusableCell(withReuseIdentifier: "crewCell", for: indexPath) as! CrewCell
+        cell.jobLabel.text = member.job
+        cell.departmentLabel.text = member.department
+        cell.nameLabel.text = member.name
+        return cell
+    }
+    
+    func loadMovieDetails() {
+        // Load Movie details from Movie Id and show datails on screen
+        MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
+            apiReturn, movie in
+            if let movie = movie {
+//                if let backgroundUrl = URL(string: "\(Movie.imageURL)\(movie.backdrop_path!)"){
+//                    DispatchQueue.global().async {
+//                        let data = try? Data(contentsOf: backgroundUrl)
+//                        if let data = data {
+//                            DispatchQueue.main.async {
+//                                let image: UIImage = UIImage(data: data)!
+//
+//
+//                            }
+//                        }
+//                    }
+//                }
+                
+                if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
+                    let data = try? Data(contentsOf: posterUrl)
+                    if let data = data {
+                        DispatchQueue.main.async {
+                            let image = UIImage(data: data)!
+                            self.posterImage.image = image
+                            
+                            // Add blur effect to image
+                            let context = CIContext(options: nil)
+                            let currentFilter = CIFilter(name: "CIGaussianBlur")
+                            let beginImage = CIImage(image: image)
+                            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+                            currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+                            
+                            let cropFilter = CIFilter(name: "CICrop")
+                            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+                            cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+                            let output = cropFilter!.outputImage
+                            let cgimg = context.createCGImage(output!, from: output!.extent)
+                            let processedImage = UIImage(cgImage: cgimg!)
+                            
+                            print("image darkness:\(processedImage.isDark)")
+                            self.movieDetailView.image = processedImage
+                        }
+                    }
+                }
+                
+                self.navigationItem.title = movie.title!
+                self.titleLabel.text = movie.title!
+                if movie.overview == nil {
+                    self.overviewTextView.text = "Overview:"
+                } else {
+                    self.overviewTextView.text = "Overview:\n\(movie.overview!)"
+                }
+                
+                if movie.vote_average == nil {
+                    self.userScoreIndicator.value = CGFloat(0)
+                } else {
+                    self.userScoreIndicator.value = CGFloat(movie.vote_average! * 10)
+                }
+                
+                if movie.status == nil {
+                    self.statusLabel.text = "Status:\nN/A"
+                } else {
+                    self.statusLabel.text = "Status:\n\(movie.status!)"
+                }
+                
+                if (movie.runtime == nil) {
+                    self.runtimeLabel.text = "Runtime:\nN/A"
+                } else {
+                    let runTime = movie.runtime!
+                    self.runtimeLabel.text = "Runtime:\n\(runTime/60)h\(runTime%60)m"
+                }
+                
+                if (movie.release_date == nil) {
+                    self.releaseDateLabel.text = "Release Date:\nN/A"
+                } else {
+                    self.releaseDateLabel.text = "Release Date:\n\(movie.release_date!)"
+                }
+                
+                
+            } else {
+                // Default details
+            }
+        }
+        
+        // Get cast and crew
+        MovieMDB.credits(TMDBBase.apiKey, movieID: movieId){
+            apiReturn, credits in
+            if let credits = credits{
+                for crew in credits.crew {
+                    self.crewMembers.append(crew)
+                    DispatchQueue.main.async {
+                        self.crewCollectionView.reloadData()
+                    }
+                }
+                for cast in credits.cast {
+                    self.castMembers.append(cast)
+                }
+            }
+        }
+    }
     
     
     //
     // Reviews And Ratings
     //
+    var ref: DatabaseReference!
+    var alert: CDAlertView!
     var dataSourceItems: [DataSourceItem] = []
-    var reviewDB:ReviewDB?
     var reviews = [Review]()
     
     @IBOutlet weak var writeReviewButton: FlatButton!
@@ -48,46 +184,39 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "writeReviewMustLogin" {
-            let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
-            lsVC.alert = "Please Login to write a review!"
-        }
-    }
-    
     func showWriteReviewPopup() {
         // Create a custom review & rating view controller
         let ratingVC = ReviewRatingVC(nibName: "ReviewRatingVC", bundle: nil)
-        
+
         // Create the dialog
         let popup = PopupDialog(viewController: ratingVC, buttonAlignment: .horizontal, transitionStyle: .bounceUp, gestureDismissal: true)
         
         // Create cancel button
         let cancelButton = CancelButton(title: "CANCEL", height: 50) {
         }
-        
+
         // Create submit button
         let submitButton = DestructiveButton(title: "SUBMIT", height: 50) {
             if (ratingVC.reviewTextView.text.isEmpty) {
                 ratingVC.alertLabel.text = "Review can't be empty!"
             } else {
                 popup.dismiss()
-                
+
                 // Add review to the database
                 if (self.currentUser != nil) {
                     let review = Review(userEmail: self.currentUser!.email!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
-                    self.reviewDB?.addReviewToDatabase(review: review)
+                    self.addReviewToDatabase(review: review)
                 } else {
-                    
+
                 }
             }
         }
         submitButton.dismissOnTap = false
-        
+
         // Add buttons to dialog
         popup.addButtons([cancelButton, submitButton])
         
-        // Present dialog
+        // Create the dialog
         self.present(popup, animated: true, completion: nil)
     }
     
@@ -129,78 +258,36 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
         return cell
     }
     
-    func fetchReview() {
-        reviewDB?.getDBReference().child("reviews").child(String(movieId)).observe(.childAdded, with: { (snapshot) in
-            if let reviewDict = snapshot.value as? [String: Any] {
-                let userEmail: String = self.reviewDB!.decodeUserEmail(userEmail: snapshot.key)
-                let review = Review(userEmail: userEmail, tmdbMovieId: self.movieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
-                
-                self.reviews.append(review)
-                DispatchQueue.main.async {
-                    self.reviewTableView.reloadData()
-                }
-            }
-        }, withCancel: nil)
-    }
     
-    func checkIfCurrentUserPostedReview() {
-        if (currentUser != nil) {
-            reviewDB?.getDBReference().child("reviews").child(String(movieId)).child((reviewDB?.encodeUserEmail(userEmail: (currentUser!.email)!))!).observeSingleEvent(of: .value, with: { snapshot in
-                if snapshot.exists() {
-                    self.writeReviewButton.isEnabled = false
-                    self.writeReviewButton.title = "Already Posted Review"
-                    self.writeReviewButton.titleColor = UIColor.black
-                    self.writeReviewButton.backgroundColor = UIColor.lightGray
-                }
-            }, withCancel: nil)
-        }
-    }
-    
-    func loadAvgRating() {
-        reviewDB?.getDBReference().child("averageRatings").child(String(movieId)).observeSingleEvent(of: .value, with: { snapshot in
-            if snapshot.exists() {
-                // Get average rating value
-                for child in snapshot.children.allObjects as! [DataSnapshot] {
-                    let avgRating = child.value as! Float
-                    print("avgRating: \(avgRating)")
-                    self.starRatingBar.value = CGFloat(avgRating)
-                    self.starRatingBar.tintColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
-                    self.starRatingValueLabel.textColor = UIColor(red: 1.000, green: 0.776, blue: 0.067, alpha: 1.000)
-                    self.starRatingValueLabel.text = String(format: "%.1f", avgRating)
-                }
-            } else {
-                // This movie hasn't been reviewed yet
-                self.starRatingBar.value = CGFloat(0)
-                self.starRatingBar.tintColor = UIColor.lightGray
-                self.starRatingValueLabel.textColor = UIColor.lightGray
-                self.starRatingValueLabel.text = "N/A"
-            }
-        }, withCancel: nil)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        // Create a reference to Firebase database
-        reviewDB = ReviewDB()
-        fetchReview()
         
-        print("clicked movie ID: \(clickedMovieId)")
-        titleLbl.text = "\(clickedMovieId)"
-        // Import Data
-        titleLbl.text = popularMovies[clickedMovieId]?.title
+//        self.movieId = clickedMovieId
+        
+        // Create a reference to Firebase database
+        self.ref = Database.database().reference()
+        
+        // Load current user if user already logged in
+        self.currentUser = Auth.auth().currentUser
+        
+        // Load movie's details
+        self.loadMovieDetails()
+        
+        self.loadReviewsToReviewTable()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        currentUser = Auth.auth().currentUser
+        // Load current user if user's just logged in
+        self.currentUser = Auth.auth().currentUser
         
         // Check if current user already posted a review for this book
-        checkIfCurrentUserPostedReview()
+        self.checkIfCurrentUserPostedReview()
         
         // Load average rating
-        loadAvgRating()
+        self.loadAvgRating()
     }
-
 }
 
 

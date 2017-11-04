@@ -22,6 +22,16 @@ target 'MovieTime' do
   # Alert 
   pod 'CDAlertView', '~> 0.7'
 
+  # HTTP networking library
+  #pod 'Alamofire', '~> 4.5'
+
+  # TMDB Wrapper for Swift
+  # Examples: https://github.com/gkye/TheMovieDatabaseSwiftWrapper/wiki
+  pod 'TMDBSwift', '~> 0.4'
+
+  # Circular Progress Indicator
+  pod 'UICircularProgressRing'
+
   # UI frameworks
   #pod 'MaterialComponents', :inhibit_warnings => true
   pod 'Material', '~> 2.0', :inhibit_warnings => true
