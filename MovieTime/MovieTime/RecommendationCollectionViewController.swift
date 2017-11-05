@@ -21,7 +21,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        recommend(num: 12)
+        recommend(num: 20)
         
     }
     
@@ -33,7 +33,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return popularMovies.count
+        return self.recommendMovieId.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,7 +71,11 @@ class RecommendationCollectionViewController: UICollectionViewController {
     
     func recommend(num: Int) {
         //generate recommendMovieId with size: num
+        //use machine learning here
         
+        
+        //self.recommendMovieId = popularMoviesAsArray
+        //self.recommendMovieId = Array(popularMovies.keys.prefix(num))
         self.recommendMovieId = popularMoviesAsArray.slice(start: 0, end: num-1)
         print(self.recommendMovieId)
         self.collectionView?.reloadData()

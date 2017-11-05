@@ -343,7 +343,7 @@ Rating:</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yOA-A0-fjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-42" y="2254"/>
+            <point key="canvasLocation" x="-313" y="1899"/>
         </scene>
         <!--Recommendation Collection View Controller-->
         <scene sceneID="1WO-Xi-ARk">
@@ -393,23 +393,7 @@ Rating:</string>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1M-7i-9p5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="777" y="1584"/>
-        </scene>
-        <!--Lists-->
-        <scene sceneID="uZJ-ou-0aO">
-            <objects>
-                <viewController title="Lists" id="LqD-4T-Ly8" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2sW-Xf-ykG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="rno-wK-QVr"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Lists" image="listsIcon" id="i8y-gq-Wx2"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AsY-Je-UTi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2389.8550724637685" y="751.63043478260875"/>
+            <point key="canvasLocation" x="741" y="1538"/>
         </scene>
         <!--Showtimes-->
         <scene sceneID="pPe-gI-GzL">
@@ -425,7 +409,7 @@ Rating:</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cT3-J9-ZoH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3205.7971014492755" y="751.63043478260875"/>
+            <point key="canvasLocation" x="3513.04347826087" y="751.63043478260875"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Ekz-JT-Bfb">
@@ -547,7 +531,7 @@ Rating:</string>
                     <connections>
                         <segue destination="PA2-Ew-yXb" kind="relationship" relationship="viewControllers" id="BL9-nX-BPZ"/>
                         <segue destination="wzg-Uk-DK5" kind="relationship" relationship="viewControllers" id="4zS-ya-WLC"/>
-                        <segue destination="LqD-4T-Ly8" kind="relationship" relationship="viewControllers" id="whO-e3-M26"/>
+                        <segue destination="Okh-1W-xhH" kind="relationship" relationship="viewControllers" id="Zk5-7w-RuI"/>
                         <segue destination="CJt-d6-Vqh" kind="relationship" relationship="viewControllers" id="hUW-nJ-Seb"/>
                     </connections>
                 </tabBarController>
@@ -624,7 +608,63 @@ Rating:</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oy1-PZ-f4a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="776.81159420289862" y="751.63043478260875"/>
+            <point key="canvasLocation" x="742" y="752"/>
+        </scene>
+        <!--Lists-->
+        <scene sceneID="yBi-tr-qCQ">
+            <objects>
+                <tableViewController id="enU-hV-pmV" customClass="ListTableViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1af-k5-fX3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="list" id="zqk-oz-qF6">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zqk-oz-qF6" id="WwG-z9-Bgb">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="enU-hV-pmV" id="HFf-X2-3M1"/>
+                            <outlet property="delegate" destination="enU-hV-pmV" id="9su-tf-1Ef"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Lists" id="sPg-El-woK">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="XhS-1O-j1z">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YP8-ol-0Ud">
+                                <rect key="frame" x="364" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F7a-oL-UYd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1967" y="1491"/>
+        </scene>
+        <!--Lists-->
+        <scene sceneID="PDd-ML-dNM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Okh-1W-xhH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Lists" image="listsIcon" id="MXw-Ec-IUU"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AtM-np-LpR">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="enU-hV-pmV" kind="relationship" relationship="rootViewController" id="YKB-go-ojZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YMa-Zi-4nZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1966.6666666666667" y="751.63043478260875"/>
         </scene>
     </scenes>
     <resources>
@@ -637,6 +677,6 @@ Rating:</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="GzX-dc-Zjg"/>
+        <segue reference="XlI-j7-kUt"/>
     </inferredMetricsTieBreakers>
 </document>

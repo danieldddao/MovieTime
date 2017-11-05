@@ -107,10 +107,12 @@ class CollectionViewController: UICollectionViewController {
                 
                 for movie in popularMoviesPage.results{
                     popularMovies[movie.id] = movie
-                    print(movie.id)
+                    //print(movie.id)
                 }
                 
                 popularMoviesAsArray = Array(popularMovies.keys)
+                
+                print(popularMoviesAsArray)
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
