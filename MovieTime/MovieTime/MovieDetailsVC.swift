@@ -17,7 +17,7 @@ class MovieDetailsVC: UIViewController {
         super.viewDidLoad()
         
         // Import Data
-        titleLbl.text = "\(String(describing: clickedMovie!.title))"
+        titleLbl.text = "\(String(describing: clickedMovie!.title!))"
     }
 
 }

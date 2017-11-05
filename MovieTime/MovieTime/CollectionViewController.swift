@@ -21,6 +21,18 @@ struct PopularMoviesPage: Codable {
 let apiKey = "3cc9e662a8461532d3d5e5d722ef582b"
 var clickedMovie: Movie?
 
+extension CollectionViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        if (searchController.searchBar.text! == ""){
+            populatePosters(page: 1)
+            populatePosters(page: 2)
+            populatePosters(page: 3)
+        } else {
+            populateSearchResults(query: searchController.searchBar.text!)
+        }
+    }
+}
 
 class CollectionViewController: UICollectionViewController {
     
@@ -29,8 +41,8 @@ class CollectionViewController: UICollectionViewController {
     
     var popMoviesArray = [Movie]()
     
-    
     var searchResults = [Movie]()
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +51,12 @@ class CollectionViewController: UICollectionViewController {
         populatePosters(page: 2)
         populatePosters(page: 3)
         
+        // Setup Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Movies"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 
     
@@ -49,6 +67,9 @@ class CollectionViewController: UICollectionViewController {
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if isFiltering() {
+            return searchResults.count
+        }
         return popMoviesArray.count
     }
     
@@ -57,18 +78,28 @@ class CollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
         
         let baseUrlString = "http://image.tmdb.org/t/p/w185"
-        let movie = self.popMoviesArray[indexPath.row]
-        let posterPath = "\(movie.poster_path)"
-        if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: imageURL)
-                if let data = data {
-                    let image = UIImage(data: data)
-                    DispatchQueue.main.async {
-                        cell.imgView.image = image
+        
+        let movie: Movie
+        if isFiltering() {
+            movie = searchResults[indexPath.row]
+        } else {
+            movie = popMoviesArray[indexPath.row]
+        }
+        if !(movie.poster_path == nil){
+            let posterPath = "\(movie.poster_path!)"
+            if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: imageURL)
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        DispatchQueue.main.async {
+                            cell.imgView.image = image
+                        }
                     }
                 }
             }
+        } else {
+            cell.imgView.image = UIImage(named: "image_not_available")
         }
         
         
@@ -107,22 +138,20 @@ class CollectionViewController: UICollectionViewController {
             }.resume()
     }
     
-    func populateSearchResults() {
-        
-        let jsonUrlString = "https://api.themoviedb.org/3/search/movie?api_key=3cc9e662a8461532d3d5e5d722ef582b&query=dunk&page=1"
+    func populateSearchResults(query: String) {
+        let queryFinal = query.replacingOccurrences(of: " ", with: "+")
+        let jsonUrlString = "https://api.themoviedb.org/3/search/movie?api_key=3cc9e662a8461532d3d5e5d722ef582b&query=\(queryFinal)&page=1"
         
         guard let url = URL(string: jsonUrlString) else{ return }
         URLSession.shared.dataTask(with: url) { (data, urlResponse, err) in
-            
             guard let data = data else { return }
-            
             do {
-                
                 let popularMoviesPage =  try JSONDecoder().decode(PopularMoviesPage.self, from: data)
-                
-                for movie in popularMoviesPage.results{
-                    print(movie.title)
+                self.searchResults = popularMoviesPage.results
+                for movie in self.searchResults {
+                    print(movie.title!)
                 }
+                print("----------")
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
@@ -131,6 +160,16 @@ class CollectionViewController: UICollectionViewController {
             }
             
             }.resume()
+    }
+    
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
     }
     
 }
