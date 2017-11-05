@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */; };
+		2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */; };
 		2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */; };
 		AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */; };
 		AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3FB1FA66477008F73B7 /* Review.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListTableViewController.swift; path = MovieTime/ListTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPopupViewController.swift; path = MovieTime/ListPopupViewController.swift; sourceTree = SOURCE_ROOT; };
 		2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecommendationCollectionViewController.swift; path = MovieTime/RecommendationCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		67305EE376C5002E28F45264 /* Pods_MovieTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDB.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */,
+				2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */,
 			);
 			path = ListsTab;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */,
 				AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */,
 				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
+				2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */,
 				AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */,
 				ABB412001FA7684B000D09C1 /* ReviewTableViewCell.swift in Sources */,
 				E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */,

@@ -13,6 +13,7 @@ class ListTableViewController: UITableViewController {
     var listNum:Int = 2
     var customListNum:Int = 0
     var listNames:[String] = ["Watched","Favorite top 100"]
+    public var newListName:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,8 @@ class ListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "list", for: indexPath)
         if indexPath.row < listNum{
             cell.textLabel?.text = self.listNames[indexPath.row]
+        }else{
+            cell.textLabel?.text = ""
         }
         
         // Configure the cell...
@@ -95,16 +98,29 @@ class ListTableViewController: UITableViewController {
             if indexPath.row > 1{
                 self.listNames.remove(at: indexPath.row)
                 self.listNum -= 1
+                print(self.listNames)
                 self.tableView.deleteRows(at: [indexPath], with: .fade)
             }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+             let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListPopupID") as! ListPopupViewController
+            self.addChildViewController(popupVC)
+            popupVC.view.frame = self.view.frame
+            self.view.addSubview(popupVC.view)
+            popupVC.didMove(toParentViewController: self)
+           
             
-            self.listNames.append("waiting")
-            self.listNum += 1
-            self.tableView.insertRows(at: [indexPath], with: .fade)
-            
-        }    
+            /*
+            if popupVC.view.isDescendant(of: self.view) == false{
+                print("back:")
+                print(popupVC.listName)
+                self.listNames.append(popupVC.listName)
+                self.listNum += 1
+                self.tableView.insertRows(at: [indexPath], with: .fade)
+            }
+             */
+        }
+        
     }
     
 

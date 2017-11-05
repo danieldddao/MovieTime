@@ -626,6 +626,7 @@ Rating:</string>
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" identifier="list"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -646,6 +647,48 @@ Rating:</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F7a-oL-UYd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1967" y="1491"/>
+        </scene>
+        <!--List Popup View Controller-->
+        <scene sceneID="1jZ-RP-s7K">
+            <objects>
+                <viewController storyboardIdentifier="ListPopupID" id="DpU-ni-3xO" customClass="ListPopupViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="usA-Yd-Vg8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MxO-hh-IdN">
+                                <rect key="frame" x="87" y="258" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Fg-x5-6ZE">
+                                        <rect key="frame" x="61" y="40" width="119" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOd-h4-kjc">
+                                        <rect key="frame" x="159" y="84" width="37" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Enter"/>
+                                        <connections>
+                                            <action selector="enterListName:" destination="DpU-ni-3xO" eventType="touchUpInside" id="Qpi-kB-1Ho"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.96475998480000003" blue="0.7224941668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="0Uh-BW-hNC"/>
+                    </view>
+                    <connections>
+                        <outlet property="inputField" destination="1Fg-x5-6ZE" id="z41-da-ujy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ksn-1M-zHO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2939.130434782609" y="1476.358695652174"/>
         </scene>
         <!--Lists-->
         <scene sceneID="PDd-ML-dNM">
