@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TMDBSwift
 
 
 struct PopularMoviesPage: Codable {
@@ -16,10 +17,7 @@ struct PopularMoviesPage: Codable {
     let results: [Movie]
 }
 
-
-var popularMovies = [Int: Movie]()
-let apiKey = "3cc9e662a8461532d3d5e5d722ef582b"
-var clickedMovie: Movie?
+var clickedMovie: MovieMDB?
 
 extension CollectionViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
@@ -39,9 +37,10 @@ class CollectionViewController: UICollectionViewController {
     var baseURI: String = "api.themoviedb.org/3"
     var apiKey: String = "3cc9e662a8461532d3d5e5d722ef582b"
     
-    var popMoviesArray = [Movie]()
+    var popularMovies = [Int: MovieMDB]()
+    var popMoviesArray = [MovieMDB]()
     
-    var searchResults = [Movie]()
+    var searchResults = [MovieMDB]()
     let searchController = UISearchController(searchResultsController: nil)
     var searchResultsLoaded = false
     
@@ -80,7 +79,7 @@ class CollectionViewController: UICollectionViewController {
         
         let baseUrlString = "http://image.tmdb.org/t/p/w185"
         
-        let movie: Movie
+        let movie: MovieMDB
         if isFiltering() {
             movie = searchResults[indexPath.row]
         } else {
@@ -109,7 +108,7 @@ class CollectionViewController: UICollectionViewController {
     
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie: Movie
+        let movie: MovieMDB
         if (searchResultsLoaded){
             movie = self.searchResults[indexPath.row]
         } else {
@@ -122,52 +121,34 @@ class CollectionViewController: UICollectionViewController {
     
     func populatePosters(page: Int) {
         searchResultsLoaded = false
-        let jsonUrlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&language=en-US&page=\(page)"
-
-        guard let url = URL(string: jsonUrlString) else{ return }
-        URLSession.shared.dataTask(with: url) { (data, urlResponse, err) in
-
-            guard let data = data else { return }
-
-            do {
-
-                let popularMoviesPage =  try JSONDecoder().decode(PopularMoviesPage.self, from: data)
-                
-                self.popMoviesArray.append(contentsOf: popularMoviesPage.results)
-                
+        
+        MovieMDB.popular(TMDBBase.apiKey, language: "en", page: 1){
+            data, popMovies in
+            if let movies = popMovies{
+                self.popMoviesArray = movies
+                for movie in movies{
+                    if self.popularMovies[movie.id!] == nil {
+                        self.popularMovies[movie.id!] = movie
+                    }
+                    print(movie.title!)
+                }
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
-            } catch let jsonErr {
-                print("Error serializing json:", jsonErr)
             }
-
-            }.resume()
+        }
     }
     
     func populateSearchResults(query: String) {
         searchResultsLoaded = true
-        let queryFinal = query.replacingOccurrences(of: " ", with: "+")
-        let jsonUrlString = "https://api.themoviedb.org/3/search/movie?api_key=3cc9e662a8461532d3d5e5d722ef582b&query=\(queryFinal)&page=1"
-        
-        guard let url = URL(string: jsonUrlString) else{ return }
-        URLSession.shared.dataTask(with: url) { (data, urlResponse, err) in
-            guard let data = data else { return }
-            do {
-                let popularMoviesPage =  try JSONDecoder().decode(PopularMoviesPage.self, from: data)
-                self.searchResults = popularMoviesPage.results
-                for movie in self.searchResults {
-                    popularMovies[movie.id!] = movie
-                }
-                print("----------")
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                }
-            } catch let jsonErr {
-                print("Error serializing json:", jsonErr)
+
+        SearchMDB.movie(TMDBBase.apiKey, query: query, language: "en", page: 1, includeAdult: true, year: nil, primaryReleaseYear: nil){
+            data, movies in
+            self.searchResults = movies!
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
             }
-            
-            }.resume()
+        }
     }
     
     
