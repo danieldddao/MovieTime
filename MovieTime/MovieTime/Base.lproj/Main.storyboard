@@ -728,6 +728,7 @@ Rating:</string>
                                 <connections>
                                     <outlet property="imgView" destination="5Cb-8e-ed8" id="PLw-sp-K8W"/>
                                     <outlet property="title" destination="Kbc-N4-bgG" id="M6f-yT-d9E"/>
+                                    <segue destination="zSN-ng-Mms" kind="show" identifier="ShowMovieDetail" id="zfE-35-8D2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -813,6 +814,6 @@ Rating:</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="XlI-j7-kUt"/>
+        <segue reference="zfE-35-8D2"/>
     </inferredMetricsTieBreakers>
 </document>

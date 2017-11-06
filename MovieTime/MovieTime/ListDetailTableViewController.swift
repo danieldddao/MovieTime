@@ -107,15 +107,22 @@ class ListDetailTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowMovieDetail"{
+            let cell=sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell){
+                clickedMovieId = self.listMovieId[indexPath.row]
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }
+        }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+
     override func viewWillDisappear(_ animated: Bool) {
         defaults.set(listMovieId, forKey: listName)
     }
