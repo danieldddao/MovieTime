@@ -43,6 +43,7 @@ class CollectionViewController: UICollectionViewController {
     
     var searchResults = [Movie]()
     let searchController = UISearchController(searchResultsController: nil)
+    var searchResultsLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,13 +109,19 @@ class CollectionViewController: UICollectionViewController {
     
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = self.popMoviesArray[indexPath.row]
+        let movie: Movie
+        if (searchResultsLoaded){
+            movie = self.searchResults[indexPath.row]
+        } else {
+            movie = self.popMoviesArray[indexPath.row]
+        }
+        
         clickedMovie = movie
     }
 
     
     func populatePosters(page: Int) {
-        
+        searchResultsLoaded = false
         let jsonUrlString = "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)&language=en-US&page=\(page)"
 
         guard let url = URL(string: jsonUrlString) else{ return }
@@ -139,6 +146,7 @@ class CollectionViewController: UICollectionViewController {
     }
     
     func populateSearchResults(query: String) {
+        searchResultsLoaded = true
         let queryFinal = query.replacingOccurrences(of: " ", with: "+")
         let jsonUrlString = "https://api.themoviedb.org/3/search/movie?api_key=3cc9e662a8461532d3d5e5d722ef582b&query=\(queryFinal)&page=1"
         
