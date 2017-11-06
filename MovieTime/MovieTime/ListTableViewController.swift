@@ -65,19 +65,48 @@ class ListTableViewController: UITableViewController {
             cell.textLabel?.text = self.listNames[indexPath.row]
         }else{
             cell.textLabel?.text = ""
-            cell.isUserInteractionEnabled = false
+            /*
+            if self.tableView.isEditing{
+                print("editing")
+                cell.isUserInteractionEnabled = true
+            }else{
+                print("no editing")
+                cell.isUserInteractionEnabled = false
+                //cell.selectionStyle = UITableViewCellSelectionStyle.gray
+            }
+            */
         }
-        
         
         // Configure the cell...
         return cell
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        let cell=sender as! UITableViewCell
+        if let indexPath = tableView.indexPath(for: cell){
+            if indexPath.row == listNum{
+                return false
+            }else{
+                return true
+            }
+        }
+        
+        
+        // by default, transition
+        return true
+    }
+    
+    /*
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You tapped cell number \(indexPath.row).")
+    }
+     */
 
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
+        
         if indexPath.row > 1{
             return true
         }else{
@@ -87,6 +116,7 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        
         if indexPath.row == listNum{
             return .insert
         }else{
@@ -158,6 +188,9 @@ class ListTableViewController: UITableViewController {
         if segue.identifier=="ShowListDetail"{
             let cell=sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell){
+                if indexPath.row == listNum{
+                    return
+                }
                 let LDTVC=segue.destination as! ListDetailTableViewController
                //print(self.listNames[indexPath.row])
                 LDTVC.listName=self.listNames[indexPath.row]
