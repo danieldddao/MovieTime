@@ -18,21 +18,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HRf-rg-gzA">
-                            <size key="itemSize" width="168" height="220"/>
+                            <size key="itemSize" width="191.69999999999999" height="284"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="9" minY="10" maxX="10" maxY="10"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="08B-oH-7Ms" customClass="posterCell" customModule="MovieTime" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="168" height="220"/>
+                                <rect key="frame" x="9" y="10" width="189" height="280"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="168" height="220"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="189" height="280"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9sy-W3-fIN">
-                                            <rect key="frame" x="0.0" y="0.0" width="168" height="220"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="189" height="280"/>
                                         </imageView>
                                     </subviews>
                                 </view>
@@ -42,6 +42,7 @@
                                     <constraint firstItem="9sy-W3-fIN" firstAttribute="top" secondItem="08B-oH-7Ms" secondAttribute="top" id="rpV-7x-7eg"/>
                                     <constraint firstItem="9sy-W3-fIN" firstAttribute="leading" secondItem="08B-oH-7Ms" secondAttribute="leading" id="vAV-Ls-r9E"/>
                                 </constraints>
+                                <size key="customSize" width="189" height="280"/>
                                 <connections>
                                     <outlet property="imgView" destination="9sy-W3-fIN" id="SAu-7b-VPS"/>
                                     <segue destination="zSN-ng-Mms" kind="show" identifier="toMovieDetails" id="ZFU-mS-Uz1"/>
@@ -68,7 +69,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-194" y="808"/>
+            <point key="canvasLocation" x="-194.20289855072465" y="807.88043478260875"/>
         </scene>
         <!--Movie DetailsVC-->
         <scene sceneID="Vo3-0Q-KFX">
