@@ -153,10 +153,11 @@ class ListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier=="showListDetail"{
+        if segue.identifier=="ShowListDetail"{
             let cell=sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell){
                 let LDTVC=segue.destination as! ListDetailTableViewController
+               //print(self.listNames[indexPath.row])
                 LDTVC.listName=self.listNames[indexPath.row]
                 
                 self.tableView.deselectRow(at: indexPath, animated: true)

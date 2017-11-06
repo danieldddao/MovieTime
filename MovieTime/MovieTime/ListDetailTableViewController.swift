@@ -14,7 +14,14 @@ class ListDetailTableViewController: UITableViewController {
     var listMovieId:[Int] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.listMovieId = defaults.object(forKey: listName) as! [Int]
+        self.tableView.rowHeight = 100.0
+        //print(self.listName)
+        if defaults.object(forKey: listName) == nil{
+            self.listMovieId = []
+        }else{
+            self.listMovieId = defaults.object(forKey: listName) as! [Int]
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
