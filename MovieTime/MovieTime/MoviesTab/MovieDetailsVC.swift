@@ -21,6 +21,13 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource {
     @IBOutlet weak var posterImgView: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
     
+    @IBAction func addToList(_ sender: Any) {
+        let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SelectListID") as! AddToListViewController
+        self.addChildViewController(popupVC)
+        popupVC.view.frame = self.view.frame
+        self.view.addSubview(popupVC.view)
+        popupVC.didMove(toParentViewController: self)
+    }
     
     
     

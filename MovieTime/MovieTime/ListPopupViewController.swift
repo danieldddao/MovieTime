@@ -48,6 +48,7 @@ class ListPopupViewController: UIViewController {
                 print(listVC.listNames)
                 listVC.tableView.reloadData()
                 self.view.removeFromSuperview()
+                listVC.defaults.set(listVC.listNames, forKey: "ListNames")
             }
         });
     }

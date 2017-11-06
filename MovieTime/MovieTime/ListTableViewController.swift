@@ -11,20 +11,26 @@ import UIKit
 
 class ListTableViewController: UITableViewController {
     var listNum:Int = 2
-    var customListNum:Int = 0
-    var listNames:[String] = ["Watched","Favorite top 100"]
+    var listNames:[String] = []
+    let defaults = UserDefaults.standard
     public var newListName:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if defaults.object(forKey: "ListNames") == nil{
+            listNames = ["Watched","Favorite top 100"]
+        }else{
+            print("stored list names")
+            listNames = defaults.object(forKey: "ListNames") as! [String]
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        listNum += customListNum
+        listNum = listNames.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,6 +107,7 @@ class ListTableViewController: UITableViewController {
                 print(self.listNames)
                 self.tableView.deleteRows(at: [indexPath], with: .fade)
             }
+            defaults.set(self.listNames, forKey: "ListNames")
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
              let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListPopupID") as! ListPopupViewController
@@ -139,14 +146,24 @@ class ListTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier=="showListDetail"{
+            let cell=sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell){
+                let LDTVC=segue.destination as! ListDetailTableViewController
+                LDTVC.listName=self.listNames[indexPath.row]
+                
+                self.tableView.deselectRow(at: indexPath, animated: true)
+                print(LDTVC.listName)
+            }
+        }
     }
-    */
+ 
 
 }

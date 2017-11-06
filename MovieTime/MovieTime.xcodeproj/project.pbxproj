@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */; };
 		2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */; };
+		2A0D07951FAFC79A00B0BB84 /* posterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */; };
+		2A0D07971FAFC8C500B0BB84 /* ListDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */; };
+		2A0D07991FAFD7F300B0BB84 /* AddToListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */; };
 		2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */; };
 		AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */; };
 		AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3FB1FA66477008F73B7 /* Review.swift */; };
@@ -32,6 +35,9 @@
 /* Begin PBXFileReference section */
 		2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListTableViewController.swift; path = MovieTime/ListTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPopupViewController.swift; path = MovieTime/ListPopupViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = posterTableCell.swift; path = MovieTime/posterTableCell.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListDetailTableViewController.swift; path = MovieTime/ListDetailTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddToListViewController.swift; path = MovieTime/AddToListViewController.swift; sourceTree = SOURCE_ROOT; };
 		2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecommendationCollectionViewController.swift; path = MovieTime/RecommendationCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		67305EE376C5002E28F45264 /* Pods_MovieTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDB.swift; sourceTree = "<group>"; };
@@ -146,7 +152,10 @@
 			isa = PBXGroup;
 			children = (
 				2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */,
+				2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */,
 				2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */,
+				2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */,
+				2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */,
 			);
 			path = ListsTab;
 			sourceTree = "<group>";
@@ -329,15 +338,18 @@
 				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
 				2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */,
 				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
+				2A0D07971FAFC8C500B0BB84 /* ListDetailTableViewController.swift in Sources */,
 				2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */,
 				AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */,
 				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
 				2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */,
 				AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */,
 				ABB412001FA7684B000D09C1 /* ReviewTableViewCell.swift in Sources */,
+				2A0D07991FAFD7F300B0BB84 /* AddToListViewController.swift in Sources */,
 				E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */,
 				E13B014F1F9EAA0F003E11F8 /* CollectionViewController.swift in Sources */,
 				E132B9C11F9FB13E0046554E /* MovieDetailsVC.swift in Sources */,
+				2A0D07951FAFC79A00B0BB84 /* posterTableCell.swift in Sources */,
 				AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
