@@ -65,7 +65,9 @@ class ListTableViewController: UITableViewController {
             cell.textLabel?.text = self.listNames[indexPath.row]
         }else{
             cell.textLabel?.text = ""
+            cell.isUserInteractionEnabled = false
         }
+        
         
         // Configure the cell...
         return cell
