@@ -17,7 +17,7 @@ struct PopularMoviesPage: Codable {
 }
 
 
-
+var popularMovies = [Int: Movie]()
 let apiKey = "3cc9e662a8461532d3d5e5d722ef582b"
 var clickedMovie: Movie?
 
@@ -157,7 +157,7 @@ class CollectionViewController: UICollectionViewController {
                 let popularMoviesPage =  try JSONDecoder().decode(PopularMoviesPage.self, from: data)
                 self.searchResults = popularMoviesPage.results
                 for movie in self.searchResults {
-                    print(movie.title!)
+                    popularMovies[movie.id!] = movie
                 }
                 print("----------")
                 DispatchQueue.main.async {
