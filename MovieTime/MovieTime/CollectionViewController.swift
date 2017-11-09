@@ -23,6 +23,7 @@ extension CollectionViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         if (searchController.searchBar.text! == ""){
+            popMoviesArray.removeAll()
             populatePosters(page: 1)
             populatePosters(page: 2)
             populatePosters(page: 3)
@@ -57,6 +58,7 @@ class CollectionViewController: UICollectionViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
 
@@ -119,11 +121,10 @@ class CollectionViewController: UICollectionViewController {
         clickedMovie = movie
     }
     
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: IndexPath) {
-        print("Bottom of View")
-        if indexPath.item == popMoviesArray.count{
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath){
+        if indexPath.item == popMoviesArray.count-1 {
             populatePosters(page: pageToLoad)
-            print("Loaded Page \(pageToLoad)")
+            pageToLoad += 1
         }
     }
 
@@ -154,6 +155,7 @@ class CollectionViewController: UICollectionViewController {
         SearchMDB.movie(TMDBBase.apiKey, query: query, language: "en", page: 1, includeAdult: true, year: nil, primaryReleaseYear: nil){
             data, movies in
             self.searchResults = movies!
+            
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }
