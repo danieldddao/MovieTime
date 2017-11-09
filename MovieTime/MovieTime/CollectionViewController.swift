@@ -39,6 +39,7 @@ class CollectionViewController: UICollectionViewController {
     
     var popularMovies = [Int: MovieMDB]()
     var popMoviesArray = [MovieMDB]()
+    var pageToLoad = 4
     
     var searchResults = [MovieMDB]()
     let searchController = UISearchController(searchResultsController: nil)
@@ -117,15 +118,23 @@ class CollectionViewController: UICollectionViewController {
         
         clickedMovie = movie
     }
+    
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: IndexPath) {
+        print("Bottom of View")
+        if indexPath.item == popMoviesArray.count{
+            populatePosters(page: pageToLoad)
+            print("Loaded Page \(pageToLoad)")
+        }
+    }
 
     
     func populatePosters(page: Int) {
         searchResultsLoaded = false
         
-        MovieMDB.popular(TMDBBase.apiKey, language: "en", page: 1){
+        MovieMDB.popular(TMDBBase.apiKey, language: "en", page: page){
             data, popMovies in
             if let movies = popMovies{
-                self.popMoviesArray = movies
+                self.popMoviesArray.append(contentsOf: movies)
                 for movie in movies{
                     if self.popularMovies[movie.id!] == nil {
                         self.popularMovies[movie.id!] = movie
