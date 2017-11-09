@@ -48,7 +48,7 @@ extension MovieDetailsVC {
                         // Can't update new average rating
                         if (error != nil) {
                             print("Can't update new average rating")
-                            self.showAlert()
+                            self.showAlert("There was an error! Please try again!")
                         } else {
                             print("Successfully updated new average rating for movie with id=\(review.getMovieId()), rating:\(avgRating)")
                             
@@ -63,7 +63,7 @@ extension MovieDetailsVC {
                     // Can't create new average rating
                     if (error != nil) {
                         print("Can't create new average rating")
-                        self.showAlert()
+                        self.showAlert("There was an error! Please try again!")
                     } else {
                         print("Successfully added new average rating for movie with id=\(review.getMovieId()), rating:\(review.getRating())")
                         
@@ -103,7 +103,6 @@ extension MovieDetailsVC {
     }
     
     func loadAvgRating() {
-        print("Loading Average Rating")
         self.ref.child("averageRatings").child(String(movieId)).observeSingleEvent(of: .value, with: { snapshot in
             if snapshot.exists() {
                 // Get average rating value
@@ -133,8 +132,8 @@ extension MovieDetailsVC {
         return userEmail.replacingOccurrences(of: ",", with: ".")
     }
     
-    func showAlert() {
-        let alert = CDAlertView(title: "Error!", message: "There was an error! Please try again!", type: .error)
+    func showAlert(_ message: String) {
+        let alert = CDAlertView(title: "Error!", message: message, type: .error)
         let doneAction = CDAlertViewAction(title: "OK")
         alert.add(action: doneAction)
         alert.show()

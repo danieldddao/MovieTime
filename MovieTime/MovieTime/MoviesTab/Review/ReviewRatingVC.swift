@@ -27,11 +27,8 @@ class ReviewRatingVC: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("REviewRatingVC VDL")
-        print(starRating.value)
         reviewTextView.delegate = self
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
-        print("REviewRatingVC VDL Done")
     }
 
     override func didReceiveMemoryWarning() {

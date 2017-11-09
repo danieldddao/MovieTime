@@ -32,6 +32,12 @@ target 'MovieTime' do
   # Circular Progress Indicator
   pod 'UICircularProgressRing'
 
+  # Embed Youtube videos
+  pod "youtube-ios-player-helper", "~> 0.1.4"
+
+  # Activity Indicator
+  pod 'NVActivityIndicatorView'
+
   # UI frameworks
   #pod 'MaterialComponents', :inhibit_warnings => true
   pod 'Material', '~> 2.0', :inhibit_warnings => true
