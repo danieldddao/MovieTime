@@ -154,8 +154,11 @@ class CollectionViewController: UICollectionViewController {
 
         SearchMDB.movie(TMDBBase.apiKey, query: query, language: "en", page: 1, includeAdult: true, year: nil, primaryReleaseYear: nil){
             data, movies in
-            self.searchResults = movies!
-            
+            if let tempSearchResults = movies{
+                self.searchResults = tempSearchResults
+            } else {
+                self.searchResults.removeAll()
+            }
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }
