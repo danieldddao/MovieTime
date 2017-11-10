@@ -19,20 +19,6 @@ struct PopularMoviesPage: Codable {
 
 var clickedMovie: MovieMDB?
 
-extension CollectionViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        if (searchController.searchBar.text! == ""){
-            popMoviesArray.removeAll()
-            populatePosters(page: 1)
-            populatePosters(page: 2)
-            populatePosters(page: 3)
-        } else {
-            populateSearchResults(query: searchController.searchBar.text!)
-        }
-    }
-}
-
 class CollectionViewController: UICollectionViewController {
     
     var baseURI: String = "api.themoviedb.org/3"
@@ -42,24 +28,12 @@ class CollectionViewController: UICollectionViewController {
     var popMoviesArray = [MovieMDB]()
     var pageToLoad = 4
     
-    var searchResults = [MovieMDB]()
-    let searchController = UISearchController(searchResultsController: nil)
-    var searchResultsLoaded = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         populatePosters(page: 1)
         populatePosters(page: 2)
         populatePosters(page: 3)
-        
-        // Setup Search Controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Movies"
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        definesPresentationContext = true
     }
 
     
@@ -70,27 +44,19 @@ class CollectionViewController: UICollectionViewController {
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isFiltering() {
-            return searchResults.count
-        }
         return popMoviesArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
-        
-        let baseUrlString = "http://image.tmdb.org/t/p/w185"
-        
+                
         let movie: MovieMDB
-        if isFiltering() {
-            movie = searchResults[indexPath.row]
-        } else {
-            movie = popMoviesArray[indexPath.row]
-        }
+        movie = popMoviesArray[indexPath.row]
+        
         if !(movie.poster_path == nil){
             let posterPath = "\(movie.poster_path!)"
-            if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
+            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
                 DispatchQueue.global().async {
                     let data = try? Data(contentsOf: imageURL)
                     if let data = data {
@@ -105,19 +71,12 @@ class CollectionViewController: UICollectionViewController {
             cell.imgView.image = UIImage(named: "image_not_available")
         }
         
-        
         return cell
     }
     
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie: MovieMDB
-        if (searchResultsLoaded){
-            movie = self.searchResults[indexPath.row]
-        } else {
-            movie = self.popMoviesArray[indexPath.row]
-        }
-        
+        let movie = self.popMoviesArray[indexPath.row]
         clickedMovie = movie
     }
     
@@ -130,7 +89,6 @@ class CollectionViewController: UICollectionViewController {
 
     
     func populatePosters(page: Int) {
-        searchResultsLoaded = false
         
         MovieMDB.popular(TMDBBase.apiKey, language: "en", page: page){
             data, popMovies in
@@ -147,32 +105,6 @@ class CollectionViewController: UICollectionViewController {
                 }
             }
         }
-    }
-    
-    func populateSearchResults(query: String) {
-        searchResultsLoaded = true
-
-        SearchMDB.movie(TMDBBase.apiKey, query: query, language: "en", page: 1, includeAdult: true, year: nil, primaryReleaseYear: nil){
-            data, movies in
-            if let tempSearchResults = movies{
-                self.searchResults = tempSearchResults
-            } else {
-                self.searchResults.removeAll()
-            }
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }
-    }
-    
-    
-    func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
     }
     
 }
