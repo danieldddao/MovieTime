@@ -24,7 +24,8 @@ public struct PersonMDB: ArrayObject{
   public var place_of_birth: String?
   public var popularity: Int!
   public var profile_path: String?
-  
+  public var gender:Int!
+    
   public init(results: JSON){
     adult = results["adult"].bool
     also_known_as = results["also_known_as"].arrayObject as? [String]
@@ -38,6 +39,7 @@ public struct PersonMDB: ArrayObject{
     place_of_birth = results["place_of_birth"].string
     popularity = results["popularity"].int
     profile_path = results["profile_path"].string
+    gender = results["gender"].int
   }
   
   ///Get the general person information for a specific id.

@@ -22,7 +22,7 @@ import NVActivityIndicatorView
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource, YTPlayerViewDelegate, NVActivityIndicatorViewable {
     
-    var movieId: Int = 315635
+    var movieId: Int = 141052
     var currentUser:User? = nil
     
     @IBOutlet weak var nativationItem: UINavigationItem!
@@ -111,6 +111,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             cell.castImage.image = UIImage(named: "emptyCast")
             cell.castName.text = member.name
             cell.castRole.text = member.character
+            cell.castId = member.cast_id
 //            print("cast: \(member.name) \(member.profile_path)")
             if member.profile_path != nil {
                 if let castImageUrl = URL(string: "\(TMDBBase.imageURL)\(member.profile_path!)"){
@@ -131,8 +132,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             cell.jobLabel.text = member.job
             cell.departmentLabel.text = member.department
             cell.nameLabel.text = member.name
+            cell.crewId = member.id
             return cell
-            
         } else {
             let genre = genres[indexPath.row]
 //            print("cell for genre: \(member.name)")
@@ -140,6 +141,28 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             cell.genreLabel.text = genre.name!
             return cell
             
+        }
+    }
+    // Tap on a crew or cast
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == castCollectionView || collectionView == crewCollectionView {
+//            print("cast/crew cell selected: \(indexPath.row)")
+            // Create a custom review & rating view controller
+            let memberInfoVC = MemberInfoVC(nibName: "MemberInfoVC", bundle: nil)
+            if collectionView == castCollectionView {
+                let cast = castMembers[indexPath.row]
+                memberInfoVC.memberId = cast.id
+                memberInfoVC.tableTitle = "Appeared in:"
+            } else {
+                memberInfoVC.memberId = crewMembers[indexPath.row].id
+                memberInfoVC.tableTitle = "In Movies:"
+            }
+            
+            // Create the dialog
+            let popup = PopupDialog(viewController: memberInfoVC, buttonAlignment: .vertical, transitionStyle: .bounceDown, gestureDismissal: true)
+            
+            // Create the dialog
+//            self.present(popup, animated: true, completion: nil)
         }
     }
     
@@ -232,7 +255,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 } else {
                     self.overviewTextView.text = "Overview:\n\(movie.overview!)"
                 }
-                
+
                 if movie.vote_average == nil {
                     self.userScoreIndicator.value = CGFloat(0)
                 } else {
@@ -243,6 +266,12 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.statusLabel.text = "Status:\n-"
                 } else {
                     self.statusLabel.text = "Status:\n\(movie.status!)"
+                    if movie.status!.lowercased() != "released" {
+                        self.writeReviewButton.isEnabled = false
+                        self.writeReviewButton.title = "Review not available"
+                        self.writeReviewButton.titleColor = UIColor.black
+                        self.writeReviewButton.backgroundColor = UIColor.lightGray
+                    }
                 }
                 
                 if movie.runtime == nil {
@@ -437,9 +466,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+//        self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         
-        youtubePlayerView = YTPlayerView()
+        self.youtubePlayerView = YTPlayerView()
         self.youtubePlayerView.delegate = self
         
         // Set background color of each collection view to clear
@@ -454,9 +483,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         genresCollectionView.backgroundColor = UIColor.clear
         layout = genresCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
-        
-//        self.movieId = clickedMovieId
-        
+                
         // Create a reference to Firebase database
         self.ref = Database.database().reference()
         

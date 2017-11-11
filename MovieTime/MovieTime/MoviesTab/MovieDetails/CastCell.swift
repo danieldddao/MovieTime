@@ -12,4 +12,5 @@ class CastCell: UICollectionViewCell {
     @IBOutlet weak var castImage: UIImageView!
     @IBOutlet weak var castName: UILabel!
     @IBOutlet weak var castRole: UILabel!
+    var castId: Int!
 }

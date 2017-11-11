@@ -82,7 +82,7 @@ class CollectionViewController: UICollectionViewController {
         let movieID = self.popularMoviesAsArray[indexPath.row]
         clickedMovieId = popularMovies[movieID]!.id
         print("in function id: \(clickedMovieId)")
-        
+        self.performSegue(withIdentifier: "gotoMovieDetailPage", sender: self)
     }
 
     
@@ -112,5 +112,12 @@ class CollectionViewController: UICollectionViewController {
             }.resume()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "gotoMovieDetailPage" {
+            let mdVC:MovieDetailsVC = segue.destination as! MovieDetailsVC
+            mdVC.movieId = clickedMovieId
+            mdVC.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+        }
+    }
 }
 

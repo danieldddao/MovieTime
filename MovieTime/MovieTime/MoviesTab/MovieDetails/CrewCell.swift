@@ -13,5 +13,5 @@ class CrewCell: UICollectionViewCell {
     @IBOutlet weak var jobLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var departmentLabel: UILabel!
-    
+    var crewId: Int!
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u8O-eb-3zo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qpl-aH-UWy">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -58,7 +58,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imgView" destination="9sy-W3-fIN" id="SAu-7b-VPS"/>
-                                    <segue destination="u8O-eb-3zo" kind="show" identifier="toMovieDetails" id="ZFU-mS-Uz1"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -68,6 +67,9 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="uuI-yD-gge"/>
+                    <connections>
+                        <segue destination="zSN-ng-Mms" kind="show" identifier="gotoMovieDetailPage" id="hjn-jQ-imc"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Aw-J4-rzX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,7 +83,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1317"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igS-Od-lNc">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igS-Od-lNc">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="1317"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDU-O7-2YP" userLabel="Content View">
@@ -103,13 +105,13 @@
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <size key="shadowOffset" width="0.0" height="-0.5"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwQ-lD-0ol">
-                                                        <rect key="frame" x="8" y="245" width="85" height="40"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwQ-lD-0ol">
+                                                        <rect key="frame" x="8" y="245" width="114" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <string key="text">Status:
 Released</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="13"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -121,19 +123,19 @@ Released</string>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <string key="text">Budget:
 N/A</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="13"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <size key="shadowOffset" width="0.0" height="-0.5"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vx9-2y-LhQ">
-                                                        <rect key="frame" x="86" y="688" width="320" height="40"/>
+                                                        <rect key="frame" x="86" y="688" width="328" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <string key="text">Tagline:
 N/A</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -157,19 +159,7 @@ No</string>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <string key="text">For Adult:
 No</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <size key="shadowOffset" width="0.0" height="-0.5"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-4f-oYq">
-                                                        <rect key="frame" x="101" y="245" width="117" height="40"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <string key="text">Release Date:
-Unknown</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="13"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -190,17 +180,6 @@ Unknown</string>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFb-D5-nqy">
-                                                        <rect key="frame" x="228" y="245" width="70" height="40"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <string key="text">Runtime:
-1h36m</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <size key="shadowOffset" width="0.0" height="-0.5"/>
-                                                    </label>
                                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ts6-X6-U0N" customClass="UICircularProgressRingView" customModule="UICircularProgressRing">
                                                         <rect key="frame" x="306" y="229" width="55" height="55"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -293,7 +272,7 @@ Unknown</string>
                                                                                 <constraint firstAttribute="width" constant="70" id="Poq-6E-1iw"/>
                                                                             </constraints>
                                                                         </imageView>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akL-wy-Gng">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akL-wy-Gng">
                                                                             <rect key="frame" x="0.0" y="105" width="120" height="45"/>
                                                                             <string key="text">Cast
 Name</string>
@@ -443,7 +422,7 @@ Name</string>
                                                                 </connections>
                                                             </collectionViewCell>
                                                         </cells>
-                                                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="crewHeader" id="D3U-3r-NEW" customClass="CollectionReusableView" customModule="Material">
+                                                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="crewHeader" id="D3U-3r-NEW">
                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="100"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
@@ -572,7 +551,30 @@ Score</string>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <string key="text">Revenue:
 N/A</string>
-                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="15"/>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <size key="shadowOffset" width="0.0" height="-0.5"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-4f-oYq">
+                                                        <rect key="frame" x="130" y="245" width="90" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <string key="text">Release Date:
+Unknown</string>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="13"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <size key="shadowOffset" width="0.0" height="-0.5"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFb-D5-nqy">
+                                                        <rect key="frame" x="235" y="244" width="63" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <string key="text">Runtime:
+1h36m</string>
+                                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="13"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -792,7 +794,7 @@ Rating:</string>
                                                 </connections>
                                             </tableView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-Tf-n3x" customClass="FlatButton" customModule="Material">
-                                                <rect key="frame" x="87" y="755" width="240" height="41"/>
+                                                <rect key="frame" x="57" y="755" width="300" height="41"/>
                                                 <color key="backgroundColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
                                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="23"/>
                                                 <state key="normal" title="Write a review">
@@ -817,12 +819,12 @@ Rating:</string>
                                             <constraint firstItem="7BP-oq-NDR" firstAttribute="top" secondItem="yDU-O7-2YP" secondAttribute="top" id="SoQ-CO-y4u"/>
                                             <constraint firstItem="LCj-xh-AQl" firstAttribute="top" secondItem="aGi-Tf-n3x" secondAttribute="bottom" constant="11" id="YUJ-i0-T2X"/>
                                             <constraint firstAttribute="trailing" secondItem="pis-Ds-9uu" secondAttribute="trailing" id="d0f-sj-BFy"/>
-                                            <constraint firstAttribute="trailing" secondItem="aGi-Tf-n3x" secondAttribute="trailing" constant="87" id="faA-Qv-3dd"/>
                                             <constraint firstItem="pis-Ds-9uu" firstAttribute="leading" secondItem="yDU-O7-2YP" secondAttribute="leading" id="iXZ-wl-xs7"/>
+                                            <constraint firstAttribute="trailing" secondItem="aGi-Tf-n3x" secondAttribute="trailing" constant="57" id="lIR-vO-6jc"/>
                                             <constraint firstAttribute="trailing" secondItem="7BP-oq-NDR" secondAttribute="trailing" id="nKV-Dq-g4D"/>
-                                            <constraint firstItem="aGi-Tf-n3x" firstAttribute="leading" secondItem="yDU-O7-2YP" secondAttribute="leading" constant="87" id="o2e-Wi-PTf"/>
                                             <constraint firstItem="7BP-oq-NDR" firstAttribute="leading" secondItem="yDU-O7-2YP" secondAttribute="leading" id="rJf-d4-4mX"/>
                                             <constraint firstItem="aGi-Tf-n3x" firstAttribute="top" secondItem="7BP-oq-NDR" secondAttribute="bottom" constant="19" id="sgU-0o-4dj"/>
+                                            <constraint firstItem="aGi-Tf-n3x" firstAttribute="leading" secondItem="yDU-O7-2YP" secondAttribute="leading" constant="57" id="uQp-Y6-AFE"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -848,7 +850,7 @@ Rating:</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Movie Title" id="DpP-cs-tR5">
-                        <barButtonItem key="backBarButtonItem" title="Movies" id="HRl-nc-tE0"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="HRl-nc-tE0"/>
                     </navigationItem>
                     <size key="freeformSize" width="414" height="1430"/>
                     <connections>
@@ -1080,6 +1082,9 @@ Rating:</string>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Vy6-0j-HS1">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="BVL-zV-k8Y" kind="relationship" relationship="rootViewController" id="R68-z4-Lqz"/>
                     </connections>
@@ -1105,24 +1110,6 @@ Rating:</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H3r-QQ-Qmb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2609" y="1582"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="dNt-dz-02d">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="u8O-eb-3zo" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nXB-Bl-Vab">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="zSN-ng-Mms" kind="relationship" relationship="rootViewController" id="rfy-8b-Uu9"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZGW-v9-zkw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-942" y="1582"/>
         </scene>
     </scenes>
     <resources>
