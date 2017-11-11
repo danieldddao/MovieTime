@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import TMDBSwift
 
 class posterCell: UICollectionViewCell {
     
     @IBOutlet weak var imgView: UIImageView!
+    var movie: MovieMDB?
 
 }

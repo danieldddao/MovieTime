@@ -13,11 +13,13 @@ class MovieDetailsVC: UIViewController {
     @IBOutlet weak var posterImgView: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Import Data
-        titleLbl.text = "\(String(describing: clickedMovie!.title!))"
+        titleLbl.text = "\(clickedMovie?.title ?? "")"
+        
     }
 
 }
