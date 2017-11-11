@@ -23,11 +23,15 @@ var clickedMovie: MovieMDB?
 
 class MoviesTableViewController: UITableViewController {
 
-    let categories = ["Popular", "Drama", "Comedy"]
+    let categories = ["Popular", "Top Rated", "Drama", "Comedy", "Documentary", "Action"]
     
     var popularMovies = [MovieMDB]()
+    var topRatedMovies = [MovieMDB]()
     var dramaMovies = [MovieMDB]()
     var comedyMovies = [MovieMDB]()
+    var documentaryMovies = [MovieMDB]()
+    var horrorMovies = [MovieMDB]()
+    var actionMovies = [MovieMDB]()
     
     var genres = [Genre]()
     
@@ -63,8 +67,21 @@ class MoviesTableViewController: UITableViewController {
         MovieMDB.popular(TMDBBase.apiKey, language: "en", page: page){
             data, popMovies in
             if let movies = popMovies{
-                self.popularMovies.append(contentsOf: movies)                
+                self.popularMovies.append(contentsOf: movies)
                 self.genres.append(Genre(name: "Popular", movies: self.popularMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
+        
+        // Load Top Rated
+        MovieMDB.toprated(TMDBBase.apiKey, language: "en", page: page){
+            data, popMovies in
+            if let movies = popMovies{
+                self.topRatedMovies.append(contentsOf: movies)
+                self.genres.append(Genre(name: "Top Rated", movies: self.topRatedMovies))
                 
                 DispatchQueue.main.async {
                     self.tableView?.reloadData()
@@ -91,6 +108,45 @@ class MoviesTableViewController: UITableViewController {
             if let movieArr = movieArr{
                 self.comedyMovies.append(contentsOf: movieArr)
                 self.genres.append(Genre(name: "Comedy", movies: self.comedyMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
+        
+        // Load Documentary
+        DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: Double(page), vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: MovieGenres.Documentary.rawValue){
+            data, movieArr  in
+            if let movieArr = movieArr{
+                self.documentaryMovies.append(contentsOf: movieArr)
+                self.genres.append(Genre(name: "Documentary", movies: self.documentaryMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
+        
+        // Load Horror
+        DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: Double(page), vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: MovieGenres.Horror.rawValue){
+            data, movieArr  in
+            if let movieArr = movieArr{
+                self.horrorMovies.append(contentsOf: movieArr)
+                self.genres.append(Genre(name: "Horror", movies: self.horrorMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
+        
+        // Load Action
+        DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: Double(page), vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: MovieGenres.Action.rawValue){
+            data, movieArr  in
+            if let movieArr = movieArr{
+                self.actionMovies.append(contentsOf: movieArr)
+                self.genres.append(Genre(name: "Action", movies: self.actionMovies))
                 
                 DispatchQueue.main.async {
                     self.tableView?.reloadData()

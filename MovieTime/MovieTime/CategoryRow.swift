@@ -10,7 +10,9 @@ import UIKit
 import TMDBSwift
 
 class CategoryRow : UITableViewCell {
+    
     @IBOutlet weak var collectionView: UICollectionView!
+    
     var genre:Genre? = nil {
         didSet {
             collectionView.reloadData()
@@ -55,5 +57,12 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
             clickedMovie = movie
         }
     }
+    
+//    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath){
+//        if indexPath.item == popMoviesArray.count-1 {
+//            populatePosters(page: pageToLoad)
+//            pageToLoad += 1
+//        }
+//    }
     
 }
