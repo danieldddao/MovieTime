@@ -463,10 +463,13 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+        print("MovieDetailsVC loading")
+        self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+        
+        // get clicked movie id
+        self.movieId = (clickedMovie?.id)!
         
         self.youtubePlayerView = YTPlayerView()
         self.youtubePlayerView.delegate = self

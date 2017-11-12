@@ -7,14 +7,11 @@
 //
 
 import UIKit
+import TMDBSwift
 
 class posterCell: UICollectionViewCell {
     
-
     @IBOutlet weak var imgView: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
+    var movie: MovieMDB?
 
 }
