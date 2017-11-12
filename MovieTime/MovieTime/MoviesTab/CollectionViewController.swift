@@ -23,6 +23,7 @@ struct PopularMoviesPage: Codable {
 
 var popularMovies = [Int: Movie]()
 var clickedMovieId = 0
+var popularMoviesAsArray = [Int]()
 
 
 class CollectionViewController: UICollectionViewController {
@@ -31,7 +32,7 @@ class CollectionViewController: UICollectionViewController {
     var apiKey: String = "3cc9e662a8461532d3d5e5d722ef582b"
     
 
-    var popularMoviesAsArray = [Int]()
+    
     
 
     override func viewDidLoad() {
@@ -59,7 +60,8 @@ class CollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
         
         let baseUrlString = "http://image.tmdb.org/t/p/w185"
-        let movieID = self.popularMoviesAsArray[indexPath.row]
+        let movieID = popularMoviesAsArray[indexPath.row]
+        print(indexPath.row)
         let posterPath = "\(popularMovies[movieID]!.poster_path)"
         if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
             DispatchQueue.global().async {
@@ -79,7 +81,7 @@ class CollectionViewController: UICollectionViewController {
     
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieID = self.popularMoviesAsArray[indexPath.row]
+        let movieID = popularMoviesAsArray[indexPath.row]
         clickedMovieId = popularMovies[movieID]!.id
         print("in function id: \(clickedMovieId)")
         self.performSegue(withIdentifier: "gotoMovieDetailPage", sender: self)
@@ -100,8 +102,12 @@ class CollectionViewController: UICollectionViewController {
                 print("popularMoviesPage: \(popularMoviesPage)")
                 for movie in popularMoviesPage.results{
                     popularMovies[movie.id] = movie
+                    //print(movie.id)
                 }
-                self.popularMoviesAsArray = Array(popularMovies.keys)
+                
+                popularMoviesAsArray = Array(popularMovies.keys)
+                
+                print(popularMoviesAsArray)
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
@@ -110,6 +116,7 @@ class CollectionViewController: UICollectionViewController {
             }
 
             }.resume()
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

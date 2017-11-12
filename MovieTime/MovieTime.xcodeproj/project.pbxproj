@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */; };
+		2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */; };
+		2A0D07951FAFC79A00B0BB84 /* posterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */; };
+		2A0D07971FAFC8C500B0BB84 /* ListDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */; };
+		2A0D07991FAFD7F300B0BB84 /* AddToListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */; };
+		2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */; };
 		AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */; };
 		AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16C3FB1FA66477008F73B7 /* Review.swift */; };
 		AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */; };
@@ -39,6 +45,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListTableViewController.swift; path = MovieTime/ListTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPopupViewController.swift; path = MovieTime/ListPopupViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = posterTableCell.swift; path = MovieTime/posterTableCell.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListDetailTableViewController.swift; path = MovieTime/ListDetailTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddToListViewController.swift; path = MovieTime/AddToListViewController.swift; sourceTree = SOURCE_ROOT; };
+		2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecommendationCollectionViewController.swift; path = MovieTime/RecommendationCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		67305EE376C5002E28F45264 /* Pods_MovieTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB16C3F91FA6253B008F73B7 /* ReviewDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDB.swift; sourceTree = "<group>"; };
 		AB16C3FB1FA66477008F73B7 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
@@ -189,6 +201,11 @@
 		AB8A14A51FA51D1200B611F8 /* ListsTab */ = {
 			isa = PBXGroup;
 			children = (
+				2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */,
+				2A0D07941FAFC79A00B0BB84 /* posterTableCell.swift */,
+				2A0D07921FAFB08C00B0BB84 /* ListPopupViewController.swift */,
+				2A0D07961FAFC8C500B0BB84 /* ListDetailTableViewController.swift */,
+				2A0D07981FAFD7F300B0BB84 /* AddToListViewController.swift */,
 			);
 			path = ListsTab;
 			sourceTree = "<group>";
@@ -217,6 +234,7 @@
 		ABDB72B01F9D562800EE4AAA /* RecommendationsTab */ = {
 			isa = PBXGroup;
 			children = (
+				2A30D3F71FAACCC80095B56E /* RecommendationCollectionViewController.swift */,
 			);
 			path = RecommendationsTab;
 			sourceTree = "<group>";
@@ -379,12 +397,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */,
+				AB72A7EA1F9940A70007000C /* ViewController.swift in Sources */,
+				2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */,
 				AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */,
+				2A0D07971FAFC8C500B0BB84 /* ListDetailTableViewController.swift in Sources */,
+				2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */,
 				AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */,
 				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
 				AB9EEE3D1FB7BA680065A567 /* CollectionViewController.swift in Sources */,
 				AB7E54241FAE22FC007D4BEA /* CrewCell.swift in Sources */,
 				AB9EEE3C1FB7BA680065A567 /* MoviesTableViewController.swift in Sources */,
+				2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */,
 				AB16C3FC1FA66477008F73B7 /* Review.swift in Sources */,
 				AB30B31A1FB1217200FA35A1 /* CastCell.swift in Sources */,
 				AB9EEE3F1FB7BB070065A567 /* posterCell.swift in Sources */,
@@ -395,6 +418,10 @@
 				AB2D81541FB4AF57002D2056 /* MemberInfoVC.swift in Sources */,
 				ABCB81281FB5ECC600CA799B /* MemberMoviesCell.swift in Sources */,
 				ABCE15841FADF56200AF1FAA /* TMDBBase.swift in Sources */,
+				2A0D07991FAFD7F300B0BB84 /* AddToListViewController.swift in Sources */,
+				E13B01501F9EAA0F003E11F8 /* posterCell.swift in Sources */,
+				E13B014F1F9EAA0F003E11F8 /* CollectionViewController.swift in Sources */,
+				2A0D07951FAFC79A00B0BB84 /* posterTableCell.swift in Sources */,
 				AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */,
 				E197325F1FB61EC30056D46C /* SearchResultCell.swift in Sources */,
 				AB9EEE3B1FB7BA680065A567 /* CategoryRow.swift in Sources */,

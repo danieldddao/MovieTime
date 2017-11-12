@@ -27,13 +27,20 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     @IBOutlet weak var nativationItem: UINavigationItem!
     
+    @IBAction func addToList(_ sender: Any) {
+        let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SelectListID") as! AddToListViewController
+        self.addChildViewController(popupVC)
+        popupVC.view.frame = self.view.frame
+        self.view.addSubview(popupVC.view)
+        popupVC.didMove(toParentViewController: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "writeReviewMustLogin" {
             let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
             lsVC.alert = "Please login to write a review!"
         }
     }
-    
     //
     // Movie' Details
     //
