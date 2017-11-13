@@ -25,9 +25,21 @@ class recommender{
     var yearInterval:Double = 5
     var basicRecommendMovieId:[Int] = []
     init(completion:@escaping (_ recommender: recommender) -> ()) {
-        hisID = defaults.object(forKey: listNames[0]) as! [Int]
-        watchedID = defaults.object(forKey: listNames[1]) as! [Int]
-        favoID = defaults.object(forKey: listNames[2]) as! [Int]
+        if defaults.object(forKey: listNames[0]) == nil{
+            hisID = []
+        }else{
+            hisID = defaults.object(forKey: listNames[0]) as! [Int]
+        }
+        if defaults.object(forKey: listNames[1]) == nil{
+            watchedID = []
+        }else{
+            watchedID = defaults.object(forKey: listNames[1]) as! [Int]
+        }
+        if defaults.object(forKey: listNames[2]) == nil{
+            favoID = []
+        }else{
+            favoID = defaults.object(forKey: listNames[2]) as! [Int]
+        }
         GenresMDB.genres(TMDBBase.apiKey, listType: .movie, language: "en"){
             apiReturn, genres in
             if let genres = genres{
@@ -91,6 +103,7 @@ class recommender{
                     
                 }
                 
+                
             }
         }
         
@@ -102,15 +115,19 @@ class recommender{
         let timeInterval:Double = yearInterval*365*24*3600
         
         // discretize date
-        for i in 0...self.hisFeature.count-1{
-            let discreteDate = Int(self.hisFeature[i].1/timeInterval)
-            //print(discreteDate)
-            self.hisDiscreteDate.append(discreteDate)
+        if self.hisFeature.count > 0{
+            for i in 0...self.hisFeature.count-1{
+                let discreteDate = Int(self.hisFeature[i].1/timeInterval)
+                //print(discreteDate)
+                self.hisDiscreteDate.append(discreteDate)
+            }
         }
-        for i in 0...self.favoFeature.count-1{
-            let discreteDate = Int(self.favoFeature[i].1/timeInterval)
-            //print(discreteDate)
-            self.favoDiscreteDate.append(discreteDate)
+        if self.favoFeature.count > 0{
+            for i in 0...self.favoFeature.count-1{
+                let discreteDate = Int(self.favoFeature[i].1/timeInterval)
+                //print(discreteDate)
+                self.favoDiscreteDate.append(discreteDate)
+            }
         }
         
     }
