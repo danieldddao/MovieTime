@@ -19,10 +19,11 @@ class ListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         if defaults.object(forKey: "ListNames") == nil{
-            listNames = ["Watched","Favorite top 100"]
+            listNames = ["Explored History","Watched","Favorite top 100"]
         }else{
             print("stored list names")
             listNames = defaults.object(forKey: "ListNames") as! [String]
+            //defaults.removeObject(forKey: "ListNames")
         }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -107,7 +108,8 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         
-        if indexPath.row > 1{
+        if indexPath.row > 2{
+            // top 3 lists are fixed
             return true
         }else{
             return false
@@ -134,12 +136,15 @@ class ListTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             if indexPath.row > 1{
+                let listName = self.listNames[indexPath.row]
+                defaults.removeObject(forKey: listName)
                 self.listNames.remove(at: indexPath.row)
                 self.listNum -= 1
                 print(self.listNames)
                 self.tableView.deleteRows(at: [indexPath], with: .fade)
             }
             defaults.set(self.listNames, forKey: "ListNames")
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
              let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ListPopupID") as! ListPopupViewController

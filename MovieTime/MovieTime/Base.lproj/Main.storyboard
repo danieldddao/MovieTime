@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qpl-aH-UWy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qpl-aH-UWy">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -48,7 +48,6 @@
                                                         <rect key="frame" x="136" y="8" width="270" height="90"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
-                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                         <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <size key="shadowOffset" width="0.0" height="-0.5"/>
@@ -1326,7 +1325,7 @@ Rating:</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F5c-SN-7XN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1874" y="1582"/>
+            <point key="canvasLocation" x="1873.913043478261" y="1581.521739130435"/>
         </scene>
         <!--List Popup View Controller-->
         <scene sceneID="1jZ-RP-s7K">
@@ -1423,6 +1422,6 @@ Rating:</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="NHv-EK-yD2"/>
+        <segue reference="zfE-35-8D2"/>
     </inferredMetricsTieBreakers>
 </document>

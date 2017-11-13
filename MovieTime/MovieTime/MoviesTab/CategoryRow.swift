@@ -34,6 +34,7 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
         
         if !(movie.poster_path == nil){
             let posterPath = "\(movie.poster_path!)"
+            //print("\(TMDBBase.imageURL)\(posterPath)")
             if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
                 DispatchQueue.global().async {
                     let data = try? Data(contentsOf: imageURL)
@@ -55,6 +56,7 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movie = genre?.movies[indexPath.row]{
             clickedMovie = movie
+            clickedMovieId = movie.id!
         }
     }
     

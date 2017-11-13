@@ -23,7 +23,7 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             listMovieID = defaults.object(forKey: listName) as! [Int]
         }
         // add clickedMovieId to the list
-        listMovieID.append(clickedMovieId)
+        listMovieID.append((clickedMovie?.id)!)
         // exclude duplicated ID
         listMovieID = Array(Set(listMovieID))
         print(listMovieID)
@@ -42,8 +42,12 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         }else{
             
             listNames = defaults.object(forKey: "ListNames") as! [String]
+            if listNames[0] == "Explored History" {
+                self.listNames.remove(at: 0)
+            }
             print(listNames)
         }
+        
         
         // Do any additional setup after loading the view.
         //self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)

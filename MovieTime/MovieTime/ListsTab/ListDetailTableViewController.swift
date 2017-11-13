@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TMDBSwift
 
 class ListDetailTableViewController: UITableViewController {
     var listName:String = ""
@@ -43,6 +44,7 @@ class ListDetailTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(listMovieId.count)
         return listMovieId.count
     }
 
@@ -51,18 +53,32 @@ class ListDetailTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath) as! posterTableCell
 
         // Configure the cell...
-        let baseUrlString = "http://image.tmdb.org/t/p/w185"
+        
         let movieID = self.listMovieId[indexPath.row]
-        let posterPath = "\(popularMovies[movieID]!.poster_path)"
-        let title = popularMovies[movieID]!.title
-        if let imageURL = URL(string:"\(baseUrlString)\(posterPath)"){
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: imageURL)
-                if let data = data {
-                    let image = UIImage(data: data)
-                    DispatchQueue.main.async {
-                        cell.imgView.image = image
-                        cell.title.text = title
+        var posterPath = ""
+        var title = ""
+        print(movieID)
+        MovieMDB.movie(TMDBBase.apiKey, movieID: movieID, language: "en"){
+            apiReturn, movie in
+            if let movie = movie{
+                posterPath = "\(movie.poster_path!)"
+                title = movie.title!
+                print(title)
+                //print(posterPath)
+                
+            }
+            
+            print("\(TMDBBase.imageURL)\(posterPath)")
+            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: imageURL)
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        DispatchQueue.main.async {
+                            cell.imgView.image = image
+                            cell.title.text = title
+                            print(cell.title.text!)
+                        }
                     }
                 }
             }
@@ -112,16 +128,33 @@ class ListDetailTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "ShowMovieDetail"{
             let cell=sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell){
                 clickedMovieId = self.listMovieId[indexPath.row]
+                print(clickedMovieId)
                 self.tableView.deselectRow(at: indexPath, animated: true)
             }
         }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
+    /*
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        clickedMovieId = self.listMovieId[indexPath.row]
+        print("did select:\(clickedMovieId)")
+        MovieMDB.movie(TMDBBase.apiKey, movieID: clickedMovieId, language: "en"){
+            apiReturn, movie in
+            if let movie = movie{
+                clickedMovie = movie
+                
+            }
+        }
+        return indexPath
+    }
+    */
+    
 
     override func viewWillDisappear(_ animated: Bool) {
         defaults.set(listMovieId, forKey: listName)

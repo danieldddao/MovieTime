@@ -24,6 +24,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     var movieId: Int = 141052
     var currentUser:User? = nil
+    let defaults = UserDefaults.standard
     
     @IBOutlet weak var nativationItem: UINavigationItem!
     
@@ -476,7 +477,22 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         
         // get clicked movie id
-        self.movieId = (clickedMovie?.id)!
+        self.movieId = clickedMovieId
+        var historyMovieID:[Int] = []
+        // deal with user explored history
+        //defaults.removeObject(forKey: "Explored History")
+        if defaults.object(forKey: "Explored History") == nil{
+            historyMovieID = []
+        }else{
+            historyMovieID = defaults.object(forKey: "Explored History") as! [Int]
+        }
+        historyMovieID.insert(self.movieId, at: 0)
+        // only care about 50 history records
+        if historyMovieID.count > 50 {
+            historyMovieID.remove(at: 50)
+        }
+        defaults.set(historyMovieID, forKey: "Explored History")
+        
         
         self.youtubePlayerView = YTPlayerView()
         self.youtubePlayerView.delegate = self
