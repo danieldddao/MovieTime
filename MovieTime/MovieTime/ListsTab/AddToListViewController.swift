@@ -23,7 +23,8 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             listMovieID = defaults.object(forKey: listName) as! [Int]
         }
         // add clickedMovieId to the list
-        listMovieID.append((clickedMovie?.id)!)
+        print(clickedMovieId)
+        listMovieID.append(clickedMovieId)
         // exclude duplicated ID
         listMovieID = Array(Set(listMovieID))
         print(listMovieID)

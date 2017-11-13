@@ -20,6 +20,7 @@ class Genre {
 }
 
 var clickedMovie: MovieMDB?
+var clickedMovieId = 0
 
 class MoviesTableViewController: UITableViewController {
 
