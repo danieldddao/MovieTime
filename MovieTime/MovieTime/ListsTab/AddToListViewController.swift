@@ -24,10 +24,16 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         }
         // add clickedMovieId to the list
         print(clickedMovieId)
-        listMovieID.append(clickedMovieId)
+        if listName == "Favorite top 100" && listMovieID.count >= 100{
+            // can't add more
+            // consider to popup an alert later
+        }else{
+            listMovieID.append(clickedMovieId)
+        }
         // exclude duplicated ID
         listMovieID = Array(Set(listMovieID))
         print(listMovieID)
+        
         defaults.set(listMovieID, forKey: listName)
         removeAnimate()
         
@@ -45,6 +51,7 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             listNames = defaults.object(forKey: "ListNames") as! [String]
             if listNames[0] == "Explored History" {
                 self.listNames.remove(at: 0)
+                // doesn't provide add to history
             }
             print(listNames)
         }
