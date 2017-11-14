@@ -204,7 +204,7 @@ class recommender{
             let date2 = Date.init(timeInterval: Double(j+1)*yearInterval*365*24*3600, since: startDate!)
             let date2str = dateFormatter.string(from: date2)
             
-            DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey, language: "EN", page: 1, primary_release_date_gte: "\(date1str)", primary_release_date_lte: "\(date2str)", with_genres: "\(recommendGenre!)"){
+            DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey, language: "EN", page: 2, primary_release_date_gte: "\(date1str)", primary_release_date_lte: "\(date2str)", with_genres: "\(recommendGenre!)"){
             //DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: 1, vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: "\(recommendGenre!)"){
                 
                 data, movieArr  in
