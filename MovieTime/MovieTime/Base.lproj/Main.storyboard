@@ -852,7 +852,7 @@ Rating:</string>
             </objects>
             <point key="canvasLocation" x="-307.24637681159425" y="1864.4021739130437"/>
         </scene>
-        <!--Recommendation Collection View Controller-->
+        <!--Recommendations-->
         <scene sceneID="1WO-Xi-ARk">
             <objects>
                 <collectionViewController id="AV1-JT-swV" customClass="RecommendationCollectionViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
@@ -896,7 +896,18 @@ Rating:</string>
                             <outlet property="delegate" destination="AV1-JT-swV" id="E5M-yg-7AE"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="OY3-MZ-s7Q"/>
+                    <navigationItem key="navigationItem" title="Recommendations" id="OY3-MZ-s7Q">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="c67-9f-tAx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="krN-T1-uyw">
+                                <rect key="frame" x="341" y="7" width="53" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="refresh:" destination="AV1-JT-swV" eventType="touchUpInside" id="g38-Go-FJd"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1M-7i-9p5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1422,6 +1433,6 @@ Rating:</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="zfE-35-8D2"/>
+        <segue reference="XlI-j7-kUt"/>
     </inferredMetricsTieBreakers>
 </document>

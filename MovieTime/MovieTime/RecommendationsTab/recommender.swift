@@ -206,6 +206,9 @@ class recommender{
             
             DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey, language: "EN", page: 2, primary_release_date_gte: "\(date1str)", primary_release_date_lte: "\(date2str)", with_genres: "\(recommendGenre!)"){
             //DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: 1, vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: "\(recommendGenre!)"){
+                //-------------------------------------------
+                // bug: find a way to continue query if not reach the budget.
+                //-------------------------------------------
                 
                 data, movieArr  in
                 if let movieArr = movieArr{

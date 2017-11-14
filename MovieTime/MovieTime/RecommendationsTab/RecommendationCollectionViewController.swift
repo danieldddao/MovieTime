@@ -17,10 +17,27 @@ class RecommendationCollectionViewController: UICollectionViewController {
     var apiKey: String = "3cc9e662a8461532d3d5e5d722ef582b"
     
     
+    
     var recommendMovieId = [Int]()
     var myRecommender:recommender?
     var recommendMovie:[Int:MovieMDB] = [:]
-    
+    @IBAction func refresh(_ sender: Any) {
+        myRecommender = recommender(){
+            (recommender:recommender) -> () in
+            let myRecommender = recommender
+            myRecommender.preprocessing(yearInterval: 5)
+            myRecommender.basicVotingRecommend(movieNum: 20){
+                (basicRecommendMovieId:[Int]) -> () in
+                let tmpId = basicRecommendMovieId
+                print("-----------------------------")
+                print("get basic voting")
+                print(tmpId)
+                self.recommendMovieId = tmpId
+                print(self.recommendMovieId)
+                self.collectionView?.reloadData()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
