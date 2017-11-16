@@ -40,6 +40,10 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         if segue.identifier == "writeReviewMustLogin" {
             let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
             lsVC.alert = "Please login to write a review!"
+        } else if segue.identifier == "movieToPersonInfo" {
+            let personVC:PersonInfoVC = segue.destination as! PersonInfoVC
+            personVC.tableTitle = personInfoTableTitle
+            personVC.personId = personInfoId
         }
     }
     //
@@ -70,7 +74,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var castMembers: [MovieCastMDB] = []
     var genres: [genresType] = []
     public typealias genresType = (id: Int?, name: String?)
-
+    var personInfoTableTitle:String!
+    var personInfoId:Int!
+    
     // Set headers
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if collectionView == castCollectionView {
@@ -114,13 +120,13 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == castCollectionView {
             let member = castMembers[indexPath.row]
-//            print("cell for cast member: \(member.name)")
+            //            print("cell for cast member: \(member.name)")
             let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "castCell", for: indexPath) as! CastCell
             cell.castImage.image = UIImage(named: "emptyCast")
             cell.castName.text = member.name
             cell.castRole.text = member.character
             cell.castId = member.cast_id
-//            print("cast: \(member.name) \(member.profile_path)")
+            //            print("cast: \(member.name) \(member.profile_path)")
             if member.profile_path != nil {
                 if let castImageUrl = URL(string: "\(TMDBBase.imageURL)\(member.profile_path!)"){
                     let data = try? Data(contentsOf: castImageUrl)
@@ -135,7 +141,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             return cell
         } else if collectionView == crewCollectionView {
             let member = crewMembers[indexPath.row]
-//            print("cell for crew member: \(member.name)")
+            //            print("cell for crew member: \(member.name)")
             let cell = crewCollectionView.dequeueReusableCell(withReuseIdentifier: "crewCell", for: indexPath) as! CrewCell
             cell.jobLabel.text = member.job
             cell.departmentLabel.text = member.department
@@ -144,7 +150,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             return cell
         } else {
             let genre = genres[indexPath.row]
-//            print("cell for genre: \(member.name)")
+            //            print("cell for genre: \(member.name)")
             let cell = genresCollectionView.dequeueReusableCell(withReuseIdentifier: "genreCell", for: indexPath) as! GenreCell
             cell.genreLabel.text = genre.name!
             return cell
@@ -154,23 +160,16 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     // Tap on a crew or cast
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == castCollectionView || collectionView == crewCollectionView {
-//            print("cast/crew cell selected: \(indexPath.row)")
-            // Create a custom review & rating view controller
-            let memberInfoVC = MemberInfoVC(nibName: "MemberInfoVC", bundle: nil)
+            //            print("cast/crew cell selected: \(indexPath.row)")
             if collectionView == castCollectionView {
                 let cast = castMembers[indexPath.row]
-                memberInfoVC.memberId = cast.id
-                memberInfoVC.tableTitle = "Appeared in:"
+                personInfoId = cast.id
+                personInfoTableTitle = "Appeared in:"
             } else {
-                memberInfoVC.memberId = crewMembers[indexPath.row].id
-                memberInfoVC.tableTitle = "In Movies:"
+                personInfoId = crewMembers[indexPath.row].id
+                personInfoTableTitle = "In Movies:"
             }
-            
-            // Create the dialog
-            let popup = PopupDialog(viewController: memberInfoVC, buttonAlignment: .vertical, transitionStyle: .bounceDown, gestureDismissal: true)
-            
-            // Create the dialog
-//            self.present(popup, animated: true, completion: nil)
+            self.performSegue(withIdentifier: "movieToPersonInfo", sender: self)
         }
     }
     
@@ -197,7 +196,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             } else {
                 // show activity indicator
                 self.startAnimating(nil, message: "Loading Trailer", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: nil, textColor: nil)
-
+                
                 self.youtubePlayerView.load(withVideoId: youtubetrailerID!)
             }
         }
@@ -242,7 +241,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                             let cgimg = context.createCGImage(output!, from: output!.extent)
                             let processedImage = UIImage(cgImage: cgimg!).alpha(0.5)
                             
-//                            print("image darkness:\(processedImage.isDark)")
+                            //                            print("image darkness:\(processedImage.isDark)")
                             self.movieDetailView.image = processedImage
                             
                             self.stopAnimating()
@@ -263,7 +262,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 } else {
                     self.overviewTextView.text = "Overview:\n\(movie.overview!)"
                 }
-
+                
                 if movie.vote_average == nil {
                     self.userScoreIndicator.value = CGFloat(0)
                 } else {
@@ -335,7 +334,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 } else {
                     self.adultLabel.text = "For Adult:\nNo"
                 }
-
+                
                 self.taglineLabel.text = "Tagline:\n\(movie.tagline!)"
                 self.homepage = movie.homepage
                 
@@ -399,32 +398,31 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     func showWriteReviewPopup() {
         // Create a custom review & rating view controller
         let ratingVC = ReviewRatingVC(nibName: "ReviewRatingVC", bundle: nil)
-
+        
         // Create the dialog
         let popup = PopupDialog(viewController: ratingVC, buttonAlignment: .horizontal, transitionStyle: .bounceUp, gestureDismissal: true)
         
         // Create cancel button
         let cancelButton = CancelButton(title: "CANCEL", height: 50) {
         }
-
+        
         // Create submit button
         let submitButton = DestructiveButton(title: "SUBMIT", height: 50) {
             if (ratingVC.reviewTextView.text.isEmpty) {
                 ratingVC.alertLabel.text = "Review can't be empty!"
             } else {
                 popup.dismiss()
-
+                
                 // Add review to the database
                 if (self.currentUser != nil) {
                     let review = Review(userEmail: self.currentUser!.email!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
                     self.addReviewToDatabase(review: review)
-                } else {
-
+                    self.checkIfCurrentUserPostedReview()
                 }
             }
         }
         submitButton.dismissOnTap = false
-
+        
         // Add buttons to dialog
         popup.addButtons([cancelButton, submitButton])
         
@@ -509,7 +507,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         genresCollectionView.backgroundColor = UIColor.clear
         layout = genresCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
-                
+        
         // Create a reference to Firebase database
         self.ref = Database.database().reference()
         
@@ -520,7 +518,6 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.loadMovieDetails()
         
         self.loadReviewsToReviewTable()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -534,5 +531,3 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.loadAvgRating()
     }
 }
-
-

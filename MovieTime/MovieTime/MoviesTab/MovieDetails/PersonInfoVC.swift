@@ -10,7 +10,7 @@ import UIKit
 import Material
 import TMDBSwift
 
-class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
+class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -23,7 +23,7 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
     @IBOutlet weak var tableLabel: UILabel!
     @IBOutlet weak var movieTableView: UITableView!
     
-    var memberId:Int!
+    var personId:Int!
     var tableTitle:String!
     var castMovies:[PersonMovieCast] = []
     var crewMovies:[PersonMovieCrew] = []
@@ -37,11 +37,12 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
             return crewMovies.count
         }
     }
-    
     func tableView(_ movieTableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.movieTableView.dequeueReusableCell(withIdentifier: "personMoviesCell", for: indexPath) as! PersonMoviesCell
+        cell.movieImage.image = UIImage(named: "emptyPoster")
+
         if tableTitle == "Appeared in:" {
             let movie = castMovies[indexPath.row]
-            let cell = self.movieTableView.dequeueReusableCell(withIdentifier: "memberMoviesCell", for: indexPath) as! MemberMoviesCell
             let releaseDate = movie.release_date
             if releaseDate != nil && releaseDate != "" {
                 let releaseYear = releaseDate![..<(releaseDate!.index(of: "-")!)]
@@ -49,8 +50,7 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
             } else {
                 cell.movieTitleLabel.text = "\(movie.title!)"
             }
-            cell.movieImage.image = UIImage(named: "emptyPoster")
-            cell.memberLabel.text = "as \(movie.character!)"
+            cell.characterLabel.text = "as \(movie.character!)"
             if movie.poster_path != nil {
                 if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
                     let data = try? Data(contentsOf: posterUrl)
@@ -62,10 +62,8 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
                     }
                 }
             }
-            return cell
         } else {
             let movie = crewMovies[indexPath.row]
-            let cell = self.movieTableView.dequeueReusableCell(withIdentifier: "memberMoviesCell", for: indexPath) as! MemberMoviesCell
             let releaseDate = movie.release_date
             if releaseDate != nil && releaseDate != "" {
                 let releaseYear = releaseDate![..<(releaseDate!.index(of: "-")!)]
@@ -73,8 +71,7 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
             } else {
                 cell.movieTitleLabel.text = "\(movie.title!)"
             }
-            cell.movieImage.image = UIImage(named: "emptyPoster")
-            cell.memberLabel.text = "\(movie.job!)"
+            cell.characterLabel.text = "\(movie.job!)"
             if movie.poster_path != nil {
                 if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
                     let data = try? Data(contentsOf: posterUrl)
@@ -86,20 +83,29 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
                     }
                 }
             }
-            return cell
         }
+        return cell
     }
-
+    // Select a movie, go to detail page of that movie
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // movie from cast's movies
+        if tableTitle == "Appeared in:" {
+            clickedMovieId = castMovies[indexPath.row].id
+        } else {
+            clickedMovieId = crewMovies[indexPath.row].id
+        }
+        self.performSegue(withIdentifier: "personToMovieDetails", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.movieTableView.register(UINib(nibName: "MemberMoviesCell", bundle: nil), forCellReuseIdentifier: "memberMoviesCell")
         
-        print ("loading member \(memberId!)")
+        print ("loading member \(personId!)")
         tableLabel.text = tableTitle
         movieTableView.backgroundColor = UIColor.clear
         movieTableView.tableHeaderView = nil
         
-        PersonMDB.person_id(TMDBBase.apiKey, personID: memberId){
+        PersonMDB.person_id(TMDBBase.apiKey, personID: personId){
             data, personData in
             if let person = personData{
                 if person.profile_path != nil {
@@ -159,7 +165,7 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
         }
         
         if tableTitle == "Appeared in:" {
-            PersonMDB.movie_credits(TMDBBase.apiKey, personID: memberId!, language: "en"){
+            PersonMDB.movie_credits(TMDBBase.apiKey, personID: personId!, language: "en"){
                 data, credits in
                 if let d = credits{
                     let casts = d.cast.sorted(by: { $0.id < $1.id })
@@ -173,7 +179,7 @@ class MemberInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
                 }
             }
         } else {
-            PersonMDB.movie_credits(TMDBBase.apiKey, personID: memberId!, language: "en"){
+            PersonMDB.movie_credits(TMDBBase.apiKey, personID: personId!, language: "en"){
                 data, credits in
                 if let d = credits{
                     let crews = d.crew.sorted(by: { $0.id < $1.id })
