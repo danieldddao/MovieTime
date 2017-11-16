@@ -11,6 +11,6 @@ import Foundation
 class TMDBBase {
     static let apiKey = "3cc9e662a8461532d3d5e5d722ef582b"
     static let baseURL = "api.themoviedb.org/3/movie/"
-    static let imageURL = "https://image.tmdb.org/t/p/w500"
+    static let imageURL = "https://image.tmdb.org/t/p/w300"
     
 }

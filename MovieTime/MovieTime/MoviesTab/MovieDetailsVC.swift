@@ -220,31 +220,32 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             if let movie = movie {
                 
                 // Show poster and background
-                if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
-                    let data = try? Data(contentsOf: posterUrl)
-                    if let data = data {
-                        DispatchQueue.main.async {
-                            let image = UIImage(data: data)!
-                            self.posterImage.image = image
-                            
-                            // Add blur effect to image
-                            let context = CIContext(options: nil)
-                            let currentFilter = CIFilter(name: "CIGaussianBlur")
-                            let beginImage = CIImage(image: image)
-                            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-                            currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
-                            
-                            let cropFilter = CIFilter(name: "CICrop")
-                            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
-                            cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
-                            let output = cropFilter!.outputImage
-                            let cgimg = context.createCGImage(output!, from: output!.extent)
-                            let processedImage = UIImage(cgImage: cgimg!).alpha(0.5)
-                            
-                            //                            print("image darkness:\(processedImage.isDark)")
-                            self.movieDetailView.image = processedImage
-                            
-                            self.stopAnimating()
+                if movie.poster_path != nil {
+                    if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
+                        let data = try? Data(contentsOf: posterUrl)
+                        if let data = data {
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: data)!
+                                self.posterImage.image = image
+                                
+                                // Add blur effect to image
+                                let context = CIContext(options: nil)
+                                let currentFilter = CIFilter(name: "CIGaussianBlur")
+                                let beginImage = CIImage(image: image)
+                                currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+                                currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+                                
+                                let cropFilter = CIFilter(name: "CICrop")
+                                cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+                                cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+                                let output = cropFilter!.outputImage
+                                let cgimg = context.createCGImage(output!, from: output!.extent)
+                                let processedImage = UIImage(cgImage: cgimg!).alpha(0.5)
+                                
+                                self.movieDetailView.image = processedImage
+                                
+                                self.stopAnimating()
+                            }
                         }
                     }
                 }
@@ -335,7 +336,10 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.adultLabel.text = "For Adult:\nNo"
                 }
                 
-                self.taglineLabel.text = "Tagline:\n\(movie.tagline!)"
+                if movie.tagline != nil {
+                    self.taglineLabel.text = "Tagline:\n\(movie.tagline!)"
+                }
+                
                 self.homepage = movie.homepage
                 
                 for genre in movie.genres {
@@ -346,8 +350,6 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                         }
                     }
                 }
-            } else {
-                // Default details
             }
         }
         
@@ -374,6 +376,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     //
     // Reviews And Ratings
+    //
+    // code to connect to the database in ReviewDB.swift
     //
     var ref: DatabaseReference!
     var alert: CDAlertView!
@@ -476,6 +480,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         
         // get clicked movie id
         self.movieId = clickedMovieId
+        
         var historyMovieID:[Int] = []
         // deal with user explored history
         //defaults.removeObject(forKey: "Explored History")

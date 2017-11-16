@@ -9,9 +9,11 @@
 import UIKit
 import Material
 import TMDBSwift
+import NVActivityIndicatorView
 
-class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
+class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource, NVActivityIndicatorViewable {
     
+    @IBOutlet var backgroundImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet var biographyLabel: TextView!
@@ -29,7 +31,7 @@ class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
     var crewMovies:[PersonMovieCrew] = []
 
     var dataSourceItems: [DataSourceItem] = []
-    
+
     func tableView(_ movieTableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableTitle == "Appeared in:" {
             return castMovies.count
@@ -101,6 +103,8 @@ class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
         super.viewDidLoad()
         
         print ("loading member \(personId!)")
+        self.startAnimating()
+        
         tableLabel.text = tableTitle
         movieTableView.backgroundColor = UIColor.clear
         movieTableView.tableHeaderView = nil
@@ -116,9 +120,31 @@ class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
                                 let image = UIImage(data: data)!
                                 self.imageView.image = image
                             }
+                            
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: data)!
+                                
+                                // Add blur effect to image
+                                let context = CIContext(options: nil)
+                                let currentFilter = CIFilter(name: "CIGaussianBlur")
+                                let beginImage = CIImage(image: image)
+                                currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+                                currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+                                
+                                let cropFilter = CIFilter(name: "CICrop")
+                                cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+                                cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+                                let output = cropFilter!.outputImage
+                                let cgimg = context.createCGImage(output!, from: output!.extent)
+                                let processedImage = UIImage(cgImage: cgimg!).alpha(0.3)
+                                self.backgroundImage.image = processedImage
+                                
+                                self.stopAnimating()
+                            }
                         }
                     }
                 }
+                
                 self.nameLabel.text = person.name
                 if person.biography == nil {
                     self.biographyLabel.text = "Biography:\n-"

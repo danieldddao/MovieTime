@@ -28,11 +28,11 @@
             <objects>
                 <viewController title="Movie Detail" id="zSN-ng-Mms" customClass="MovieDetailsVC" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="edq-rB-NOY">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1317"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1430"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igS-Od-lNc">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="1317"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="1410"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDU-O7-2YP" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1307"/>
@@ -809,7 +809,6 @@ Rating:</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yDU-O7-2YP" firstAttribute="width" secondItem="edq-rB-NOY" secondAttribute="width" id="4uS-EL-jkq"/>
-                            <constraint firstItem="igS-Od-lNc" firstAttribute="height" secondItem="edq-rB-NOY" secondAttribute="height" id="IUK-kF-fSj"/>
                             <constraint firstItem="yDU-O7-2YP" firstAttribute="height" secondItem="edq-rB-NOY" secondAttribute="height" priority="250" id="k3c-7F-DKj"/>
                             <constraint firstItem="igS-Od-lNc" firstAttribute="trailing" secondItem="Tle-Ba-BDX" secondAttribute="trailing" id="lGR-Nd-2wD"/>
                             <constraint firstItem="igS-Od-lNc" firstAttribute="bottom" secondItem="Tle-Ba-BDX" secondAttribute="bottom" id="nHc-zR-Jdf"/>
@@ -846,7 +845,7 @@ Rating:</string>
                         <outlet property="userScoreIndicator" destination="Ts6-X6-U0N" id="gxb-ra-LUG"/>
                         <outlet property="writeReviewButton" destination="aGi-Tf-n3x" id="VKs-YK-ci0"/>
                         <segue destination="gaM-EE-6Vx" kind="show" identifier="writeReviewMustLogin" id="H36-1G-F3g"/>
-                        <segue destination="Wh6-OD-2J2" kind="show" id="Ov6-Xe-J0F"/>
+                        <segue destination="Wh6-OD-2J2" kind="show" identifier="movieToPersonInfo" id="Ov6-Xe-J0F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yOA-A0-fjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -857,7 +856,7 @@ Rating:</string>
         <scene sceneID="dM0-7N-fya">
             <objects>
                 <viewController id="Wh6-OD-2J2" customClass="PersonInfoVC" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Op2-1z-1hy">
+                    <view key="view" contentMode="scaleToFill" id="Op2-1z-1hy" customClass="UIImageView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -922,7 +921,7 @@ Male</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="As Known As:" textAlignment="center" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ziH-RA-M6G" customClass="TextView" customModule="Material">
-                                <rect key="frame" x="0.0" y="524" width="130" height="212"/>
+                                <rect key="frame" x="0.0" y="524" width="130" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
@@ -933,10 +932,10 @@ Male</string>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8QP-Ze-O1s" customClass="TableView" customModule="Material">
-                                <rect key="frame" x="138" y="297" width="276" height="439"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8QP-Ze-O1s" customClass="TableView" customModule="Material">
+                                <rect key="frame" x="138" y="297" width="276" height="390"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="personMoviesCell" rowHeight="100" id="Hi5-Ks-fFe" customClass="PersonMoviesCell" customModule="MovieTime" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.333333333333336" width="276" height="100"/>
@@ -973,6 +972,7 @@ Male</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="characterLabel" destination="BBR-aM-JiZ" id="p1Y-2G-zXu"/>
                                             <outlet property="movieImage" destination="Qsy-ID-CF6" id="lzs-m4-2M0"/>
@@ -980,6 +980,10 @@ Male</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wh6-OD-2J2" id="m8c-WQ-z0b"/>
+                                    <outlet property="delegate" destination="Wh6-OD-2J2" id="66w-3E-9qd"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3R-rE-4Lc">
                                 <rect key="frame" x="0.0" y="356" width="130" height="116"/>
@@ -997,6 +1001,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                     <navigationItem key="navigationItem" title="Information" id="Wq6-fL-0ii"/>
                     <connections>
                         <outlet property="akaTextView" destination="ziH-RA-M6G" id="OUu-mX-E13"/>
+                        <outlet property="backgroundImage" destination="Op2-1z-1hy" id="rIV-Gy-3NF"/>
                         <outlet property="biographyLabel" destination="2PU-nI-MpH" id="pHD-6U-wFn"/>
                         <outlet property="birthdayLabel" destination="XGJ-en-51V" id="OwA-Vj-HtS"/>
                         <outlet property="deathdayLabel" destination="h05-tn-l7k" id="flp-g1-xwh"/>
@@ -1006,11 +1011,12 @@ Kingston upon Thames, Surrey, England, UK</string>
                         <outlet property="nameLabel" destination="KlI-77-pQd" id="aqg-ac-dYJ"/>
                         <outlet property="placeOfBirthLabel" destination="r3R-rE-4Lc" id="l6T-AY-OnC"/>
                         <outlet property="tableLabel" destination="jP4-mF-mIH" id="pNR-o1-wew"/>
+                        <segue destination="zSN-ng-Mms" kind="showDetail" identifier="personToMovieDetails" action="showViewController:sender:" id="7gi-gh-Je0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T1Y-Jp-8FI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-307.24637681159425" y="2913.5869565217395"/>
+            <point key="canvasLocation" x="-307" y="2971"/>
         </scene>
         <!--Recommendation Collection View Controller-->
         <scene sceneID="1WO-Xi-ARk">
@@ -1263,7 +1269,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hKq-Ft-Tj0">
-                                <rect key="frame" x="37" y="97" width="340" height="29"/>
+                                <rect key="frame" x="37" y="53" width="340" height="29"/>
                                 <color key="backgroundColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
                                 <segments>
                                     <segment title="LOGIN"/>
@@ -1582,6 +1588,6 @@ Kingston upon Thames, Surrey, England, UK</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="XlI-j7-kUt"/>
+        <segue reference="7gi-gh-Je0"/>
     </inferredMetricsTieBreakers>
 </document>
