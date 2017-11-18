@@ -35,7 +35,7 @@
 		ABCB81281FB5ECC600CA799B /* PersonMoviesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB81261FB5ECC600CA799B /* PersonMoviesCell.swift */; };
 		ABCE15821FADEEC300AF1FAA /* ImageDarknessDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE15811FADEEC300AF1FAA /* ImageDarknessDetection.swift */; };
 		ABCE15841FADF56200AF1FAA /* TMDBBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE15831FADF56100AF1FAA /* TMDBBase.swift */; };
-		ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB72AE1F9D560F00EE4AAA /* SettingsViewController.swift */; };
+		ABDB72AF1F9D560F00EE4AAA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */; };
 		ABEEA2641F996C7A00DF9943 /* Pods_MovieTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67305EE376C5002E28F45264 /* Pods_MovieTime.framework */; };
 		ABFBE9F21F99651100B64C5E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABFBE9F11F99651100B64C5E /* GoogleService-Info.plist */; };
 		E197325D1FB61CDC0056D46C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197325C1FB61CDC0056D46C /* SearchTableViewController.swift */; };
@@ -74,7 +74,7 @@
 		ABCB81261FB5ECC600CA799B /* PersonMoviesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMoviesCell.swift; sourceTree = "<group>"; };
 		ABCE15811FADEEC300AF1FAA /* ImageDarknessDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDarknessDetection.swift; sourceTree = "<group>"; };
 		ABCE15831FADF56100AF1FAA /* TMDBBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBBase.swift; sourceTree = "<group>"; };
-		ABDB72AE1F9D560F00EE4AAA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		ABFBE9F11F99651100B64C5E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B87750A8105A97ADAB51FDB7 /* Pods-MovieTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieTime/Pods-MovieTime.debug.xcconfig"; sourceTree = "<group>"; };
 		DFA433B8C2F01BC6817D7245 /* Pods-MovieTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieTime/Pods-MovieTime.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		AB16C3FD1FA66F5E008F73B7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				ABDB72AE1F9D560F00EE4AAA /* SettingsViewController.swift */,
+				ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */,
 				AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */,
 			);
 			path = Settings;
@@ -395,7 +395,7 @@
 				2A0D07971FAFC8C500B0BB84 /* ListDetailTableViewController.swift in Sources */,
 				2A30D3F81FAACCC80095B56E /* RecommendationCollectionViewController.swift in Sources */,
 				AB16C3FA1FA6253B008F73B7 /* ReviewDB.swift in Sources */,
-				ABDB72AF1F9D560F00EE4AAA /* SettingsViewController.swift in Sources */,
+				ABDB72AF1F9D560F00EE4AAA /* SettingsVC.swift in Sources */,
 				AB7E54241FAE22FC007D4BEA /* CrewCell.swift in Sources */,
 				AB9EEE3C1FB7BA680065A567 /* MoviesTableViewController.swift in Sources */,
 				2A0D07931FAFB08C00B0BB84 /* ListPopupViewController.swift in Sources */,

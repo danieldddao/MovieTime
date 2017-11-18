@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.swift
+//  SettingsVC.swift
 //  MovieTime
 //
 //  Created by Daniel Dao on 10/22/17.
@@ -10,8 +10,10 @@ import UIKit
 import Material
 import FirebaseAuth
 
-class SettingsViewController: UIViewController {
+class SettingsVC: UITableViewController {
 
+//    @IBOutlet var notificationsSection: UITableViewSection!
+//    @IBOutlet var accountSection: UITableViewSection!
     @IBOutlet weak var lsOrLogoutButton: FlatButton!
     
     var currentUser:User? = nil
@@ -34,6 +36,10 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -41,11 +47,13 @@ class SettingsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         currentUser = Auth.auth().currentUser
+
         if currentUser != nil {
-            lsOrLogoutButton.title = "Log Out"
-        }
-        else {
-            lsOrLogoutButton.title = "Log In / Sign Up"
+            lsOrLogoutButton.titleColor = UIColor.red
+            lsOrLogoutButton.title = "Log out"
+        } else {
+            lsOrLogoutButton.titleColor = UIColor.black
+            lsOrLogoutButton.title = "Log in / Sign up"
         }
     }
     

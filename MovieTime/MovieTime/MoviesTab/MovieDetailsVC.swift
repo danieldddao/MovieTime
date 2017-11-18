@@ -46,6 +46,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             personVC.personId = personInfoId
         }
     }
+    
+    
     //
     // Movie' Details
     //
@@ -419,7 +421,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 
                 // Add review to the database
                 if (self.currentUser != nil) {
-                    let review = Review(userEmail: self.currentUser!.email!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
+                    let review = Review(userEmail: self.currentUser!.email!, userName: self.currentUser!.displayName!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
                     self.addReviewToDatabase(review: review)
                     self.checkIfCurrentUserPostedReview()
                 }
@@ -464,8 +466,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         let review = reviews[indexPath.section]
         print("Create cell for \(review.getUserEmail())")
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
-        let email = review.getUserEmail()
-        cell.usernameLabel.text = String(email[..<(email.index(of: "@")!)])
+        cell.usernameLabel.text = review.getUserName()
         cell.ratedDateLabel.text = "On \(review.getDate())"
         cell.userRating.value = CGFloat(review.getRating())
         cell.userComment.text = review.getComment()
