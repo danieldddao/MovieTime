@@ -1276,6 +1276,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Tjf-m7-kAv" customClass="TableViewCell" customModule="Material">
                                         <rect key="frame" x="0.0" y="375.33333333333337" width="414" height="44"/>
@@ -1439,6 +1440,14 @@ Kingston upon Thames, Surrey, England, UK</string>
                                     <action selector="LSControlChanged:" destination="gaM-EE-6Vx" eventType="valueChanged" id="qas-wA-tS4"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZD-Oj-4nJ">
+                                <rect key="frame" x="127" y="156" width="160" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Forgot your password?"/>
+                                <connections>
+                                    <action selector="forgotPasswordPressed:" destination="gaM-EE-6Vx" eventType="touchUpInside" id="NFc-fR-gjn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1452,13 +1461,14 @@ Kingston upon Thames, Surrey, England, UK</string>
                     <connections>
                         <outlet property="alertLabel" destination="BXE-Mt-sJX" id="FKR-16-k0D"/>
                         <outlet property="createButton" destination="WiD-HT-unb" id="FND-Uk-sIi"/>
+                        <outlet property="forgotPasswordBtn" destination="TZD-Oj-4nJ" id="JQe-tn-Hqo"/>
                         <outlet property="loginButton" destination="WLH-yC-aF2" id="z38-B2-bke"/>
                         <outlet property="lsSegmentedControl" destination="hKq-Ft-Tj0" id="sL3-VK-ZEk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32r-Nv-O9N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1962" y="2518"/>
+            <point key="canvasLocation" x="-1962.3188405797102" y="2517.3913043478265"/>
         </scene>
         <!--Bottom Navigation Controller-->
         <scene sceneID="Ofb-oL-IWt">

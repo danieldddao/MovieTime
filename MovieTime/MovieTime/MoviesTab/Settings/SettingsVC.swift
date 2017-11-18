@@ -10,6 +10,7 @@ import UIKit
 import Material
 import FirebaseAuth
 import PopupDialog
+import CDAlertView
 
 class SettingsVC: UITableViewController {
 
@@ -18,7 +19,8 @@ class SettingsVC: UITableViewController {
     @IBOutlet weak var lsOrLogoutButton: FlatButton!
     
     var currentUser:User? = nil
-    
+    var alertDialog: CDAlertView!
+
     @IBAction func lsOrLogoutButtonPressed(_ sender: FlatButton) {
         if currentUser == nil {
             // go to login/signup page
@@ -87,6 +89,9 @@ class SettingsVC: UITableViewController {
                             } else {
                                 self.refreshTableView()
                                 popup.dismiss()
+                                self.alertDialog = CDAlertView(title: "UPDATED!", message: "Your name has been successfully updated to \(auVC.newTextField.text!)", type: .success)
+                                self.alertDialog.show()
+                                Timer.scheduledTimer(timeInterval:1.5, target:self, selector:#selector(self.dismissAlert), userInfo: nil, repeats: true)
                             }
                         }
                     }
@@ -125,6 +130,9 @@ class SettingsVC: UITableViewController {
                             } else {
                                 self.refreshTableView()
                                 popup.dismiss()
+                                self.alertDialog = CDAlertView(title: "UPDATED!", message: "Your email has been successfully updated to \(auVC.newTextField.text!)", type: .success)
+                                self.alertDialog.show()
+                                Timer.scheduledTimer(timeInterval:1.5, target:self, selector:#selector(self.dismissAlert), userInfo: nil, repeats: true)
                             }
                         }
                     }
@@ -172,6 +180,9 @@ class SettingsVC: UITableViewController {
                                 } else {
                                     self.refreshTableView()
                                     popup.dismiss()
+                                    self.alertDialog = CDAlertView(title: "UPDATED!", message: "Your password has been successfully updated", type: .success)
+                                    self.alertDialog.show()
+                                    Timer.scheduledTimer(timeInterval:1.5, target:self, selector:#selector(self.dismissAlert), userInfo: nil, repeats: true)
                                 }
                             }
                         }
@@ -192,6 +203,12 @@ class SettingsVC: UITableViewController {
     func refreshTableView() {
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
+        nameLabel.text = currentUser?.displayName
+        emailLabel.text = currentUser?.email
+    }
+    
+    @objc func dismissAlert() {
+        self.alertDialog.hide(isPopupAnimated: true)
     }
     
     override func viewDidLoad() {
