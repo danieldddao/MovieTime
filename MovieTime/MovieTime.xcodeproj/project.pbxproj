@@ -37,6 +37,8 @@
 		ABCE15841FADF56200AF1FAA /* TMDBBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE15831FADF56100AF1FAA /* TMDBBase.swift */; };
 		ABDB72AF1F9D560F00EE4AAA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */; };
 		ABEEA2641F996C7A00DF9943 /* Pods_MovieTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67305EE376C5002E28F45264 /* Pods_MovieTime.framework */; };
+		ABFA02B81FC077D3007685E3 /* AccountUpdateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFA02B61FC077D3007685E3 /* AccountUpdateVC.swift */; };
+		ABFA02B91FC077D3007685E3 /* AccountUpdateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFA02B71FC077D3007685E3 /* AccountUpdateVC.xib */; };
 		ABFBE9F21F99651100B64C5E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABFBE9F11F99651100B64C5E /* GoogleService-Info.plist */; };
 		E197325D1FB61CDC0056D46C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197325C1FB61CDC0056D46C /* SearchTableViewController.swift */; };
 		E197325F1FB61EC30056D46C /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197325E1FB61EC30056D46C /* SearchResultCell.swift */; };
@@ -75,6 +77,8 @@
 		ABCE15811FADEEC300AF1FAA /* ImageDarknessDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDarknessDetection.swift; sourceTree = "<group>"; };
 		ABCE15831FADF56100AF1FAA /* TMDBBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBBase.swift; sourceTree = "<group>"; };
 		ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		ABFA02B61FC077D3007685E3 /* AccountUpdateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUpdateVC.swift; sourceTree = "<group>"; };
+		ABFA02B71FC077D3007685E3 /* AccountUpdateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountUpdateVC.xib; sourceTree = "<group>"; };
 		ABFBE9F11F99651100B64C5E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B87750A8105A97ADAB51FDB7 /* Pods-MovieTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieTime/Pods-MovieTime.debug.xcconfig"; sourceTree = "<group>"; };
 		DFA433B8C2F01BC6817D7245 /* Pods-MovieTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-MovieTime/Pods-MovieTime.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 			children = (
 				ABDB72AE1F9D560F00EE4AAA /* SettingsVC.swift */,
 				AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */,
+				ABFA02B61FC077D3007685E3 /* AccountUpdateVC.swift */,
+				ABFA02B71FC077D3007685E3 /* AccountUpdateVC.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -298,6 +304,7 @@
 				AB55853E1FA58BAB00BF73BD /* ReviewRatingVC.xib in Resources */,
 				AB72A7F21F9940A70007000C /* LaunchScreen.storyboard in Resources */,
 				ABFBE9F21F99651100B64C5E /* GoogleService-Info.plist in Resources */,
+				ABFA02B91FC077D3007685E3 /* AccountUpdateVC.xib in Resources */,
 				AB72A7EF1F9940A70007000C /* Assets.xcassets in Resources */,
 				AB72A7ED1F9940A70007000C /* Main.storyboard in Resources */,
 			);
@@ -409,6 +416,7 @@
 				ABCE15821FADEEC300AF1FAA /* ImageDarknessDetection.swift in Sources */,
 				ABCB81281FB5ECC600CA799B /* PersonMoviesCell.swift in Sources */,
 				ABCE15841FADF56200AF1FAA /* TMDBBase.swift in Sources */,
+				ABFA02B81FC077D3007685E3 /* AccountUpdateVC.swift in Sources */,
 				2A0D07991FAFD7F300B0BB84 /* AddToListViewController.swift in Sources */,
 				2A0D07951FAFC79A00B0BB84 /* posterTableCell.swift in Sources */,
 				AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */,
