@@ -19,6 +19,7 @@ import AVFoundation
 import AVKit
 import youtube_ios_player_helper
 import NVActivityIndicatorView
+import UserNotifications
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource, YTPlayerViewDelegate, NVActivityIndicatorViewable {
     
@@ -26,7 +27,12 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var currentUser:User? = nil
     let defaults = UserDefaults.standard
     
+    var movieTitle: String!
+    var movieRelease_Date: String?
+    var movieOverview: String?
+    
     @IBOutlet weak var nativationItem: UINavigationItem!
+    @IBOutlet weak var notifyMeButton: RaisedButton!
     
     @IBAction func addToList(_ sender: Any) {
         let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SelectListID") as! AddToListViewController
@@ -34,6 +40,28 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         popupVC.view.frame = self.view.frame
         self.view.addSubview(popupVC.view)
         popupVC.didMove(toParentViewController: self)
+    }
+    
+    @IBAction func showtimesPressed(_ sender: RaisedButton) {
+        // Create a custom showtimes View Controller
+        let showtimesVC = ShowtimesVC(nibName: "ShowtimesVC", bundle: nil)
+        let searchString = movieTitle!.replacingOccurrences(of: " ", with: "%20")
+        showtimesVC.urlString = "http://www.google.com/search?q=Showtimes%20for%20\(searchString)"
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: showtimesVC, buttonAlignment: .vertical, transitionStyle: .bounceUp, gestureDismissal: true)
+        showtimesVC.showtimesLabel.text = "Showtimes for \(movieTitle!)"
+        
+        // Create done button
+        let cancelButton = CancelButton(title: "DONE", height: 50) {
+            popup.dismiss()
+        }
+    
+        // Add button to dialog
+        popup.addButtons([cancelButton])
+        
+        // Create the dialog
+        self.present(popup, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,6 +75,87 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         }
     }
     
+    // Notify me when this movie is released
+    @IBAction func notifyMeButtonPressed(_ sender: RaisedButton) {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if(settings.authorizationStatus == .authorized)
+            {
+                print("Notifications allowed. Schedule local notification...")
+                DispatchQueue.main.async {
+                    if self.movieRelease_Date == nil {
+                        NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
+                    } else {
+                        let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to be notified when this movie is released?", type: .notification)
+                        let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
+    
+                            // Set up notification content
+                            print("Set up notification content")
+                            var body = ""
+                            if self.movieOverview != nil {
+                                body = self.movieOverview!
+                            }
+                            let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: body)
+                            
+                            // Trigger notification at release date
+                            print("Trigger notification at release date")
+                            let release_date = "\(self.movieRelease_Date!)T08:00:00"
+                            let trigger = NotificationBase.setupNotificationTriggerForDate(dateString: release_date)
+    
+                            // Create new notification request and add it to the notification center
+                            print("Create new notification request and add it to the notification center")
+                            let identifier = "NotifyUnleasedMovie_\(self.movieId)"
+                            let request = UNNotificationRequest(identifier: identifier,
+                                                                content: content, trigger: trigger)
+                            UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                                if let error = error?.localizedDescription {
+                                    print(error)
+                                    // Something went wrong
+                                    DispatchQueue.main.async {
+                                        NotificationBase.showErrorAlert(error: error)
+                                    }
+                                } else {
+                                    // Show success alert
+                                    DispatchQueue.main.async {
+                                        NotificationBase.showNotifyUnreleasedMovieSuccessAlert()
+                                    }
+                                }
+                            })
+                        })
+                        alertDialog.add(action: CDAlertViewAction(title: "Cancel"))
+                        alertDialog.add(action: yesButton)
+                        alertDialog.show()
+                    }
+                }
+            } else {
+                print("Notifications not allowed")
+                DispatchQueue.main.async {
+                    NotificationBase.showNotificationDisabledAlert()
+                }
+            }
+        }
+    }
+    
+    func checkIfItsInPendingNotifications() {
+        self.notifyMeButton.title = "Notify me"
+        self.notifyMeButton.isEnabled = true
+        
+        MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
+            apiReturn, movie in
+            if let movie = movie {
+                if movie.status.lowercased() != "released" {
+                    let center = UNUserNotificationCenter.current()
+                    center.getPendingNotificationRequests { (notifications) in
+                        for item in notifications {
+                            if(item.identifier == "NotifyUnleasedMovie_\(self.movieId)") {
+                                self.notifyMeButton.title = "✔ Will notify"
+                                self.notifyMeButton.isEnabled = false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     //
     // Movie' Details
@@ -217,7 +326,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     func loadMovieDetails() {
         // Load Movie details from Movie Id and show datails on screen
-        MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
+        MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
             apiReturn, movie in
             if let movie = movie {
                 
@@ -264,6 +373,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.overviewTextView.text = "Overview:"
                 } else {
                     self.overviewTextView.text = "Overview:\n\(movie.overview!)"
+                    self.movieOverview = movie.overview!
                 }
                 
                 if movie.vote_average == nil {
@@ -281,6 +391,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                         self.writeReviewButton.title = "Review not available"
                         self.writeReviewButton.titleColor = UIColor.black
                         self.writeReviewButton.backgroundColor = UIColor.lightGray
+                        self.notifyMeButton.isHidden = false
+                    } else {
+                        self.notifyMeButton.isHidden = true
                     }
                 }
                 
@@ -300,6 +413,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.releaseDateLabel.text = "Release Date:\n\(releaseDate)"
                     self.navigationItem.title = self.navigationItem.title!  + " (\(releaseYear))"
                     self.titleLabel.text = self.titleLabel.text!  + " (\(releaseYear))"
+                    self.movieTitle = self.titleLabel.text
+                    self.movieRelease_Date = releaseDate
+                    
                 }
                 
                 if movie.budget == nil {
@@ -480,7 +596,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         
         // get clicked movie id
-        self.movieId = clickedMovieId
+        self.movieId = (clickedMovie?.id)!
+        print("movie id = \(self.movieId)")
         
         var historyMovieID:[Int] = []
         // deal with user explored history
@@ -523,7 +640,11 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         // Load movie's details
         self.loadMovieDetails()
         
+        // Load reviews for this movie from Firebase
         self.loadReviewsToReviewTable()
+        
+        // Check if this movie has been in pending notification requests
+        checkIfItsInPendingNotifications()
     }
     
     override func viewWillAppear(_ animated: Bool) {

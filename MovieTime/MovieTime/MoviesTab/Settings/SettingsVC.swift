@@ -11,15 +11,107 @@ import Material
 import FirebaseAuth
 import PopupDialog
 import CDAlertView
+import UserNotifications
+import TMDBSwift
+
+var mostPopularMovieSwitch = false
+var notifyUnleasedMovieSwitch = false
 
 class SettingsVC: UITableViewController {
 
+    var alertDialog: CDAlertView!
+
+    //
+    // Notifications
+    //
+    @IBOutlet weak var mpmTimeButton: UIButton!
+    
+    let timePicker = UIDatePicker()
+    let toolBar = UIToolbar()
+
+    @IBAction func mostPopularMovieSwitched(_ sender: UISwitch) {
+        if sender.isOn {
+//            if NotificationBase.isPushNotificationEnabled() {
+//                print("Notifications allowed")
+//                
+//                mostPopularMovieSwitch = true
+//            } else {
+//                print("Notifications not allowed")
+//                sender.setOn(false, animated: false)
+//                NotificationBase.showAlert()
+//            }
+        } else {
+            
+            mostPopularMovieSwitch = false
+        }
+    }
+    
+    @IBAction func mpmTimeButtonPressed(_ sender: UIButton) {
+        self.view.addSubview(toolBar)
+        self.view.addSubview(timePicker)
+    }
+    @objc func donePressed() {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        mpmTimeButton.titleLabel?.text = formatter.string(from: timePicker.date)
+//        formatter.dateFormat = "HH:mm"
+//        let time = formatter.string(from: timePicker.date)
+//        print(time)
+        toolBar.removeFromSuperview()
+        timePicker.removeFromSuperview()
+    }
+    @objc func cancelPressed() {
+        toolBar.removeFromSuperview()
+        timePicker.removeFromSuperview()
+    }
+    func createTimePicker() {
+        // format for picker
+        timePicker.datePickerMode = .time
+        timePicker.backgroundColor = UIColor.white
+        timePicker.frame = CGRect(x: 0, y: self.view.frame.height-250, width: self.view.frame.width, height: 250)
+        
+        // toolbar
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+        toolBar.sizeToFit()
+        toolBar.frame = CGRect(x: 0, y: self.view.frame.height-300, width: self.view.frame.width, height: 50)
+        
+        // Adding Buttons ToolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelPressed))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+    }
+    
+    func notifyMostPopularMovie(movie: MovieMDB) {
+        var releaseYear = ""
+        if movie.release_date != nil {
+            let releaseDate = movie.release_date!
+            releaseYear = " (\(releaseDate[..<(releaseDate.index(of: "-")!)]))"
+        }
+        var overview = ""
+        if movie.overview != nil {
+            overview = movie.overview!
+        }
+        
+        // Send notification
+        let content = UNMutableNotificationContent()
+        content.badge = 1
+        content.title = "Most popular movie!"
+        content.subtitle = "\(movie.title!)\(releaseYear) is the most popular movie until now."
+        content.body = "\(overview)"
+        content.sound = UNNotificationSound.default()
+    }
+    
+    //
+    // Account
+    //
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var lsOrLogoutButton: FlatButton!
     
     var currentUser:User? = nil
-    var alertDialog: CDAlertView!
 
     @IBAction func lsOrLogoutButtonPressed(_ sender: FlatButton) {
         if currentUser == nil {
@@ -210,10 +302,21 @@ class SettingsVC: UITableViewController {
     @objc func dismissAlert() {
         self.alertDialog.hide(isPopupAnimated: true)
     }
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        self.createTimePicker()
+
+        // Request authorization for notifications
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (authorized, error) in
+            if !authorized {
+                print("Notifications not allowed")
+            } else {
+                print("Notifications allowed")
+
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
