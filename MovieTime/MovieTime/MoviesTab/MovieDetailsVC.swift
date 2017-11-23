@@ -76,79 +76,96 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     }
     
     // Notify me when this movie is released
+    // Or cancel to not receive notification
     @IBAction func notifyMeButtonPressed(_ sender: RaisedButton) {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if(settings.authorizationStatus == .authorized)
-            {
-                print("Notifications allowed. Schedule local notification...")
-                DispatchQueue.main.async {
-                    if self.movieRelease_Date == nil {
-                        NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
-                    } else {
-                        let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to be notified when this movie is released?", type: .notification)
-                        let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
-    
-                            // Set up notification content
-                            print("Set up notification content")
-                            var body = ""
-                            if self.movieOverview != nil {
-                                body = self.movieOverview!
-                            }
-                            let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: body)
-                            
-                            // Trigger notification at release date
-                            print("Trigger notification at release date")
-                            let release_date = "\(self.movieRelease_Date!)T08:00:00"
-                            let trigger = NotificationBase.setupNotificationTriggerForDate(dateString: release_date)
-    
-                            // Create new notification request and add it to the notification center
-                            print("Create new notification request and add it to the notification center")
-                            let identifier = "NotifyUnleasedMovie_\(self.movieId)"
-                            let request = UNNotificationRequest(identifier: identifier,
-                                                                content: content, trigger: trigger)
-                            UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                                if let error = error?.localizedDescription {
-                                    print(error)
-                                    // Something went wrong
-                                    DispatchQueue.main.async {
-                                        NotificationBase.showErrorAlert(error: error)
-                                    }
-                                } else {
-                                    // Show success alert
-                                    DispatchQueue.main.async {
-                                        NotificationBase.showNotifyUnreleasedMovieSuccessAlert()
-                                    }
+        
+        if (self.notifyMeButton.title?.contains("Unsubscribe"))! {
+            // Ask if user want to remove notifcation
+            let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Unsubscribe to not receive notification when this movie is released?", type: .warning)
+            let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
+                // Remove notification
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["NotifyUnleasedMovie_\(self.movieId)"])
+                self.checkIfItsInPendingNotifications()
+            })
+            alertDialog.add(action: CDAlertViewAction(title: "No"))
+            alertDialog.add(action: yesButton)
+            alertDialog.show()
+        } else {
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                if(settings.authorizationStatus == .authorized)
+                {
+                    print("Notifications allowed. Schedule local notification...")
+                    DispatchQueue.main.async {
+                        if self.movieRelease_Date == nil {
+                            NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
+                        } else {
+                            let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to subscribe to receive notification when this movie is released?", type: .notification)
+                            let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
+                                
+                                // Set up notification content
+                                print("Set up notification content")
+                                var body = ""
+                                if self.movieOverview != nil {
+                                    body = self.movieOverview!
                                 }
+                                let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: body)
+                                
+                                // Trigger notification at release date
+                                print("Trigger notification at release date")
+                                let release_date = "\(self.movieRelease_Date!)T08:00:00"
+                                let trigger = NotificationBase.setupNotificationTriggerForDate(dateString: release_date)
+                                
+                                // Create new notification request and add it to the notification center
+                                print("Create new notification request and add it to the notification center")
+                                let identifier = "NotifyUnleasedMovie_\(self.movieId)"
+                                let request = UNNotificationRequest(identifier: identifier,
+                                                                    content: content, trigger: trigger)
+                                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                                    if let error = error?.localizedDescription {
+                                        print(error)
+                                        // Something went wrong
+                                        DispatchQueue.main.async {
+                                            NotificationBase.showErrorAlert(error: error)
+                                        }
+                                    } else {
+                                        // Show success alert
+                                        DispatchQueue.main.async {
+                                            NotificationBase.showNotifyUnreleasedMovieSuccessAlert()
+                                            self.checkIfItsInPendingNotifications()
+                                        }
+                                    }
+                                })
                             })
-                        })
-                        alertDialog.add(action: CDAlertViewAction(title: "Cancel"))
-                        alertDialog.add(action: yesButton)
-                        alertDialog.show()
+                            alertDialog.add(action: CDAlertViewAction(title: "Cancel"))
+                            alertDialog.add(action: yesButton)
+                            alertDialog.show()
+                        }
                     }
-                }
-            } else {
-                print("Notifications not allowed")
-                DispatchQueue.main.async {
-                    NotificationBase.showNotificationDisabledAlert()
+                } else {
+                    print("Notifications not allowed")
+                    DispatchQueue.main.async {
+                        NotificationBase.showNotificationDisabledAlert()
+                    }
                 }
             }
         }
+        
     }
     
     func checkIfItsInPendingNotifications() {
-        self.notifyMeButton.title = "Notify me"
-        self.notifyMeButton.isEnabled = true
+        self.notifyMeButton.title = "Subscribe"
+        self.notifyMeButton.titleColor = UIColor.white
         
         MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
             apiReturn, movie in
             if let movie = movie {
                 if movie.status.lowercased() != "released" {
-                    let center = UNUserNotificationCenter.current()
-                    center.getPendingNotificationRequests { (notifications) in
+                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
                         for item in notifications {
                             if(item.identifier == "NotifyUnleasedMovie_\(self.movieId)") {
-                                self.notifyMeButton.title = "✔ Will notify"
-                                self.notifyMeButton.isEnabled = false
+                                DispatchQueue.main.async {
+                                    self.notifyMeButton.title = "✔ Unsubscribe"
+                                }
                             }
                         }
                     }

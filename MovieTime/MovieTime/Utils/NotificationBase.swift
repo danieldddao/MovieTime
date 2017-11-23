@@ -52,7 +52,7 @@ class NotificationBase {
     }
     
     static func showNotifyUnreleasedMovieSuccessAlert() {
-        let alertDialog = CDAlertView(title: "SUCCESS!", message: "You'll be notified when this movie is released", type: .success)
+        let alertDialog = CDAlertView(title: "NOTIFICATION", message: "You'll receive notification when this movie is released", type: .success)
         alertDialog.add(action: CDAlertViewAction(title: "OK"))
         alertDialog.show()
     }
