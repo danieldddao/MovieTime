@@ -14,35 +14,111 @@ import CDAlertView
 import UserNotifications
 import TMDBSwift
 
-var mostPopularMovieSwitch = false
-var notifyUnleasedMovieSwitch = false
-
 class SettingsVC: UITableViewController {
-
+    
+    let defaults = UserDefaults.standard
     var alertDialog: CDAlertView!
 
-    //
+    /////////////////////////////////////////
     // Notifications
-    //
+    /////////////////////////////////////////
     @IBOutlet weak var mpmTimeButton: UIButton!
+    @IBOutlet weak var subscribeSwitch: UISwitch!
+    @IBOutlet weak var newlyReleaseMoviesSwitch: UISwitch!
+    @IBOutlet weak var mostPopularMovieSwitch: UISwitch!
     
     let timePicker = UIDatePicker()
     let toolBar = UIToolbar()
+    var mostPopularMovieTime = "08:00 AM"
 
+    @IBAction func unleasedMovieSubscribedSwitched(_ sender: UISwitch) {
+        if sender.isOn {
+            print("unleasedMovieSubscribedSwitched on")
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                if(settings.authorizationStatus == .authorized)
+                {
+                    // Now user can subscribe to a movie and receive notification
+                    // Set subscribe movie key in UserDefaults to true
+                    self.defaults.set(true, forKey: NotificationBase.subscribedMovie)
+                    print("set \(NotificationBase.subscribedMovie) to true")
+                } else {
+                    print("Notifications not allowed")
+                    DispatchQueue.main.async {
+                        sender.setOn(false, animated: false)
+                        NotificationBase.showNotificationDisabledAlert()
+                    }
+                }
+            }
+        } else {
+            print("unleasedMovieSubscribedSwitched off")
+            // Set subscribe movie key in UserDefaults to false
+            self.defaults.set(false, forKey: NotificationBase.subscribedMovie)
+            print("set \(NotificationBase.subscribedMovie) to false")
+
+            // Remove notification pending requests
+            NotificationBase.removePendingNotifications(identifier: NotificationBase.subscribedMovie)
+        }
+    }
+    
+    @IBAction func newlyReleasedMoviesSwitched(_ sender: UISwitch) {
+        if sender.isOn {
+            print("newlyReleasedMoviesSwitched on")
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                if(settings.authorizationStatus == .authorized)
+                {
+                    print("Notifications allowed. Schedule local notification for newly released movies...")
+                    DispatchQueue.main.async {
+                        // Set newly released movie key in UserDefaults to true
+                        self.defaults.set(true, forKey: NotificationBase.newlyReleasedMovie)
+                        
+                        // Schedule notification to notify newly released movies daily
+                        NotificationBase.scheduleNotificationForNewlyReleasedMovies()
+                    }
+                } else {
+                    print("Notifications not allowed")
+                    DispatchQueue.main.async {
+                        sender.setOn(false, animated: false)
+                        NotificationBase.showNotificationDisabledAlert()
+                    }
+                }
+            }
+        } else {
+            print("newlyReleasedMoviesSwitched off")
+            // Set newly released movie key in UserDefaults to false
+            self.defaults.set(false, forKey: NotificationBase.newlyReleasedMovie)
+            
+            // Remove notification pending requests
+            NotificationBase.removePendingNotifications(identifier: NotificationBase.newlyReleasedMovie)
+        }
+    }
+    
     @IBAction func mostPopularMovieSwitched(_ sender: UISwitch) {
         if sender.isOn {
-//            if NotificationBase.isPushNotificationEnabled() {
-//                print("Notifications allowed")
-//                
-//                mostPopularMovieSwitch = true
-//            } else {
-//                print("Notifications not allowed")
-//                sender.setOn(false, animated: false)
-//                NotificationBase.showAlert()
-//            }
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                if(settings.authorizationStatus == .authorized)
+                {
+                    print("Notifications allowed. Schedule local notification for most popular movie...")
+                    DispatchQueue.main.async {
+                        // Set most popular movie key in UserDefaults to true
+                        self.defaults.set(true, forKey: NotificationBase.mostPopularMovieId)
+                        
+                        // Schedule notification to notify most popular movie daily
+                        NotificationBase.scheduleNotificationForMostPopularMovie(time: self.mostPopularMovieTime)
+                    }
+                } else {
+                    print("Notifications not allowed")
+                    DispatchQueue.main.async {
+                        sender.setOn(false, animated: false)
+                        NotificationBase.showNotificationDisabledAlert()
+                    }
+                }
+            }
         } else {
-            
-            mostPopularMovieSwitch = false
+            // Set most popular movie key in UserDefaults to false
+            self.defaults.set(false, forKey: NotificationBase.mostPopularMovieId)
+
+            // Remove notification pending requests
+            NotificationBase.removePendingNotifications(identifier: NotificationBase.mostPopularMovieId)
         }
     }
     
@@ -50,32 +126,41 @@ class SettingsVC: UITableViewController {
         self.view.addSubview(toolBar)
         self.view.addSubview(timePicker)
     }
+    
     @objc func donePressed() {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
-        mpmTimeButton.titleLabel?.text = formatter.string(from: timePicker.date)
-//        formatter.dateFormat = "HH:mm"
-//        let time = formatter.string(from: timePicker.date)
-//        print(time)
+        formatter.dateFormat = "HH:mm"
+        let time = formatter.string(from: timePicker.date)
+        mpmTimeButton.titleLabel?.text = time
+        mostPopularMovieTime = time
+        self.defaults.set(time, forKey: NotificationBase.mostPopularMovieTime)
+        
+        // Set up new notification for most popular movie
+        if mostPopularMovieSwitch.isOn {
+            NotificationBase.scheduleNotificationForMostPopularMovie(time: time)
+        }
+        
         toolBar.removeFromSuperview()
         timePicker.removeFromSuperview()
     }
     @objc func cancelPressed() {
         toolBar.removeFromSuperview()
         timePicker.removeFromSuperview()
+        mpmTimeButton.titleLabel?.text = mostPopularMovieTime
     }
     func createTimePicker() {
         // format for picker
         timePicker.datePickerMode = .time
         timePicker.backgroundColor = UIColor.white
-        timePicker.frame = CGRect(x: 0, y: self.view.frame.height-250, width: self.view.frame.width, height: 250)
+        timePicker.frame = CGRect(x: 0, y: self.view.frame.height-300, width: self.view.frame.width, height: 300)
         
         // toolbar
         toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
         toolBar.sizeToFit()
-        toolBar.frame = CGRect(x: 0, y: self.view.frame.height-300, width: self.view.frame.width, height: 50)
+        toolBar.frame = CGRect(x: 0, y: self.view.frame.height-350, width: self.view.frame.width, height: 50)
         
         // Adding Buttons ToolBar
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donePressed))
@@ -104,9 +189,11 @@ class SettingsVC: UITableViewController {
         content.sound = UNNotificationSound.default()
     }
     
-    //
+    
+    
+    /////////////////////////////////////////
     // Account
-    //
+    /////////////////////////////////////////
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var lsOrLogoutButton: FlatButton!
@@ -308,15 +395,20 @@ class SettingsVC: UITableViewController {
         
         self.createTimePicker()
 
-        // Request authorization for notifications
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (authorized, error) in
-            if !authorized {
-                print("Notifications not allowed")
-            } else {
-                print("Notifications allowed")
-
-            }
+        // Load notifications' settings
+        print("Loading notifications' settings")
+        let time = self.defaults.string(forKey: NotificationBase.mostPopularMovieTime)
+        print("mostPopularMovieTime: \(String(describing: time))")
+        if time != nil {
+            self.mostPopularMovieTime = time!
+            self.mpmTimeButton.setTitle(self.mostPopularMovieTime, for: .normal)
+        } else {
+            self.mpmTimeButton.setTitle("--:--", for: .normal)
         }
+
+        self.mostPopularMovieSwitch.setOn(self.defaults.bool(forKey: NotificationBase.mostPopularMovieId), animated: false)
+        self.newlyReleaseMoviesSwitch.setOn(self.defaults.bool(forKey: NotificationBase.newlyReleasedMovie), animated: false)
+        self.subscribeSwitch.setOn(self.defaults.bool(forKey: NotificationBase.subscribedMovie), animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -339,6 +431,4 @@ class SettingsVC: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-
 }

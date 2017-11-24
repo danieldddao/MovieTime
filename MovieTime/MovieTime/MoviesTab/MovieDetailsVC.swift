@@ -84,7 +84,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Unsubscribe to not receive notification when this movie is released?", type: .warning)
             let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
                 // Remove notification
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["NotifyUnleasedMovie_\(self.movieId)"])
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(NotificationBase.newlyReleasedMovie)_\(self.movieId)"])
                 self.checkIfItsInPendingNotifications()
             })
             alertDialog.add(action: CDAlertViewAction(title: "No"))
@@ -94,7 +94,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             UNUserNotificationCenter.current().getNotificationSettings { (settings) in
                 if(settings.authorizationStatus == .authorized)
                 {
-                    print("Notifications allowed. Schedule local notification...")
+                    print("Notifications allowed. Schedule local notification for subscribe movie...")
                     DispatchQueue.main.async {
                         if self.movieRelease_Date == nil {
                             NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
@@ -102,13 +102,12 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                             let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to subscribe to receive notification when this movie is released?", type: .notification)
                             let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
                                 
+                                // Turn on subsribe switch
+                                self.defaults.set(true, forKey: NotificationBase.subscribedMovie)
+                                
                                 // Set up notification content
                                 print("Set up notification content")
-                                var body = ""
-                                if self.movieOverview != nil {
-                                    body = self.movieOverview!
-                                }
-                                let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: body)
+                                let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: self.movieOverview)
                                 
                                 // Trigger notification at release date
                                 print("Trigger notification at release date")
@@ -117,7 +116,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                                 
                                 // Create new notification request and add it to the notification center
                                 print("Create new notification request and add it to the notification center")
-                                let identifier = "NotifyUnleasedMovie_\(self.movieId)"
+                                let identifier = "\(NotificationBase.subscribedMovie)_\(self.movieId)"
                                 let request = UNNotificationRequest(identifier: identifier,
                                                                     content: content, trigger: trigger)
                                 UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
@@ -162,7 +161,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 if movie.status.lowercased() != "released" {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
                         for item in notifications {
-                            if(item.identifier == "NotifyUnleasedMovie_\(self.movieId)") {
+                            if(item.identifier == "\(NotificationBase.subscribedMovie)_\(self.movieId)") {
                                 DispatchQueue.main.async {
                                     self.notifyMeButton.title = "✔ Unsubscribe"
                                 }
