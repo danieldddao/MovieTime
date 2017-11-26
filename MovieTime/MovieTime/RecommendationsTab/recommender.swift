@@ -57,7 +57,7 @@ class recommender{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
                         if let movie = movie{
-                            print(movie.genres[1].name!)
+                            print(movie.genres[0].name!)
                             
                             print(movie.release_date!)
                             let dateFormatter = DateFormatter()
@@ -67,7 +67,7 @@ class recommender{
                             // date to integer
                             let dateFeature = date?.timeIntervalSince(startDate!)
                             
-                            let genreFeature = self.genreToFeature[movie.genres[1].name!]
+                            let genreFeature = self.genreToFeature[movie.genres[0].name!]
                             print(dateFeature!, genreFeature!)
                             self.hisFeature.append((genreFeature!, dateFeature!))
                             if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
@@ -82,7 +82,7 @@ class recommender{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
                         if let movie = movie{
-                            print(movie.genres[1].name!)
+                            print(movie.genres[0].name!)
                             
                             print(movie.release_date!)
                             let dateFormatter = DateFormatter()
@@ -91,7 +91,7 @@ class recommender{
                             let startDate = dateFormatter.date(from: "1900-01-01")
                             // date to integer
                             let dateFeature = date?.timeIntervalSince(startDate!)
-                            let genreFeature = self.genreToFeature[movie.genres[1].name!]
+                            let genreFeature = self.genreToFeature[movie.genres[0].name!]
                             print(dateFeature!, genreFeature!)
                             self.favoFeature.append((genreFeature!, dateFeature!))
                             if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{

@@ -1365,6 +1365,14 @@ Rating:</string>
                                             <action selector="enterListName:" destination="DpU-ni-3xO" eventType="touchUpInside" id="Qpi-kB-1Ho"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-8J-vEc">
+                                        <rect key="frame" x="29" y="84" width="48" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelEnter:" destination="DpU-ni-3xO" eventType="touchUpInside" id="cof-NP-qUg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.96475998480000003" blue="0.7224941668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>

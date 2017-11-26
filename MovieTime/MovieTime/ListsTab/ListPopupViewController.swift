@@ -11,6 +11,10 @@ import UIKit
 class ListPopupViewController: UIViewController {
     var listName: String = "default"
     @IBOutlet weak var inputField: UITextField!
+    
+    @IBAction func cancelEnter(_ sender: Any) {
+        self.removeAnimateNull()
+    }
     @IBAction func enterListName(_ sender: Any) {
         self.listName = inputField.text!
         //print("in:")
@@ -31,6 +35,20 @@ class ListPopupViewController: UIViewController {
         UIView.animate(withDuration: 0.25, animations: {
             self.view.alpha = 1.0
             self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        });
+    }
+    
+    func removeAnimateNull(){
+        UIView.animate(withDuration: 0.25, animations: {
+            self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            self.view.alpha = 0.0;
+        }, completion:{(finished : Bool)  in
+            if (finished)
+            {
+                
+                self.view.removeFromSuperview()
+                
+            }
         });
     }
     
