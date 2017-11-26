@@ -1,24 +1,19 @@
 //
-//  ListPopupViewController.swift
+//  ClearAllViewController.swift
 //  MovieTime
 //
-//  Created by Dixian Zhu on 05/11/2017.
+//  Created by Dixian Zhu on 26/11/2017.
 //  Copyright © 2017 Team 4. All rights reserved.
 //
 
 import UIKit
 
-class ListPopupViewController: UIViewController {
-    var listName: String = "default"
-    @IBOutlet weak var inputField: UITextField!
-    
-    @IBAction func cancelEnter(_ sender: Any) {
-        self.removeAnimateNull()
+class ClearAllViewController: UIViewController {
+
+    @IBAction func cancel(_ sender: Any) {
+        self.cancelClear()
     }
-    @IBAction func enterListName(_ sender: Any) {
-        self.listName = inputField.text!
-        //print("in:")
-        //print(self.listName)
+    @IBAction func clear(_ sender: Any) {
         self.removeAnimate()
     }
     override func viewDidLoad() {
@@ -38,7 +33,7 @@ class ListPopupViewController: UIViewController {
         });
     }
     
-    func removeAnimateNull(){
+    func cancelClear(){
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             self.view.alpha = 0.0;
@@ -61,15 +56,17 @@ class ListPopupViewController: UIViewController {
             if (finished)
             {
                 let listVC = self.parent as! ListTableViewController
-                listVC.listNames.append(self.listName)
-                listVC.listNum += 1
-                print(listVC.listNames)
+                for name in listVC.listNames{
+                    listVC.defaults.removeObject(forKey: name)
+                    print(listVC.listNames)
+                }
+                
                 listVC.tableView.reloadData()
                 self.view.removeFromSuperview()
-                listVC.defaults.set(listVC.listNames, forKey: "ListNames")
             }
         });
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

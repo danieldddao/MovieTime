@@ -158,7 +158,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
             apiReturn, movie in
             if let movie = movie {
-                if movie.status.lowercased() != "released" {
+                if movie.status != nil && movie.status.lowercased() != "released" {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
                         for item in notifications {
                             if(item.identifier == "\(NotificationBase.subscribedMovie)_\(self.movieId)") {

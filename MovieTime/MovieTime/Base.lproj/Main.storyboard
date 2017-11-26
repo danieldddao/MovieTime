@@ -1450,6 +1450,14 @@ Kingston upon Thames, Surrey, England, UK</string>
                                     <action selector="selectedList:" destination="8Nd-fJ-yeV" eventType="touchUpInside" id="0zm-dx-euD"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rxh-bI-hAE">
+                                <rect key="frame" x="29" y="419" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelSelect:" destination="8Nd-fJ-yeV" eventType="touchUpInside" id="Suv-nT-nC4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="2AR-dd-vWp"/>
@@ -1686,6 +1694,16 @@ Kingston upon Thames, Surrey, England, UK</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Lists" id="sPg-El-woK">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="zDh-hd-yt8">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ecH-KK-Pmb">
+                                <rect key="frame" x="20" y="7" width="56" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Clear all"/>
+                                <connections>
+                                    <action selector="clearAll:" destination="enU-hV-pmV" eventType="touchUpInside" id="tzn-tl-Cr7"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="XhS-1O-j1z">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YP8-ol-0Ud">
                                 <rect key="frame" x="364" y="7" width="30" height="30"/>
@@ -1772,6 +1790,14 @@ Kingston upon Thames, Surrey, England, UK</string>
                                             <action selector="enterListName:" destination="DpU-ni-3xO" eventType="touchUpInside" id="Qpi-kB-1Ho"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-8J-vEc">
+                                        <rect key="frame" x="29" y="84" width="48" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelEnter:" destination="DpU-ni-3xO" eventType="touchUpInside" id="cof-NP-qUg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.96475998480000003" blue="0.7224941668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -1785,7 +1811,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksn-1M-zHO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1874" y="2254"/>
+            <point key="canvasLocation" x="2248" y="2253"/>
         </scene>
         <!--Lists-->
         <scene sceneID="PDd-ML-dNM">
@@ -1824,6 +1850,53 @@ Kingston upon Thames, Surrey, England, UK</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AdI-am-dKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1962" y="752"/>
+        </scene>
+        <!--Clear All View Controller-->
+        <scene sceneID="vU0-lh-z5E">
+            <objects>
+                <viewController storyboardIdentifier="ClearAllPopupID" id="x6M-rx-6E9" customClass="ClearAllViewController" customModule="MovieTime" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LKF-zV-aiG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PPt-Kc-8Xi">
+                                <rect key="frame" x="87" y="258" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3O-m1-Qg1">
+                                        <rect key="frame" x="163" y="84" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Yes"/>
+                                        <connections>
+                                            <action selector="clear:" destination="x6M-rx-6E9" eventType="touchUpInside" id="Nch-yb-7Sc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YGR-bK-rzF">
+                                        <rect key="frame" x="38" y="84" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="No"/>
+                                        <connections>
+                                            <action selector="cancel:" destination="x6M-rx-6E9" eventType="touchUpInside" id="8Rn-i4-hwd"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="To clear ALL lists' contents?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imi-vb-R7p">
+                                        <rect key="frame" x="5" y="0.0" width="227" height="86"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.96475998480000003" blue="0.7224941668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="HC4-Th-udz"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V23-gT-3ow" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2728.985507246377" y="1581.521739130435"/>
         </scene>
     </scenes>
     <resources>

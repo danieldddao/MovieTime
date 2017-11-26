@@ -15,6 +15,13 @@ class ListTableViewController: UITableViewController {
     let defaults = UserDefaults.standard
     public var newListName:String = ""
     
+    @IBAction func clearAll(_ sender: Any) {
+        let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ClearAllPopupID") as! ClearAllViewController
+        self.addChildViewController(popupVC)
+        popupVC.view.frame = self.view.frame
+        self.view.addSubview(popupVC.view)
+        popupVC.didMove(toParentViewController: self)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -15,6 +15,9 @@ class AddToListViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var picker: UIPickerView!
     var listNames:[String] = []
     
+    @IBAction func cancelSelect(_ sender: Any) {
+        self.removeAnimate()
+    }
     @IBAction func selectedList(_ sender: Any) {
         let listName = self.listNames[picker.selectedRow(inComponent: 0)]
         if defaults.object(forKey: listName) == nil{
