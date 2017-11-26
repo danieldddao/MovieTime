@@ -32,15 +32,14 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
         let movie: MovieMDB
         movie = (genre?.movies[indexPath.row])!
         
-        if !(movie.poster_path == nil){
-            let posterPath = "\(movie.poster_path!)"
+        if movie.poster_path != nil{
             //print("\(TMDBBase.imageURL)\(posterPath)")
-            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
+            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(movie.poster_path!)"){
                 DispatchQueue.global().async {
                     let data = try? Data(contentsOf: imageURL)
                     if let data = data {
-                        let image = UIImage(data: data)
                         DispatchQueue.main.async {
+                            let image = UIImage(data: data)
                             cell.imgView.image = image
                         }
                     }
@@ -55,7 +54,7 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movie = genre?.movies[indexPath.row]{
-            clickedMovie = movie
+//            clickedMovie = movie
             clickedMovieId = movie.id!
         }
     }

@@ -134,7 +134,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieID = self.recommendMovieId[indexPath.row]
         clickedMovieId = movieID
-        clickedMovie = recommendMovie[movieID]
+//        clickedMovie = recommendMovie[movieID]
         print("in function id: \(clickedMovieId)")
         
     }

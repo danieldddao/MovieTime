@@ -19,7 +19,7 @@ class Genre {
     }
 }
 
-var clickedMovie: MovieMDB?
+//var clickedMovie: MovieMDB?
 var clickedMovieId = 0
 
 class MoviesTableViewController: UITableViewController {
@@ -46,7 +46,7 @@ class MoviesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "homepageGotoMovieDetailPage" {
             let mdVC:MovieDetailsVC = segue.destination as! MovieDetailsVC
-            mdVC.movieId = (clickedMovie?.id)!
+//            clickedMovieId = (clickedMovie?.id)!
             mdVC.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         }
     }

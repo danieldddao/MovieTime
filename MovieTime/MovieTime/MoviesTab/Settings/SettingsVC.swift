@@ -398,7 +398,7 @@ class SettingsVC: UITableViewController {
         // Load notifications' settings
         print("Loading notifications' settings")
         let time = self.defaults.string(forKey: NotificationBase.mostPopularMovieTime)
-        print("mostPopularMovieTime: \(String(describing: time))")
+
         if time != nil {
             self.mostPopularMovieTime = time!
             self.mpmTimeButton.setTitle(self.mostPopularMovieTime, for: .normal)

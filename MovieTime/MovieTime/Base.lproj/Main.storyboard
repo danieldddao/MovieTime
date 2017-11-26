@@ -1065,7 +1065,6 @@ Kingston upon Thames, Surrey, England, UK</string>
             </objects>
             <point key="canvasLocation" x="-307" y="2971"/>
         </scene>
-        <!--Recommendation Collection View Controller-->
         <!--Recommendations-->
         <scene sceneID="1WO-Xi-ARk">
             <objects>
@@ -1840,9 +1839,7 @@ Kingston upon Thames, Surrey, England, UK</string>
         <image name="settingsIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="afE-oF-dRl"/>
-        <segue reference="dGQ-Xe-gfb"/>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="XlI-j7-kUt"/>
+        <segue reference="dGQ-Xe-gfb"/>
     </inferredMetricsTieBreakers>
 </document>

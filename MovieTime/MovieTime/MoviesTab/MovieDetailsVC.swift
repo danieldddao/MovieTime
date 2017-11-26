@@ -612,7 +612,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         
         // get clicked movie id
-        self.movieId = (clickedMovie?.id)!
+//        self.movieId = (clickedMovie?.id)!
+        self.movieId = clickedMovieId
         print("movie id = \(self.movieId)")
         
         var historyMovieID:[Int] = []
