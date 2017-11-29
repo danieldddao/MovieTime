@@ -30,6 +30,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var movieTitle: String!
     var movieRelease_Date: String?
     var movieOverview: String?
+    var moviePosterImage: UIImage?
     
     @IBOutlet weak var nativationItem: UINavigationItem!
     @IBOutlet weak var notifyMeButton: RaisedButton!
@@ -84,7 +85,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Unsubscribe to not receive notification when this movie is released?", type: .warning)
             let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
                 // Remove notification
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(NotificationBase.newlyReleasedMovie)_\(self.movieId)"])
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(Notifications.newlyReleasedMovie)_\(self.movieId)"])
                 self.checkIfItsInPendingNotifications()
             })
             alertDialog.add(action: CDAlertViewAction(title: "No"))
@@ -97,26 +98,33 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     print("Notifications allowed. Schedule local notification for subscribe movie...")
                     DispatchQueue.main.async {
                         if self.movieRelease_Date == nil {
-                            NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
+                            Notifications.showUnreleasedMovieNotReleaseDateAlert()
                         } else {
                             let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to subscribe to receive notification when this movie is released?", type: .notification)
                             let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
                                 
                                 // Turn on subsribe switch
-                                self.defaults.set(true, forKey: NotificationBase.subscribedMovie)
+                                self.defaults.set(true, forKey: Notifications.subscribedMovie)
                                 
                                 // Set up notification content
                                 print("Set up notification content")
-                                let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: self.movieOverview)
+                                let content = Notifications.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: self.movieOverview)
                                 
                                 // Trigger notification at release date
                                 print("Trigger notification at release date")
                                 let release_date = "\(self.movieRelease_Date!)T08:00:00"
-                                let trigger = NotificationBase.setupNotificationTriggerForDate(dateString: release_date)
+                                let trigger = Notifications.setupNotificationTriggerForDate(dateString: release_date)
+                                
+                                // Add attachment poster
+                                let identifier = "\(Notifications.subscribedMovie)_\(self.movieId)"
+                                if self.moviePosterImage != nil {
+                                    if let attachment = UNNotificationAttachment.create(identifier: "\(identifier)_poster", image: self.moviePosterImage!, options: nil) {
+                                        content.attachments = [attachment]
+                                    }
+                                }
                                 
                                 // Create new notification request and add it to the notification center
                                 print("Create new notification request and add it to the notification center")
-                                let identifier = "\(NotificationBase.subscribedMovie)_\(self.movieId)"
                                 let request = UNNotificationRequest(identifier: identifier,
                                                                     content: content, trigger: trigger)
                                 UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
@@ -124,12 +132,12 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                                         print(error)
                                         // Something went wrong
                                         DispatchQueue.main.async {
-                                            NotificationBase.showErrorAlert(error: error)
+                                            Notifications.showErrorAlert(error: error)
                                         }
                                     } else {
                                         // Show success alert
                                         DispatchQueue.main.async {
-                                            NotificationBase.showNotifyUnreleasedMovieSuccessAlert()
+                                            Notifications.showNotifyUnreleasedMovieSuccessAlert()
                                             self.checkIfItsInPendingNotifications()
                                         }
                                     }
@@ -143,7 +151,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 } else {
                     print("Notifications not allowed")
                     DispatchQueue.main.async {
-                        NotificationBase.showNotificationDisabledAlert()
+                        Notifications.showNotificationDisabledAlert()
                     }
                 }
             }
@@ -161,7 +169,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 if movie.status != nil && movie.status.lowercased() != "released" {
                     UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
                         for item in notifications {
-                            if(item.identifier == "\(NotificationBase.subscribedMovie)_\(self.movieId)") {
+                            if(item.identifier == "\(Notifications.subscribedMovie)_\(self.movieId)") {
                                 DispatchQueue.main.async {
                                     self.notifyMeButton.title = "✔ Unsubscribe"
                                 }
@@ -352,13 +360,13 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                         let data = try? Data(contentsOf: posterUrl)
                         if let data = data {
                             DispatchQueue.main.async {
-                                let image = UIImage(data: data)!
-                                self.posterImage.image = image
+                                self.moviePosterImage = UIImage(data: data)!
+                                self.posterImage.image = self.moviePosterImage
                                 
                                 // Add blur effect to image
                                 let context = CIContext(options: nil)
                                 let currentFilter = CIFilter(name: "CIGaussianBlur")
-                                let beginImage = CIImage(image: image)
+                                let beginImage = CIImage(image: self.moviePosterImage!)
                                 currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
                                 currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
                                 

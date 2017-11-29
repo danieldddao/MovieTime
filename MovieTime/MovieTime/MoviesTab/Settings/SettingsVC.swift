@@ -29,7 +29,7 @@ class SettingsVC: UITableViewController {
     
     let timePicker = UIDatePicker()
     let toolBar = UIToolbar()
-    var mostPopularMovieTime = "08:00 AM"
+    var mostPopularMovieTime = "08:00"
 
     @IBAction func unleasedMovieSubscribedSwitched(_ sender: UISwitch) {
         if sender.isOn {
@@ -39,24 +39,24 @@ class SettingsVC: UITableViewController {
                 {
                     // Now user can subscribe to a movie and receive notification
                     // Set subscribe movie key in UserDefaults to true
-                    self.defaults.set(true, forKey: NotificationBase.subscribedMovie)
-                    print("set \(NotificationBase.subscribedMovie) to true")
+                    self.defaults.set(true, forKey: Notifications.subscribedMovie)
+                    print("set \(Notifications.subscribedMovie) to true")
                 } else {
                     print("Notifications not allowed")
                     DispatchQueue.main.async {
                         sender.setOn(false, animated: false)
-                        NotificationBase.showNotificationDisabledAlert()
+                        Notifications.showNotificationDisabledAlert()
                     }
                 }
             }
         } else {
             print("unleasedMovieSubscribedSwitched off")
             // Set subscribe movie key in UserDefaults to false
-            self.defaults.set(false, forKey: NotificationBase.subscribedMovie)
-            print("set \(NotificationBase.subscribedMovie) to false")
+            self.defaults.set(false, forKey: Notifications.subscribedMovie)
+            print("set \(Notifications.subscribedMovie) to false")
 
             // Remove notification pending requests
-            NotificationBase.removePendingNotifications(identifier: NotificationBase.subscribedMovie)
+            Notifications.removePendingNotifications(identifier: Notifications.subscribedMovie)
         }
     }
     
@@ -69,26 +69,26 @@ class SettingsVC: UITableViewController {
                     print("Notifications allowed. Schedule local notification for newly released movies...")
                     DispatchQueue.main.async {
                         // Set newly released movie key in UserDefaults to true
-                        self.defaults.set(true, forKey: NotificationBase.newlyReleasedMovie)
+                        self.defaults.set(true, forKey: Notifications.newlyReleasedMovie)
                         
                         // Schedule notification to notify newly released movies daily
-                        NotificationBase.scheduleNotificationForNewlyReleasedMovies()
+                        Notifications.scheduleNotificationForNewlyReleasedMovies()
                     }
                 } else {
                     print("Notifications not allowed")
                     DispatchQueue.main.async {
                         sender.setOn(false, animated: false)
-                        NotificationBase.showNotificationDisabledAlert()
+                        Notifications.showNotificationDisabledAlert()
                     }
                 }
             }
         } else {
             print("newlyReleasedMoviesSwitched off")
             // Set newly released movie key in UserDefaults to false
-            self.defaults.set(false, forKey: NotificationBase.newlyReleasedMovie)
+            self.defaults.set(false, forKey: Notifications.newlyReleasedMovie)
             
             // Remove notification pending requests
-            NotificationBase.removePendingNotifications(identifier: NotificationBase.newlyReleasedMovie)
+            Notifications.removePendingNotifications(identifier: Notifications.newlyReleasedMovie)
         }
     }
     
@@ -100,25 +100,25 @@ class SettingsVC: UITableViewController {
                     print("Notifications allowed. Schedule local notification for most popular movie...")
                     DispatchQueue.main.async {
                         // Set most popular movie key in UserDefaults to true
-                        self.defaults.set(true, forKey: NotificationBase.mostPopularMovieId)
+                        self.defaults.set(true, forKey: Notifications.mostPopularMovieId)
                         
                         // Schedule notification to notify most popular movie daily
-                        NotificationBase.scheduleNotificationForMostPopularMovie(time: self.mostPopularMovieTime)
+                        Notifications.scheduleNotificationForMostPopularMovie(time: self.mostPopularMovieTime)
                     }
                 } else {
                     print("Notifications not allowed")
                     DispatchQueue.main.async {
                         sender.setOn(false, animated: false)
-                        NotificationBase.showNotificationDisabledAlert()
+                        Notifications.showNotificationDisabledAlert()
                     }
                 }
             }
         } else {
             // Set most popular movie key in UserDefaults to false
-            self.defaults.set(false, forKey: NotificationBase.mostPopularMovieId)
+            self.defaults.set(false, forKey: Notifications.mostPopularMovieId)
 
             // Remove notification pending requests
-            NotificationBase.removePendingNotifications(identifier: NotificationBase.mostPopularMovieId)
+            Notifications.removePendingNotifications(identifier: Notifications.mostPopularMovieId)
         }
     }
     
@@ -134,11 +134,11 @@ class SettingsVC: UITableViewController {
         let time = formatter.string(from: timePicker.date)
         mpmTimeButton.titleLabel?.text = time
         mostPopularMovieTime = time
-        self.defaults.set(time, forKey: NotificationBase.mostPopularMovieTime)
+        self.defaults.set(time, forKey: Notifications.mostPopularMovieTime)
         
         // Set up new notification for most popular movie
         if mostPopularMovieSwitch.isOn {
-            NotificationBase.scheduleNotificationForMostPopularMovie(time: time)
+            Notifications.scheduleNotificationForMostPopularMovie(time: time)
         }
         
         toolBar.removeFromSuperview()
@@ -397,18 +397,18 @@ class SettingsVC: UITableViewController {
 
         // Load notifications' settings
         print("Loading notifications' settings")
-        let time = self.defaults.string(forKey: NotificationBase.mostPopularMovieTime)
+        let time = self.defaults.string(forKey: Notifications.mostPopularMovieTime)
 
         if time != nil {
             self.mostPopularMovieTime = time!
             self.mpmTimeButton.setTitle(self.mostPopularMovieTime, for: .normal)
         } else {
-            self.mpmTimeButton.setTitle("--:--", for: .normal)
+            self.mpmTimeButton.setTitle("08:00", for: .normal)
         }
 
-        self.mostPopularMovieSwitch.setOn(self.defaults.bool(forKey: NotificationBase.mostPopularMovieId), animated: false)
-        self.newlyReleaseMoviesSwitch.setOn(self.defaults.bool(forKey: NotificationBase.newlyReleasedMovie), animated: false)
-        self.subscribeSwitch.setOn(self.defaults.bool(forKey: NotificationBase.subscribedMovie), animated: false)
+        self.mostPopularMovieSwitch.setOn(self.defaults.bool(forKey: Notifications.mostPopularMovieId), animated: false)
+        self.newlyReleaseMoviesSwitch.setOn(self.defaults.bool(forKey: Notifications.newlyReleasedMovie), animated: false)
+        self.subscribeSwitch.setOn(self.defaults.bool(forKey: Notifications.subscribedMovie), animated: false)
     }
 
     override func viewWillAppear(_ animated: Bool) {

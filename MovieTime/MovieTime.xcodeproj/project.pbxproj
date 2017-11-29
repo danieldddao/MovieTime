@@ -22,7 +22,7 @@
 		AB1E20B71FA5732600B426A2 /* ReviewRatingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E20B51FA5732500B426A2 /* ReviewRatingVC.swift */; };
 		AB30B31A1FB1217200FA35A1 /* CastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30B3191FB1217200FA35A1 /* CastCell.swift */; };
 		AB30B31C1FB1218200FA35A1 /* GenreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB30B31B1FB1218200FA35A1 /* GenreCell.swift */; };
-		AB39799F1FC5360A00D5496D /* NotificationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39799E1FC5360A00D5496D /* NotificationBase.swift */; };
+		AB39799F1FC5360A00D5496D /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB39799E1FC5360A00D5496D /* Notifications.swift */; };
 		AB55853E1FA58BAB00BF73BD /* ReviewRatingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB55853D1FA58BAB00BF73BD /* ReviewRatingVC.xib */; };
 		AB72A7E81F9940A70007000C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72A7E71F9940A70007000C /* AppDelegate.swift */; };
 		AB72A7ED1F9940A70007000C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB72A7EB1F9940A70007000C /* Main.storyboard */; };
@@ -34,6 +34,11 @@
 		AB9EEE3C1FB7BA680065A567 /* MoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EEE381FB7BA680065A567 /* MoviesTableViewController.swift */; };
 		AB9EEE3F1FB7BB070065A567 /* posterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EEE3E1FB7BB070065A567 /* posterCell.swift */; };
 		ABB412001FA7684B000D09C1 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB411FF1FA7684B000D09C1 /* ReviewTableViewCell.swift */; };
+		ABC9D8E71FCF143F008C252E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC9D8E61FCF143F008C252E /* UserNotifications.framework */; };
+		ABC9D8E91FCF143F008C252E /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC9D8E81FCF143F008C252E /* UserNotificationsUI.framework */; };
+		ABC9D8EC1FCF143F008C252E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9D8EB1FCF143F008C252E /* NotificationViewController.swift */; };
+		ABC9D8EF1FCF143F008C252E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABC9D8ED1FCF143F008C252E /* MainInterface.storyboard */; };
+		ABC9D8F31FCF143F008C252E /* NotificationExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ABC9D8E51FCF143F008C252E /* NotificationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		ABCB81281FB5ECC600CA799B /* PersonMoviesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCB81261FB5ECC600CA799B /* PersonMoviesCell.swift */; };
 		ABCD56E81FC2468E00E7D174 /* ShowtimesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCD56E61FC2468D00E7D174 /* ShowtimesVC.swift */; };
 		ABCD56E91FC2468E00E7D174 /* ShowtimesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABCD56E71FC2468D00E7D174 /* ShowtimesVC.xib */; };
@@ -47,6 +52,30 @@
 		E197325D1FB61CDC0056D46C /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197325C1FB61CDC0056D46C /* SearchTableViewController.swift */; };
 		E197325F1FB61EC30056D46C /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E197325E1FB61EC30056D46C /* SearchResultCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABC9D8F11FCF143F008C252E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB72A7DC1F9940A70007000C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABC9D8E41FCF143F008C252E;
+			remoteInfo = NotificationExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ABC9D8F71FCF143F008C252E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				ABC9D8F31FCF143F008C252E /* NotificationExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2A0D07901FAE6B5100B0BB84 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListTableViewController.swift; path = MovieTime/ListsTab/ListTableViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -66,7 +95,7 @@
 		AB1E20B51FA5732500B426A2 /* ReviewRatingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewRatingVC.swift; sourceTree = "<group>"; };
 		AB30B3191FB1217200FA35A1 /* CastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCell.swift; sourceTree = "<group>"; };
 		AB30B31B1FB1218200FA35A1 /* GenreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreCell.swift; sourceTree = "<group>"; };
-		AB39799E1FC5360A00D5496D /* NotificationBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBase.swift; sourceTree = "<group>"; };
+		AB39799E1FC5360A00D5496D /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		AB55853D1FA58BAB00BF73BD /* ReviewRatingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewRatingVC.xib; sourceTree = "<group>"; };
 		AB72A7E41F9940A70007000C /* MovieTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB72A7E71F9940A70007000C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +109,12 @@
 		AB9EEE381FB7BA680065A567 /* MoviesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesTableViewController.swift; sourceTree = "<group>"; };
 		AB9EEE3E1FB7BB070065A567 /* posterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = posterCell.swift; sourceTree = "<group>"; };
 		ABB411FF1FA7684B000D09C1 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		ABC9D8E51FCF143F008C252E /* NotificationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABC9D8E61FCF143F008C252E /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		ABC9D8E81FCF143F008C252E /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		ABC9D8EB1FCF143F008C252E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		ABC9D8EE1FCF143F008C252E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		ABC9D8F01FCF143F008C252E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABCB81261FB5ECC600CA799B /* PersonMoviesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMoviesCell.swift; sourceTree = "<group>"; };
 		ABCD56E61FC2468D00E7D174 /* ShowtimesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowtimesVC.swift; sourceTree = "<group>"; };
 		ABCD56E71FC2468D00E7D174 /* ShowtimesVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowtimesVC.xib; sourceTree = "<group>"; };
@@ -104,6 +139,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ABC9D8E21FCF143F008C252E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABC9D8E91FCF143F008C252E /* UserNotificationsUI.framework in Frameworks */,
+				ABC9D8E71FCF143F008C252E /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -120,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				67305EE376C5002E28F45264 /* Pods_MovieTime.framework */,
+				ABC9D8E61FCF143F008C252E /* UserNotifications.framework */,
+				ABC9D8E81FCF143F008C252E /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -131,6 +177,7 @@
 				AB1C9A901F998E4E002E79CB /* LoginSignupVC.swift */,
 				ABFA02B61FC077D3007685E3 /* AccountUpdateVC.swift */,
 				ABFA02B71FC077D3007685E3 /* AccountUpdateVC.xib */,
+				AB39799E1FC5360A00D5496D /* Notifications.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -140,7 +187,6 @@
 			children = (
 				ABCE15811FADEEC300AF1FAA /* ImageDarknessDetection.swift */,
 				ABCE15831FADF56100AF1FAA /* TMDBBase.swift */,
-				AB39799E1FC5360A00D5496D /* NotificationBase.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -149,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				AB72A7E61F9940A70007000C /* MovieTime */,
+				ABC9D8EA1FCF143F008C252E /* NotificationExtension */,
 				AB72A7E51F9940A70007000C /* Products */,
 				5FEA888E9A7B1C29BD299CD8 /* Pods */,
 				75260F8A10491E4563BA9A11 /* Frameworks */,
@@ -159,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				AB72A7E41F9940A70007000C /* MovieTime.app */,
+				ABC9D8E51FCF143F008C252E /* NotificationExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,6 +292,16 @@
 			path = Review;
 			sourceTree = "<group>";
 		};
+		ABC9D8EA1FCF143F008C252E /* NotificationExtension */ = {
+			isa = PBXGroup;
+			children = (
+				ABC9D8EB1FCF143F008C252E /* NotificationViewController.swift */,
+				ABC9D8ED1FCF143F008C252E /* MainInterface.storyboard */,
+				ABC9D8F01FCF143F008C252E /* Info.plist */,
+			);
+			path = NotificationExtension;
+			sourceTree = "<group>";
+		};
 		ABDB72B01F9D562800EE4AAA /* RecommendationsTab */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,15 +324,34 @@
 				AB72A7E21F9940A70007000C /* Resources */,
 				1FDF5770BD9C0A8377470354 /* [CP] Embed Pods Frameworks */,
 				1347C1525B5DE2EF4EFD9665 /* [CP] Copy Pods Resources */,
+				ABC9D8F71FCF143F008C252E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				ABC9D8F21FCF143F008C252E /* PBXTargetDependency */,
 			);
 			name = MovieTime;
 			productName = MovieTime;
 			productReference = AB72A7E41F9940A70007000C /* MovieTime.app */;
 			productType = "com.apple.product-type.application";
+		};
+		ABC9D8E41FCF143F008C252E /* NotificationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABC9D8F41FCF143F008C252E /* Build configuration list for PBXNativeTarget "NotificationExtension" */;
+			buildPhases = (
+				ABC9D8E11FCF143F008C252E /* Sources */,
+				ABC9D8E21FCF143F008C252E /* Frameworks */,
+				ABC9D8E31FCF143F008C252E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationExtension;
+			productName = NotificationExtension;
+			productReference = ABC9D8E51FCF143F008C252E /* NotificationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -282,7 +359,7 @@
 		AB72A7DC1F9940A70007000C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Team 4";
 				TargetAttributes = {
@@ -297,6 +374,10 @@
 								enabled = 1;
 							};
 						};
+					};
+					ABC9D8E41FCF143F008C252E = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -314,6 +395,7 @@
 			projectRoot = "";
 			targets = (
 				AB72A7E31F9940A70007000C /* MovieTime */,
+				ABC9D8E41FCF143F008C252E /* NotificationExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -330,6 +412,14 @@
 				AB72A7EF1F9940A70007000C /* Assets.xcassets in Resources */,
 				AB72A7ED1F9940A70007000C /* Main.storyboard in Resources */,
 				ABCD56E91FC2468E00E7D174 /* ShowtimesVC.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABC9D8E31FCF143F008C252E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABC9D8EF1FCF143F008C252E /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1847B61FBE3C400074A844 /* PersonInfoVC.swift in Sources */,
-				AB39799F1FC5360A00D5496D /* NotificationBase.swift in Sources */,
+				AB39799F1FC5360A00D5496D /* Notifications.swift in Sources */,
 				AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */,
 				2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */,
 				2A20D3E91FCB3B9E00609B64 /* ClearAllViewController.swift in Sources */,
@@ -452,7 +542,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ABC9D8E11FCF143F008C252E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABC9D8EC1FCF143F008C252E /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABC9D8F21FCF143F008C252E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABC9D8E41FCF143F008C252E /* NotificationExtension */;
+			targetProxy = ABC9D8F11FCF143F008C252E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AB72A7EB1F9940A70007000C /* Main.storyboard */ = {
@@ -469,6 +575,14 @@
 				AB72A7F11F9940A70007000C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		ABC9D8ED1FCF143F008C252E /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABC9D8EE1FCF143F008C252E /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -585,6 +699,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B87750A8105A97ADAB51FDB7 /* Pods-MovieTime.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MovieTime/MovieTime.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -604,6 +719,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DFA433B8C2F01BC6817D7245 /* Pods-MovieTime.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MovieTime/MovieTime.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -616,6 +732,38 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		ABC9D8F51FCF143F008C252E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 625732G463;
+				INFOPLIST_FILE = NotificationExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.MovieTime.NotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ABC9D8F61FCF143F008C252E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 625732G463;
+				INFOPLIST_FILE = NotificationExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uiowa.MovieTime.NotificationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -636,6 +784,15 @@
 			buildConfigurations = (
 				AB72A7F71F9940A70007000C /* Debug */,
 				AB72A7F81F9940A70007000C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABC9D8F41FCF143F008C252E /* Build configuration list for PBXNativeTarget "NotificationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABC9D8F51FCF143F008C252E /* Debug */,
+				ABC9D8F61FCF143F008C252E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

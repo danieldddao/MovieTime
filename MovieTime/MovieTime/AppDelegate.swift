@@ -37,14 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         
         // Schedule notification for most popular movie
-        if defaults.bool(forKey: NotificationBase.mostPopularMovieId) == true {
+        if defaults.bool(forKey: Notifications.mostPopularMovieId) == true {
             // Load time
-            let time = defaults.string(forKey: NotificationBase.mostPopularMovieTime)
+            let time = defaults.string(forKey: Notifications.mostPopularMovieTime)
             if time != nil {
                 MovieMDB.popular(TMDBBase.apiKey, language: "en", page: 1){
                     data, popularMovies in
                     if let popularMovies = popularMovies{
-                        NotificationBase.setupNotificationForMostPopularMovie(movie: popularMovies[0], time: time!)
+                        Notifications.setupNotificationForMostPopularMovie(movie: popularMovies[0], time: time!)
                         completionHandler(UIBackgroundFetchResult.newData)
                     }
                 }
@@ -52,11 +52,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Schedule notification for newly released movies
-        if defaults.bool(forKey: NotificationBase.newlyReleasedMovie) == true {
+        if defaults.bool(forKey: Notifications.newlyReleasedMovie) == true {
             MovieMDB.nowplaying(TMDBBase.apiKey, language: "en", page: 1){
                 data, nowPlaying in
                 if let nowPlaying = nowPlaying{
-                    NotificationBase.setupNotificationForNewlyReleasedMovies(movies: nowPlaying)
+                    Notifications.setupNotificationForNewlyReleasedMovies(movies: nowPlaying)
                 }
             }
         }
@@ -96,17 +96,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let defaults = UserDefaults.standard
                 
                 // Schedule notification for most popular movie
-                if defaults.bool(forKey: NotificationBase.mostPopularMovieId) == true {
+                if defaults.bool(forKey: Notifications.mostPopularMovieId) == true {
                     // Load time
-                    let time = defaults.string(forKey: NotificationBase.mostPopularMovieTime)
+                    let time = defaults.string(forKey: Notifications.mostPopularMovieTime)
                     if time != nil {
-                        NotificationBase.scheduleNotificationForMostPopularMovie(time: time!)
+                        Notifications.scheduleNotificationForMostPopularMovie(time: time!)
                     }
                 }
                 
                 // Schedule notification for newly released movies
-                if defaults.bool(forKey: NotificationBase.newlyReleasedMovie) == true {
-                    NotificationBase.scheduleNotificationForNewlyReleasedMovies()
+                if defaults.bool(forKey: Notifications.newlyReleasedMovie) == true {
+                    Notifications.scheduleNotificationForNewlyReleasedMovies()
                 }
             }
         }

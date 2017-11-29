@@ -12,7 +12,7 @@ import UserNotifications
 import CDAlertView
 import TMDBSwift
 
-class NotificationBase {
+class Notifications {
     
     static var mostPopularMovieId = "LocalNotificationMostPopularMovie"
     static var mostPopularMovieTime = "LocalNotificationMostPopularMovieTime"
@@ -86,7 +86,19 @@ class NotificationBase {
             // Create new notification request and add it to the notification center
             var id = i
             if movies[i].id != nil {id = movies[i].id!}
-            let request = UNNotificationRequest(identifier: "\(newlyReleasedMovie)_\(id)",
+            let movieIdentifier = "\(newlyReleasedMovie)_\(id)"
+            if movies[i].poster_path != nil {
+                if let url = URL(string: "\(TMDBBase.imageURL)\(movies[i].poster_path!)"){
+                    let data = try? Data(contentsOf: url)
+                    if let data = data {
+                        let image = UIImage(data: data)!
+                        if let attachment = UNNotificationAttachment.create(identifier: "\(movieIdentifier)_poster", image: image, options: nil) {
+                            content.attachments = [attachment]
+                        }
+                    }
+                }
+            }
+            let request = UNNotificationRequest(identifier: movieIdentifier,
                 content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
@@ -124,6 +136,19 @@ class NotificationBase {
         let triggerDate = Calendar.current.dateComponents([.hour,.minute,], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
                                                     repeats: true)
+        
+        // Added attachment poster
+        if movie.poster_path != nil {
+            if let url = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
+                let data = try? Data(contentsOf: url)
+                if let data = data {
+                    let image = UIImage(data: data)!
+                    if let attachment = UNNotificationAttachment.create(identifier: "\(mostPopularMovieId)_poster", image: image, options: nil) {
+                        content.attachments = [attachment]
+                    }
+                }
+            }
+        }
         
         // Create new notification request and add it to the notification center
         let request = UNNotificationRequest(identifier: mostPopularMovieId,
@@ -172,3 +197,27 @@ class NotificationBase {
         alertDialog.show()
     }
 }
+
+extension UNNotificationAttachment {
+    
+    static func create(identifier: String, image: UIImage, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
+        let fileManager = FileManager.default
+        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
+        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
+            let imageFileIdentifier = identifier+".png"
+            let fileURL = tmpSubFolderURL.appendingPathComponent(imageFileIdentifier)
+            guard let imageData = UIImagePNGRepresentation(image) else {
+                return nil
+            }
+            try imageData.write(to: fileURL)
+            let imageAttachment = try UNNotificationAttachment.init(identifier: imageFileIdentifier, url: fileURL, options: options)
+            return imageAttachment
+        } catch {
+            print("error " + error.localizedDescription)
+        }
+        return nil
+    }
+}
+
