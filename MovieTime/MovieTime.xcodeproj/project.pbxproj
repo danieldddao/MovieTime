@@ -33,6 +33,7 @@
 		AB9EEE3B1FB7BA680065A567 /* CategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EEE371FB7BA670065A567 /* CategoryRow.swift */; };
 		AB9EEE3C1FB7BA680065A567 /* MoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EEE381FB7BA680065A567 /* MoviesTableViewController.swift */; };
 		AB9EEE3F1FB7BB070065A567 /* posterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9EEE3E1FB7BB070065A567 /* posterCell.swift */; };
+		AB9F92601FCF626300AC9ED6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9D8EB1FCF143F008C252E /* NotificationViewController.swift */; };
 		ABB412001FA7684B000D09C1 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB411FF1FA7684B000D09C1 /* ReviewTableViewCell.swift */; };
 		ABC9D8E71FCF143F008C252E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC9D8E61FCF143F008C252E /* UserNotifications.framework */; };
 		ABC9D8E91FCF143F008C252E /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC9D8E81FCF143F008C252E /* UserNotificationsUI.framework */; };
@@ -510,6 +511,7 @@
 			files = (
 				AB1847B61FBE3C400074A844 /* PersonInfoVC.swift in Sources */,
 				AB39799F1FC5360A00D5496D /* Notifications.swift in Sources */,
+				AB9F92601FCF626300AC9ED6 /* NotificationViewController.swift in Sources */,
 				AB1C9A911F998E4E002E79CB /* LoginSignupVC.swift in Sources */,
 				2A0D07911FAE6B5100B0BB84 /* ListTableViewController.swift in Sources */,
 				2A20D3E91FCB3B9E00609B64 /* ClearAllViewController.swift in Sources */,

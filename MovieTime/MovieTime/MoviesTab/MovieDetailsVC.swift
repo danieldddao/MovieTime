@@ -23,6 +23,8 @@ import UserNotifications
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource, YTPlayerViewDelegate, NVActivityIndicatorViewable {
     
+    var loadingView: UIView?
+
     var movieId: Int = 141052
     var currentUser:User? = nil
     let defaults = UserDefaults.standard
@@ -379,7 +381,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                                 
                                 self.movieDetailView.image = processedImage
                                 
-                                self.stopAnimating()
+                                self.loadingView?.removeFromSuperview()
                             }
                         }
                     }
@@ -617,10 +619,16 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MovieDetailsVC loading")
-        self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+        
+        // Setup loading view
+        self.loadingView = UIView(frame: view.frame)
+        self.loadingView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.93)
+        let loadingIndicator = NVActivityIndicatorView(frame: CGRect(x: self.view.frame.width/2 - 30, y:self.view.frame.height/2 - 60, width: 60, height: 60), type: .ballPulse, color: nil, padding: nil)
+        loadingIndicator.startAnimating()
+        self.loadingView?.addSubview(loadingIndicator)
+        self.view.addSubview(self.loadingView!)
         
         // get clicked movie id
-//        self.movieId = (clickedMovie?.id)!
         self.movieId = clickedMovieId
         print("movie id = \(self.movieId)")
         

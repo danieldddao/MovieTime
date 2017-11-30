@@ -11,9 +11,10 @@ import Firebase
 import PopupDialog
 import UserNotifications
 import TMDBSwift
+import Material
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -21,11 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure();
+        
+        UNUserNotificationCenter.current().delegate = self
 
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
             print("Notification granted: \(granted)")
         }
+        
+        Notifications.addCategory()
         
         UIApplication.shared.setMinimumBackgroundFetchInterval(30)
 
@@ -111,6 +116,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("received remote notification, go to movie-detail")
+        let tabBarController = self.window?.rootViewController as! BottomNavigationController
+        tabBarController.selectedIndex = 0
+    }
+    
+    private func application(_ application: UIApplication, didReceive notification: UNNotificationRequest) {
+        print("received notification, go to movie-detail")
+        // Go to movie-detail view
+        let tabBarController = self.window?.rootViewController as! BottomNavigationController
+        tabBarController.selectedIndex = 0
+    }
 
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print("Tapped to open notification")
+        // Get movie id
+        let requestId = response.notification.request.identifier
+        let indexId = requestId.index(after: requestId.index(of: "_")!)
+        let movieId = Int(requestId[indexId...])
+        clickedMovieId = movieId!
+        
+        // Go to movie-detail view
+        let tabBarController = self.window?.rootViewController as! BottomNavigationController
+        tabBarController.selectedIndex = 0
+        let movieDetailVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "movieDetailVC")
+        let navVC = tabBarController.viewControllers![0] as! UINavigationController
+        navVC.popToRootViewController(animated: false)
+        navVC.pushViewController(movieDetailVC, animated: true)
+        completionHandler()
+    }
+    
+    // Show notification while the app is in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler( [.alert,.sound,.badge])
+    }
 }
 

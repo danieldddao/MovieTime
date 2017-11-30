@@ -132,10 +132,10 @@ class SettingsVC: UITableViewController {
         formatter.timeStyle = .short
         formatter.dateFormat = "HH:mm"
         let time = formatter.string(from: timePicker.date)
-        mpmTimeButton.titleLabel?.text = time
         mostPopularMovieTime = time
         self.defaults.set(time, forKey: Notifications.mostPopularMovieTime)
-        
+        self.mpmTimeButton.setTitle(mostPopularMovieTime, for: .normal)
+
         // Set up new notification for most popular movie
         if mostPopularMovieSwitch.isOn {
             Notifications.scheduleNotificationForMostPopularMovie(time: time)
@@ -147,7 +147,7 @@ class SettingsVC: UITableViewController {
     @objc func cancelPressed() {
         toolBar.removeFromSuperview()
         timePicker.removeFromSuperview()
-        mpmTimeButton.titleLabel?.text = mostPopularMovieTime
+        self.mpmTimeButton.setTitle(mostPopularMovieTime, for: .normal)
     }
     func createTimePicker() {
         // format for picker

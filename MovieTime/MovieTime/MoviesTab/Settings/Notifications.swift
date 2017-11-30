@@ -12,6 +12,12 @@ import UserNotifications
 import CDAlertView
 import TMDBSwift
 
+struct Identifiers {
+    static let movieTimeCategory = "movieTimeCategory"
+    static let viewAction = "View"
+    static let dismissAction = "Dismiss"
+}
+
 class Notifications {
     
     static var mostPopularMovieId = "LocalNotificationMostPopularMovie"
@@ -29,6 +35,8 @@ class Notifications {
         content.subtitle = subtitle
         content.body = contentBody
         content.sound = UNNotificationSound.default()
+        content.categoryIdentifier = Identifiers.movieTimeCategory
+        print("category: \(content.categoryIdentifier)")
         return content
     }
     
@@ -112,7 +120,9 @@ class Notifications {
         MovieMDB.popular(TMDBBase.apiKey, language: "en", page: 1){
             data, popularMovies in
             if let movie = popularMovies{
-                self.setupNotificationForMostPopularMovie(movie: movie[0], time: time)
+                if movie.count > 0 {
+                    self.setupNotificationForMostPopularMovie(movie: movie[0], time: time)
+                }
             }
         }
     }
@@ -151,7 +161,7 @@ class Notifications {
         }
         
         // Create new notification request and add it to the notification center
-        let request = UNNotificationRequest(identifier: mostPopularMovieId,
+        let request = UNNotificationRequest(identifier: "\(mostPopularMovieId)_\(movie.id!)",
                                             content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
@@ -165,6 +175,24 @@ class Notifications {
                 }
             }
         }
+    }
+    
+    static func addCategory() {
+        // Add actions
+        let viewAction = UNNotificationAction(identifier: Identifiers.viewAction,
+                                                 title: "View",
+                                                 options: [.foreground])
+        let dismissAction = UNNotificationAction(identifier: Identifiers.dismissAction,
+                                                title: "Dimiss",
+                                                options: [.destructive])
+        
+        // Create category
+        let category = UNNotificationCategory(identifier: Identifiers.movieTimeCategory,
+                                              actions: [viewAction, dismissAction],
+                                              intentIdentifiers: [],
+                                              options: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
     }
     
     static func showNotificationDisabledAlert() {
