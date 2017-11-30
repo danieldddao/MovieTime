@@ -69,6 +69,7 @@ class SearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = self.searchResults[indexPath.row]
         clickedMovie = movie
+        clickedMovieId = movie.id!
     }
     
     func populateSearchResults(query: String) {
