@@ -31,6 +31,7 @@ extension CategoryRow : UICollectionViewDataSource, UICollectionViewDelegate {
         
         let movie: MovieMDB
         movie = (genre?.movies[indexPath.row])!
+        cell.imgView.image = UIImage(named: "emptyPoster")
         
         if movie.poster_path != nil{
             //print("\(TMDBBase.imageURL)\(posterPath)")
