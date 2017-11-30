@@ -38,7 +38,8 @@ class RecommendationCollectionViewController: UICollectionViewController {
             }
         }
     }
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         myRecommender = recommender(){
@@ -89,7 +90,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
-        
+        cell.imgView.image = UIImage(named: "emptyCast")
         let movieID = self.recommendMovieId[indexPath.row]
         print(indexPath.row)
         print(movieID)
@@ -109,7 +110,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     
                     print("\(TMDBBase.imageURL)\(posterPath)")
                     if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
-                        DispatchQueue.global().async {
+                        DispatchQueue.main.async {
                             let data = try? Data(contentsOf: imageURL)
                             if let data = data {
                                 let image = UIImage(data: data)
@@ -120,6 +121,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                                 }
                             }
                         }
+                        
                     }
                 }
             }
