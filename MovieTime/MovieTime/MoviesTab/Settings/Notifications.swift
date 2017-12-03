@@ -11,11 +11,12 @@ import Foundation
 import UserNotifications
 import CDAlertView
 import TMDBSwift
+import FirebaseDatabase
 
 struct Identifiers {
     static let movieTimeCategory = "movieTimeCategory"
     static let viewAction = "View"
-    static let dismissAction = "Dismiss"
+    static let playTrailerAction = "PlayTrailer"
 }
 
 class Notifications {
@@ -60,26 +61,49 @@ class Notifications {
         MovieMDB.nowplaying(TMDBBase.apiKey, language: "en", page: 1){
             data, nowPlaying in
             if let movies = nowPlaying{
-                self.setupNotificationForNewlyReleasedMovies(movies: movies)
+                self.setupNotificationForNewlyReleasedMovies(moviesInput: movies)
             }
         }
     }
-    static func setupNotificationForNewlyReleasedMovies(movies: [MovieMDB]) {
-        // Randomly choose 4 time periods
-        let time = ["09:45", "09:47", "09:48", "09:49"]
+    static func setupNotificationForNewlyReleasedMovies(moviesInput: [MovieMDB]) {
         
-        // Randomly choose 4 movies
+        // Randomly choose number of time periods between 1 and 6
+        var num = Int(arc4random_uniform(6)) + 1
+        print("number of notifications: \(num)")
         
-        for i in 0...3 {
+        // Randomly choose time periods between 8 AM and 9 PM
+        var time:[String] = []
+        while time.count != num {
+            let randomHour = Int(arc4random_uniform(14)) + 8
+            let randomMinute = Int(arc4random_uniform(60))
+            let timeString = "\(randomHour):\(randomMinute)"
+            if !time.contains(timeString) {
+                time.append(timeString)
+            }
+        }
+        
+        // Randomly choose movies
+        var movieIndexes:[Int] = []
+        var movies:[MovieMDB] = []
+        if moviesInput.count < num { num = moviesInput.count }
+        while movieIndexes.count != num {
+            let index = Int(arc4random_uniform(UInt32(num)))
+            if !movieIndexes.contains(index) {
+                movieIndexes.append(index)
+            }
+        }
+        for i in 0...(movieIndexes.count - 1) {
+            print("movie index #\(movieIndexes[i]) is chosen")
+            movies.append(moviesInput[movieIndexes[i]])
+        }
+        
+        for i in 0...(movies.count - 1) {
             print("Scheduling notification for newly released movie \(movies[i].title!) on \(time[i])")
             // Schedule notification daily
             var contentBody = ""
             let contentSubtitle = movies[i].title!
             if movies[i].release_date != nil {
-                contentBody += "Released on \(movies[i].release_date!)\n"
-            }
-            if movies[i].overview != nil {
-                contentBody += "Overview: \(movies[i].overview!)"
+                contentBody += "Released on \(movies[i].release_date!)"
             }
             let content = setupNotificationContent(title: "New movie is released!", subtitle: contentSubtitle, body: contentBody)
             
@@ -91,7 +115,7 @@ class Notifications {
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
                                                         repeats: true)
             
-            // Create new notification request and add it to the notification center
+            // Add attachment image to content
             var id = i
             if movies[i].id != nil {id = movies[i].id!}
             let movieIdentifier = "\(newlyReleasedMovie)_\(id)"
@@ -106,9 +130,39 @@ class Notifications {
                     }
                 }
             }
-            let request = UNNotificationRequest(identifier: movieIdentifier,
-                content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+            // Get Average Rating
+            Database.database().reference().child("averageRatings").child(String(movies[i].id!)).observeSingleEvent(of: .value, with: { snapshot in
+                if snapshot.exists() {
+                    // Get average rating value
+                    for child in snapshot.children.allObjects as! [DataSnapshot] {
+                        let avgRating = child.value as! Float
+                        print("avgRating: \(avgRating)")
+                        // Add movie info to notification content
+                        let movieDict: [String: String] = [
+                            "score": "\(movies[i].vote_average ?? 0)",
+                            "overview": movies[i].overview ?? "N/A",
+                            "averageRating" : "\(avgRating)"
+                            ]
+                        content.userInfo = movieDict
+                        
+                        let request = UNNotificationRequest(identifier: movieIdentifier,
+                                                            content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    }
+                } else {
+                    let movieDict: [String: String] = [
+                        "score": "\(movies[i].vote_average ?? 0)",
+                        "overview": movies[i].overview ?? "N/A",
+                        "averageRating" : "N/A"
+                        ]
+                    content.userInfo = movieDict
+                    
+                    let request = UNNotificationRequest(identifier: movieIdentifier,
+                                                        content: content, trigger: trigger)
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                }
+            })
         }
     }
     
@@ -134,9 +188,7 @@ class Notifications {
             //                    print("released: \(movie[0].release_date!)")
             contentBody += "Released on \(movie.release_date!)\n"
         }
-        if movie.overview != nil {
-            contentBody += "Overview: \(movie.overview!)"
-        }
+
         let content = setupNotificationContent(title: "Today's popular movie:", subtitle: contentSub, body: contentBody)
         
         // Trigger notification at release date
@@ -160,10 +212,40 @@ class Notifications {
             }
         }
         
-        // Create new notification request and add it to the notification center
-        let request = UNNotificationRequest(identifier: "\(mostPopularMovieId)_\(movie.id!)",
-                                            content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        // Get Average Rating
+        Database.database().reference().child("averageRatings").child(String(movie.id!)).observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.exists() {
+                // Get average rating value
+                for child in snapshot.children.allObjects as! [DataSnapshot] {
+                    let avgRating = child.value as! Float
+                    print("avgRating: \(avgRating)")
+                    // Add movie info to notification content
+                    let movieDict: [String: String] = [
+                        "score": "\(movie.vote_average ?? 0)",
+                        "overview": movie.overview ?? "N/A",
+                        "averageRating" : "\(avgRating)"
+                    ]
+                    content.userInfo = movieDict
+                    
+                    // Create new notification request and add it to the notification center
+                    let request = UNNotificationRequest(identifier: "\(mostPopularMovieId)_\(movie.id!)",
+                        content: content, trigger: trigger)
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                }
+            } else {
+                let movieDict: [String: String] = [
+                    "score": "\(movie.vote_average ?? 0)",
+                    "overview": movie.overview ?? "N/A",
+                    "averageRating" : "N/A"
+                ]
+                content.userInfo = movieDict
+                
+                // Create new notification request and add it to the notification center
+                let request = UNNotificationRequest(identifier: "\(mostPopularMovieId)_\(movie.id!)",
+                    content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            }
+        })
     }
     
     static func removePendingNotifications(identifier: String) {
@@ -182,13 +264,13 @@ class Notifications {
         let viewAction = UNNotificationAction(identifier: Identifiers.viewAction,
                                                  title: "View",
                                                  options: [.foreground])
-        let dismissAction = UNNotificationAction(identifier: Identifiers.dismissAction,
-                                                title: "Dimiss",
-                                                options: [.destructive])
+        let playTrailerAction = UNNotificationAction(identifier: Identifiers.playTrailerAction,
+                                                title: "Play Trailer",
+                                                options: [.foreground])
         
         // Create category
         let category = UNNotificationCategory(identifier: Identifiers.movieTimeCategory,
-                                              actions: [viewAction, dismissAction],
+                                              actions: [viewAction, playTrailerAction],
                                               intentIdentifiers: [],
                                               options: [])
         

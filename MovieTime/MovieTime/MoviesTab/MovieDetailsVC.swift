@@ -110,7 +110,11 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                                 
                                 // Set up notification content
                                 print("Set up notification content")
-                                let content = Notifications.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: self.movieOverview)
+                                var contentBody = ""
+                                if self.movieRelease_Date != nil {
+                                    contentBody += "Released on \(self.movieRelease_Date!)"
+                                }
+                                let content = Notifications.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: contentBody)
                                 
                                 // Trigger notification at release date
                                 print("Trigger notification at release date")
@@ -125,23 +129,69 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                                     }
                                 }
                                 
-                                // Create new notification request and add it to the notification center
-                                print("Create new notification request and add it to the notification center")
-                                let request = UNNotificationRequest(identifier: identifier,
-                                                                    content: content, trigger: trigger)
-                                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                                    if let error = error?.localizedDescription {
-                                        print(error)
-                                        // Something went wrong
-                                        DispatchQueue.main.async {
-                                            Notifications.showErrorAlert(error: error)
+                                // Get Average Rating
+                                self.ref.child("averageRatings").child(String(self.movieId)).observeSingleEvent(of: .value, with: { snapshot in
+                                    if snapshot.exists() {
+                                        // Get average rating value
+                                        for child in snapshot.children.allObjects as! [DataSnapshot] {
+                                            let avgRating = child.value as! Float
+                                            
+                                            // Add movie info to notification content
+                                            let movieDict: [String: String] = [
+                                                "score": "\(Double(self.userScoreIndicator.value))",
+                                                "overview": self.movieOverview ?? "N/A",
+                                                "averageRating" : "\(avgRating)"
+                                                ]
+                                            content.userInfo = movieDict
+                                            
+                                            // Create new notification request and add it to the notification center
+                                            print("Create new notification request and add it to the notification center")
+                                            let request = UNNotificationRequest(identifier: identifier,
+                                                                                content: content, trigger: trigger)
+                                            UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                                                if let error = error?.localizedDescription {
+                                                    print(error)
+                                                    // Something went wrong
+                                                    DispatchQueue.main.async {
+                                                        Notifications.showErrorAlert(error: error)
+                                                    }
+                                                } else {
+                                                    // Show success alert
+                                                    DispatchQueue.main.async {
+                                                        Notifications.showNotifyUnreleasedMovieSuccessAlert()
+                                                        self.checkIfItsInPendingNotifications()
+                                                    }
+                                                }
+                                            })
                                         }
                                     } else {
-                                        // Show success alert
-                                        DispatchQueue.main.async {
-                                            Notifications.showNotifyUnreleasedMovieSuccessAlert()
-                                            self.checkIfItsInPendingNotifications()
-                                        }
+                                        // Add movie info to notification content
+                                        let movieDict: [String: String] = [
+                                            "score": "\(Double(self.userScoreIndicator.value))",
+                                            "overview": self.movieOverview ?? "N/A",
+                                            "averageRating" : "N/A"
+                                        ]
+                                        content.userInfo = movieDict
+                                        
+                                        // Create new notification request and add it to the notification center
+                                        print("Create new notification request and add it to the notification center")
+                                        let request = UNNotificationRequest(identifier: identifier,
+                                                                            content: content, trigger: trigger)
+                                        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                                            if let error = error?.localizedDescription {
+                                                print(error)
+                                                // Something went wrong
+                                                DispatchQueue.main.async {
+                                                    Notifications.showErrorAlert(error: error)
+                                                }
+                                            } else {
+                                                // Show success alert
+                                                DispatchQueue.main.async {
+                                                    Notifications.showNotifyUnreleasedMovieSuccessAlert()
+                                                    self.checkIfItsInPendingNotifications()
+                                                }
+                                            }
+                                        })
                                     }
                                 })
                             })
@@ -312,11 +362,11 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     // Automatically play trailer video when it's ready
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        self.youtubePlayerView.playVideo()
+        playerView.playVideo()
+//        self.youtubePlayerView.playVideo()
         self.stopAnimating() // stop activity indicator
     }
-    // Play Youtube trailer when trailer button is pressed
-    @IBAction func trailerButtonPressed(_ sender: RaisedButton) {
+    func loadTrailer() {
         MovieMDB.videos(TMDBBase.apiKey, movieID: movieId, language: "en"){
             apiReturn, videos in
             var youtubetrailerID: String?
@@ -337,6 +387,10 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 self.youtubePlayerView.load(withVideoId: youtubetrailerID!)
             }
         }
+    }
+    // Play Youtube trailer when trailer button is pressed
+    @IBAction func trailerButtonPressed(_ sender: RaisedButton) {
+        loadTrailer()
     }
     @IBAction func homeButtonPressed(_ sender: RaisedButton) {
         if (self.homepage == nil || (self.homepage?.isEmpty)!) {

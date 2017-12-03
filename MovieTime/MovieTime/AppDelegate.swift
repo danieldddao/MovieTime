@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             MovieMDB.nowplaying(TMDBBase.apiKey, language: "en", page: 1){
                 data, nowPlaying in
                 if let nowPlaying = nowPlaying{
-                    Notifications.setupNotificationForNewlyReleasedMovies(movies: nowPlaying)
+                    Notifications.setupNotificationForNewlyReleasedMovies(moviesInput: nowPlaying)
                 }
             }
         }
@@ -116,36 +116,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("received remote notification, go to movie-detail")
-        let tabBarController = self.window?.rootViewController as! BottomNavigationController
-        tabBarController.selectedIndex = 0
-    }
-    
-    private func application(_ application: UIApplication, didReceive notification: UNNotificationRequest) {
-        print("received notification, go to movie-detail")
-        // Go to movie-detail view
-        let tabBarController = self.window?.rootViewController as! BottomNavigationController
-        tabBarController.selectedIndex = 0
-    }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        print("Tapped to open notification")
         // Get movie id
         let requestId = response.notification.request.identifier
         let indexId = requestId.index(after: requestId.index(of: "_")!)
         let movieId = Int(requestId[indexId...])
+
+        print("Tapped to open detail view")
         clickedMovieId = movieId!
         
         // Go to movie-detail view
         let tabBarController = self.window?.rootViewController as! BottomNavigationController
         tabBarController.selectedIndex = 0
-        let movieDetailVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "movieDetailVC")
+        let movieDetailVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "movieDetailVC") as! MovieDetailsVC
         let navVC = tabBarController.viewControllers![0] as! UINavigationController
         navVC.popToRootViewController(animated: false)
         navVC.pushViewController(movieDetailVC, animated: true)
+
+        // Play Trailer
+        if response.actionIdentifier == Identifiers.playTrailerAction {
+            print("Tapped to open detail view")
+            movieDetailVC.movieId = movieId!
+            movieDetailVC.loadTrailer()
+        }
+        
         completionHandler()
     }
     
