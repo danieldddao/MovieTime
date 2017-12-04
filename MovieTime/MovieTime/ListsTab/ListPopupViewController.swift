@@ -12,6 +12,7 @@ class ListPopupViewController: UIViewController {
     var listName: String = "default"
     @IBOutlet weak var inputField: UITextField!
     
+    @IBOutlet weak var popWindow: UIView!
     @IBAction func cancelEnter(_ sender: Any) {
         self.removeAnimateNull()
     }
@@ -24,7 +25,7 @@ class ListPopupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        
+        popWindow.layer.cornerRadius = 10
         self.showAnimate()
         // Do any additional setup after loading the view.
     }

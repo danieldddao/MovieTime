@@ -14,6 +14,7 @@ extension MovieDetailsVC {
 
     func addReviewToDatabase(review: Review) {
         let reviewVal = [
+            "name": review.getUserName(),
             "comment": review.getComment(),
             "rating": review.getRating(),
             "date": review.getDate()
@@ -79,7 +80,7 @@ extension MovieDetailsVC {
         self.ref.child("reviews").child(String(movieId)).observe(.childAdded, with: { (snapshot) in
             if let reviewDict = snapshot.value as? [String: Any] {
                 let userEmail: String = self.decodeUserEmail(userEmail: snapshot.key)
-                let review = Review(userEmail: userEmail, tmdbMovieId: self.movieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
+                let review = Review(userEmail: userEmail, userName: reviewDict["name"] as! String, tmdbMovieId: self.movieId, reviewComment: reviewDict["comment"] as! String, rating: reviewDict["rating"] as! Float, date: reviewDict["date"] as! String)
                 
                 self.reviews.append(review)
                 DispatchQueue.main.async {

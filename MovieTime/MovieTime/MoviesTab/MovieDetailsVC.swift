@@ -19,6 +19,7 @@ import AVFoundation
 import AVKit
 import youtube_ios_player_helper
 import NVActivityIndicatorView
+import UserNotifications
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource, YTPlayerViewDelegate, NVActivityIndicatorViewable {
     
@@ -26,7 +27,12 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var currentUser:User? = nil
     let defaults = UserDefaults.standard
     
+    var movieTitle: String!
+    var movieRelease_Date: String?
+    var movieOverview: String?
+    
     @IBOutlet weak var nativationItem: UINavigationItem!
+    @IBOutlet weak var notifyMeButton: RaisedButton!
     
     @IBAction func addToList(_ sender: Any) {
         let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SelectListID") as! AddToListViewController
@@ -36,12 +42,137 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         popupVC.didMove(toParentViewController: self)
     }
     
+    @IBAction func showtimesPressed(_ sender: RaisedButton) {
+        // Create a custom showtimes View Controller
+        let showtimesVC = ShowtimesVC(nibName: "ShowtimesVC", bundle: nil)
+        let searchString = movieTitle!.replacingOccurrences(of: " ", with: "%20")
+        showtimesVC.urlString = "http://www.google.com/search?q=Showtimes%20for%20\(searchString)"
+        
+        // Create the dialog
+        let popup = PopupDialog(viewController: showtimesVC, buttonAlignment: .vertical, transitionStyle: .bounceUp, gestureDismissal: true)
+        showtimesVC.showtimesLabel.text = "Showtimes for \(movieTitle!)"
+        
+        // Create done button
+        let cancelButton = CancelButton(title: "DONE", height: 50) {
+            popup.dismiss()
+        }
+    
+        // Add button to dialog
+        popup.addButtons([cancelButton])
+        
+        // Create the dialog
+        self.present(popup, animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "writeReviewMustLogin" {
             let lsVC:LoginSignupVC = segue.destination as! LoginSignupVC
             lsVC.alert = "Please login to write a review!"
+        } else if segue.identifier == "movieToPersonInfo" {
+            let personVC:PersonInfoVC = segue.destination as! PersonInfoVC
+            personVC.tableTitle = personInfoTableTitle
+            personVC.personId = personInfoId
         }
     }
+    
+    // Notify me when this movie is released
+    // Or cancel to not receive notification
+    @IBAction func notifyMeButtonPressed(_ sender: RaisedButton) {
+        
+        if (self.notifyMeButton.title?.contains("Unsubscribe"))! {
+            // Ask if user want to remove notifcation
+            let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Unsubscribe to not receive notification when this movie is released?", type: .warning)
+            let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
+                // Remove notification
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["\(NotificationBase.newlyReleasedMovie)_\(self.movieId)"])
+                self.checkIfItsInPendingNotifications()
+            })
+            alertDialog.add(action: CDAlertViewAction(title: "No"))
+            alertDialog.add(action: yesButton)
+            alertDialog.show()
+        } else {
+            UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                if(settings.authorizationStatus == .authorized)
+                {
+                    print("Notifications allowed. Schedule local notification for subscribe movie...")
+                    DispatchQueue.main.async {
+                        if self.movieRelease_Date == nil {
+                            NotificationBase.showUnreleasedMovieNotReleaseDateAlert()
+                        } else {
+                            let alertDialog = CDAlertView(title: "NOTIFICATION", message: "Do you want to subscribe to receive notification when this movie is released?", type: .notification)
+                            let yesButton = CDAlertViewAction(title: "Yes", font: nil, textColor: nil, backgroundColor: nil, handler: { (action) in
+                                
+                                // Turn on subsribe switch
+                                self.defaults.set(true, forKey: NotificationBase.subscribedMovie)
+                                
+                                // Set up notification content
+                                print("Set up notification content")
+                                let content = NotificationBase.setupNotificationContent(title: "Movie is released today!", subtitle: self.movieTitle, body: self.movieOverview)
+                                
+                                // Trigger notification at release date
+                                print("Trigger notification at release date")
+                                let release_date = "\(self.movieRelease_Date!)T08:00:00"
+                                let trigger = NotificationBase.setupNotificationTriggerForDate(dateString: release_date)
+                                
+                                // Create new notification request and add it to the notification center
+                                print("Create new notification request and add it to the notification center")
+                                let identifier = "\(NotificationBase.subscribedMovie)_\(self.movieId)"
+                                let request = UNNotificationRequest(identifier: identifier,
+                                                                    content: content, trigger: trigger)
+                                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                                    if let error = error?.localizedDescription {
+                                        print(error)
+                                        // Something went wrong
+                                        DispatchQueue.main.async {
+                                            NotificationBase.showErrorAlert(error: error)
+                                        }
+                                    } else {
+                                        // Show success alert
+                                        DispatchQueue.main.async {
+                                            NotificationBase.showNotifyUnreleasedMovieSuccessAlert()
+                                            self.checkIfItsInPendingNotifications()
+                                        }
+                                    }
+                                })
+                            })
+                            alertDialog.add(action: CDAlertViewAction(title: "Cancel"))
+                            alertDialog.add(action: yesButton)
+                            alertDialog.show()
+                        }
+                    }
+                } else {
+                    print("Notifications not allowed")
+                    DispatchQueue.main.async {
+                        NotificationBase.showNotificationDisabledAlert()
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func checkIfItsInPendingNotifications() {
+        self.notifyMeButton.title = "Subscribe"
+        self.notifyMeButton.titleColor = UIColor.white
+        
+        MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
+            apiReturn, movie in
+            if let movie = movie {
+                if movie.status != nil && movie.status.lowercased() != "released" {
+                    UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
+                        for item in notifications {
+                            if(item.identifier == "\(NotificationBase.subscribedMovie)_\(self.movieId)") {
+                                DispatchQueue.main.async {
+                                    self.notifyMeButton.title = "✔ Unsubscribe"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     //
     // Movie' Details
     //
@@ -70,7 +201,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var castMembers: [MovieCastMDB] = []
     var genres: [genresType] = []
     public typealias genresType = (id: Int?, name: String?)
-
+    var personInfoTableTitle:String!
+    var personInfoId:Int!
+    
     // Set headers
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if collectionView == castCollectionView {
@@ -114,13 +247,13 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == castCollectionView {
             let member = castMembers[indexPath.row]
-//            print("cell for cast member: \(member.name)")
+            //            print("cell for cast member: \(member.name)")
             let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "castCell", for: indexPath) as! CastCell
             cell.castImage.image = UIImage(named: "emptyCast")
             cell.castName.text = member.name
             cell.castRole.text = member.character
             cell.castId = member.cast_id
-//            print("cast: \(member.name) \(member.profile_path)")
+            //            print("cast: \(member.name) \(member.profile_path)")
             if member.profile_path != nil {
                 if let castImageUrl = URL(string: "\(TMDBBase.imageURL)\(member.profile_path!)"){
                     let data = try? Data(contentsOf: castImageUrl)
@@ -135,7 +268,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             return cell
         } else if collectionView == crewCollectionView {
             let member = crewMembers[indexPath.row]
-//            print("cell for crew member: \(member.name)")
+            //            print("cell for crew member: \(member.name)")
             let cell = crewCollectionView.dequeueReusableCell(withReuseIdentifier: "crewCell", for: indexPath) as! CrewCell
             cell.jobLabel.text = member.job
             cell.departmentLabel.text = member.department
@@ -144,7 +277,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             return cell
         } else {
             let genre = genres[indexPath.row]
-//            print("cell for genre: \(member.name)")
+            //            print("cell for genre: \(member.name)")
             let cell = genresCollectionView.dequeueReusableCell(withReuseIdentifier: "genreCell", for: indexPath) as! GenreCell
             cell.genreLabel.text = genre.name!
             return cell
@@ -154,23 +287,16 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     // Tap on a crew or cast
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == castCollectionView || collectionView == crewCollectionView {
-//            print("cast/crew cell selected: \(indexPath.row)")
-            // Create a custom review & rating view controller
-            let memberInfoVC = MemberInfoVC(nibName: "MemberInfoVC", bundle: nil)
+            //            print("cast/crew cell selected: \(indexPath.row)")
             if collectionView == castCollectionView {
                 let cast = castMembers[indexPath.row]
-                memberInfoVC.memberId = cast.id
-                memberInfoVC.tableTitle = "Appeared in:"
+                personInfoId = cast.id
+                personInfoTableTitle = "Appeared in:"
             } else {
-                memberInfoVC.memberId = crewMembers[indexPath.row].id
-                memberInfoVC.tableTitle = "In Movies:"
+                personInfoId = crewMembers[indexPath.row].id
+                personInfoTableTitle = "In Movies:"
             }
-            
-            // Create the dialog
-            let popup = PopupDialog(viewController: memberInfoVC, buttonAlignment: .vertical, transitionStyle: .bounceDown, gestureDismissal: true)
-            
-            // Create the dialog
-//            self.present(popup, animated: true, completion: nil)
+            self.performSegue(withIdentifier: "movieToPersonInfo", sender: self)
         }
     }
     
@@ -197,7 +323,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
             } else {
                 // show activity indicator
                 self.startAnimating(nil, message: "Loading Trailer", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: nil, textColor: nil)
-
+                
                 self.youtubePlayerView.load(withVideoId: youtubetrailerID!)
             }
         }
@@ -216,36 +342,37 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     
     func loadMovieDetails() {
         // Load Movie details from Movie Id and show datails on screen
-        MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
+        MovieMDB.movie(TMDBBase.apiKey, movieID: self.movieId, language: "en"){
             apiReturn, movie in
             if let movie = movie {
                 
                 // Show poster and background
-                if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
-                    let data = try? Data(contentsOf: posterUrl)
-                    if let data = data {
-                        DispatchQueue.main.async {
-                            let image = UIImage(data: data)!
-                            self.posterImage.image = image
-                            
-                            // Add blur effect to image
-                            let context = CIContext(options: nil)
-                            let currentFilter = CIFilter(name: "CIGaussianBlur")
-                            let beginImage = CIImage(image: image)
-                            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-                            currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
-                            
-                            let cropFilter = CIFilter(name: "CICrop")
-                            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
-                            cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
-                            let output = cropFilter!.outputImage
-                            let cgimg = context.createCGImage(output!, from: output!.extent)
-                            let processedImage = UIImage(cgImage: cgimg!).alpha(0.5)
-                            
-//                            print("image darkness:\(processedImage.isDark)")
-                            self.movieDetailView.image = processedImage
-                            
-                            self.stopAnimating()
+                if movie.poster_path != nil {
+                    if let posterUrl = URL(string: "\(TMDBBase.imageURL)\(movie.poster_path!)"){
+                        let data = try? Data(contentsOf: posterUrl)
+                        if let data = data {
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: data)!
+                                self.posterImage.image = image
+                                
+                                // Add blur effect to image
+                                let context = CIContext(options: nil)
+                                let currentFilter = CIFilter(name: "CIGaussianBlur")
+                                let beginImage = CIImage(image: image)
+                                currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+                                currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+                                
+                                let cropFilter = CIFilter(name: "CICrop")
+                                cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+                                cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+                                let output = cropFilter!.outputImage
+                                let cgimg = context.createCGImage(output!, from: output!.extent)
+                                let processedImage = UIImage(cgImage: cgimg!).alpha(0.5)
+                                
+                                self.movieDetailView.image = processedImage
+                                
+                                self.stopAnimating()
+                            }
                         }
                     }
                 }
@@ -262,8 +389,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.overviewTextView.text = "Overview:"
                 } else {
                     self.overviewTextView.text = "Overview:\n\(movie.overview!)"
+                    self.movieOverview = movie.overview!
                 }
-
+                
                 if movie.vote_average == nil {
                     self.userScoreIndicator.value = CGFloat(0)
                 } else {
@@ -279,6 +407,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                         self.writeReviewButton.title = "Review not available"
                         self.writeReviewButton.titleColor = UIColor.black
                         self.writeReviewButton.backgroundColor = UIColor.lightGray
+                        self.notifyMeButton.isHidden = false
+                    } else {
+                        self.notifyMeButton.isHidden = true
                     }
                 }
                 
@@ -298,6 +429,9 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                     self.releaseDateLabel.text = "Release Date:\n\(releaseDate)"
                     self.navigationItem.title = self.navigationItem.title!  + " (\(releaseYear))"
                     self.titleLabel.text = self.titleLabel.text!  + " (\(releaseYear))"
+                    self.movieTitle = self.titleLabel.text
+                    self.movieRelease_Date = releaseDate
+                    
                 }
                 
                 if movie.budget == nil {
@@ -335,8 +469,11 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                 } else {
                     self.adultLabel.text = "For Adult:\nNo"
                 }
-
-                self.taglineLabel.text = "Tagline:\n\(movie.tagline!)"
+                
+                if movie.tagline != nil {
+                    self.taglineLabel.text = "Tagline:\n\(movie.tagline!)"
+                }
+                
                 self.homepage = movie.homepage
                 
                 for genre in movie.genres {
@@ -347,8 +484,6 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
                         }
                     }
                 }
-            } else {
-                // Default details
             }
         }
         
@@ -376,6 +511,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     //
     // Reviews And Ratings
     //
+    // code to connect to the database in ReviewDB.swift
+    //
     var ref: DatabaseReference!
     var alert: CDAlertView!
     var dataSourceItems: [DataSourceItem] = []
@@ -399,32 +536,31 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     func showWriteReviewPopup() {
         // Create a custom review & rating view controller
         let ratingVC = ReviewRatingVC(nibName: "ReviewRatingVC", bundle: nil)
-
+        
         // Create the dialog
         let popup = PopupDialog(viewController: ratingVC, buttonAlignment: .horizontal, transitionStyle: .bounceUp, gestureDismissal: true)
         
         // Create cancel button
         let cancelButton = CancelButton(title: "CANCEL", height: 50) {
         }
-
+        
         // Create submit button
         let submitButton = DestructiveButton(title: "SUBMIT", height: 50) {
             if (ratingVC.reviewTextView.text.isEmpty) {
                 ratingVC.alertLabel.text = "Review can't be empty!"
             } else {
                 popup.dismiss()
-
+                
                 // Add review to the database
                 if (self.currentUser != nil) {
-                    let review = Review(userEmail: self.currentUser!.email!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
+                    let review = Review(userEmail: self.currentUser!.email!, userName: self.currentUser!.displayName!, tmdbMovieId: self.movieId, reviewComment: ratingVC.reviewTextView.text, rating: Float(ratingVC.starRating.value))
                     self.addReviewToDatabase(review: review)
-                } else {
-
+                    self.checkIfCurrentUserPostedReview()
                 }
             }
         }
         submitButton.dismissOnTap = false
-
+        
         // Add buttons to dialog
         popup.addButtons([cancelButton, submitButton])
         
@@ -462,8 +598,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         let review = reviews[indexPath.section]
         print("Create cell for \(review.getUserEmail())")
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
-        let email = review.getUserEmail()
-        cell.usernameLabel.text = String(email[..<(email.index(of: "@")!)])
+        cell.usernameLabel.text = review.getUserName()
         cell.ratedDateLabel.text = "On \(review.getDate())"
         cell.userRating.value = CGFloat(review.getRating())
         cell.userComment.text = review.getComment()
@@ -477,7 +612,10 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
         
         // get clicked movie id
+//        self.movieId = (clickedMovie?.id)!
         self.movieId = clickedMovieId
+        print("movie id = \(self.movieId)")
+        
         var historyMovieID:[Int] = []
         // deal with user explored history
         //defaults.removeObject(forKey: "Explored History")
@@ -509,7 +647,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         genresCollectionView.backgroundColor = UIColor.clear
         layout = genresCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
-                
+        
         // Create a reference to Firebase database
         self.ref = Database.database().reference()
         
@@ -519,8 +657,11 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         // Load movie's details
         self.loadMovieDetails()
         
+        // Load reviews for this movie from Firebase
         self.loadReviewsToReviewTable()
         
+        // Check if this movie has been in pending notification requests
+        checkIfItsInPendingNotifications()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -534,5 +675,3 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
         self.loadAvgRating()
     }
 }
-
-

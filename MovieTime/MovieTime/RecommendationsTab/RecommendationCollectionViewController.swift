@@ -106,8 +106,12 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     print(title)
                     //print(posterPath)
                     
-                    
-                    
+                    cell.title.text = title
+                    cell.genres.text = movie.genres[0].name
+                    if movie.genres.count > 1{
+                        cell.genres.text?.append(", ")
+                        cell.genres.text?.append(movie.genres[1].name!)
+                    }
                     print("\(TMDBBase.imageURL)\(posterPath)")
                     if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
                         DispatchQueue.main.async {
@@ -136,7 +140,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieID = self.recommendMovieId[indexPath.row]
         clickedMovieId = movieID
-        clickedMovie = recommendMovie[movieID]
+//        clickedMovie = recommendMovie[movieID]
         print("in function id: \(clickedMovieId)")
         
     }

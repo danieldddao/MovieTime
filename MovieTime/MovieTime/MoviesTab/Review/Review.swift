@@ -12,12 +12,14 @@ class Review: NSObject {
     
     private var movieId: Int?
     private var userEmail: String?
+    private var userName: String?
     private var comment: String?
     private var rating: Float?
     private var date: String?
     
-    init(userEmail:String, tmdbMovieId: Int, reviewComment: String, rating: Float) {
+    init(userEmail:String, userName:String, tmdbMovieId: Int, reviewComment: String, rating: Float) {
         self.userEmail = userEmail
+        self.userName = userName
         self.movieId = tmdbMovieId
         self.comment = reviewComment
         self.rating = rating
@@ -29,8 +31,9 @@ class Review: NSObject {
         self.date = formatter.string(from:date)
     }
     
-    init(userEmail:String, tmdbMovieId: Int, reviewComment: String, rating: Float, date: String) {
+    init(userEmail:String, userName:String, tmdbMovieId: Int, reviewComment: String, rating: Float, date: String) {
         self.userEmail = userEmail
+        self.userName = userName
         self.movieId = tmdbMovieId
         self.comment = reviewComment
         self.rating = rating
@@ -39,6 +42,10 @@ class Review: NSObject {
     
     func getUserEmail() -> String {
         return self.userEmail!
+    }
+    
+    func getUserName() -> String {
+        return self.userName!
     }
     
     func getMovieId() -> Int {

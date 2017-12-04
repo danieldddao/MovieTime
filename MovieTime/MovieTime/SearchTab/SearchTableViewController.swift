@@ -65,10 +65,18 @@ class SearchTableViewController: UITableViewController {
 
         return cell
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "searchpageToMovieDetailPage" {
+//            let mdVC:MovieDetailsVC = segue.destination as! MovieDetailsVC
+//            mdVC.movieId = clickedMovieId
+//            mdVC.startAnimating(nil, message: "Loading", messageFont: nil, type: nil, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.9), textColor: nil)
+//        }
+//    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = self.searchResults[indexPath.row]
-        clickedMovie = movie
+        let movie = searchResults[indexPath.row]
+//        clickedMovie = movie
         clickedMovieId = movie.id!
     }
     

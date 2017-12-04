@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowtimesVC" customModule="MovieTime" customModuleProvider="target">
+            <connections>
+                <outlet property="showtimesLabel" destination="6gb-zP-ekx" id="Lx6-nn-i83"/>
+                <outlet property="showtimesWebview" destination="asF-Y5-Drb" id="sep-Ng-OfG"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Showtimes for movie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gb-zP-ekx">
+                    <rect key="frame" x="0.0" y="0.0" width="400" height="80"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="sLt-k6-ZXg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="asF-Y5-Drb">
+                    <rect key="frame" x="0.0" y="80" width="400" height="520"/>
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="520" id="4vi-cf-adV"/>
+                    </constraints>
+                    <wkWebViewConfiguration key="configuration">
+                        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                        <wkPreferences key="preferences"/>
+                    </wkWebViewConfiguration>
+                </wkWebView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="asF-Y5-Drb" firstAttribute="top" secondItem="6gb-zP-ekx" secondAttribute="bottom" id="7zT-Oj-hEO"/>
+                <constraint firstItem="6gb-zP-ekx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Him-dr-F8r"/>
+                <constraint firstItem="6gb-zP-ekx" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="MHJ-lX-v1Z"/>
+                <constraint firstItem="6gb-zP-ekx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bOm-SP-el9"/>
+                <constraint firstItem="asF-Y5-Drb" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="cgM-hN-ubH"/>
+                <constraint firstItem="asF-Y5-Drb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gRN-su-jm8"/>
+                <constraint firstItem="asF-Y5-Drb" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="xLW-7j-c3K"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+</document>
