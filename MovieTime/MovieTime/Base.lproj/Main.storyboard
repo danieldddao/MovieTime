@@ -1080,7 +1080,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="Mw7-9e-Tlb" customClass="posterCell" customModule="MovieTime" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Mw7-9e-Tlb" customClass="posterCell" customModule="MovieTime" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="197" height="268"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -1134,6 +1134,16 @@ Kingston upon Thames, Surrey, England, UK</string>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Recommendations" id="OY3-MZ-s7Q">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="N0J-Gv-yRx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w2v-nn-CXy">
+                                <rect key="frame" x="20" y="7" width="52" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Perturb"/>
+                                <connections>
+                                    <action selector="perturb:" destination="AV1-JT-swV" eventType="touchUpInside" id="H9P-RV-05u"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="c67-9f-tAx">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="krN-T1-uyw">
                                 <rect key="frame" x="341" y="7" width="53" height="30"/>

@@ -21,12 +21,13 @@ class RecommendationCollectionViewController: UICollectionViewController {
     var recommendMovieId = [Int]()
     var myRecommender:recommender?
     var recommendMovie:[Int:MovieMDB] = [:]
-    @IBAction func refresh(_ sender: Any) {
-        myRecommender = recommender(){
-            (recommender:recommender) -> () in
-            let myRecommender = recommender
-            myRecommender.preprocessing(yearInterval: 5)
-            myRecommender.basicVotingRecommend(movieNum: 20){
+    
+    @IBAction func perturb(_ sender: Any) {
+        //myRecommender = recommender(){
+        //    (recommender:recommender) -> () in
+        //    let myRecommender = recommender
+        self.myRecommender?.preprocessing(yearInterval: 5)
+        self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0.5){
                 (basicRecommendMovieId:[Int]) -> () in
                 let tmpId = basicRecommendMovieId
                 print("-----------------------------")
@@ -36,7 +37,24 @@ class RecommendationCollectionViewController: UICollectionViewController {
                 print(self.recommendMovieId)
                 self.collectionView?.reloadData()
             }
-        }
+        //}
+    }
+    @IBAction func refresh(_ sender: Any) {
+        //myRecommender = recommender(){
+        //    (recommender:recommender) -> () in
+        //    let myRecommender = recommender
+        self.myRecommender?.preprocessing(yearInterval: 5)
+        self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
+                (basicRecommendMovieId:[Int]) -> () in
+                let tmpId = basicRecommendMovieId
+                print("-----------------------------")
+                print("get basic voting")
+                print(tmpId)
+                self.recommendMovieId = tmpId
+                print(self.recommendMovieId)
+                self.collectionView?.reloadData()
+            }
+        //}
     }
     
     
@@ -44,9 +62,9 @@ class RecommendationCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         myRecommender = recommender(){
             (recommender:recommender) -> () in
-            let myRecommender = recommender
-            myRecommender.preprocessing(yearInterval: 5)
-            myRecommender.basicVotingRecommend(movieNum: 20){
+            self.myRecommender = recommender
+            self.myRecommender?.preprocessing(yearInterval: 5)
+            self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
                 (basicRecommendMovieId:[Int]) -> () in
                 let tmpId = basicRecommendMovieId
                 print("-----------------------------")
@@ -151,7 +169,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
         //use machine learning here
         
         myRecommender?.preprocessing(yearInterval: 5)
-        myRecommender?.basicVotingRecommend(movieNum: num){
+        myRecommender?.basicVotingRecommend(movieNum: num, noisyTerm: 0){
             (basicRecommendMovieId:[Int]) -> () in
             let tmpId = basicRecommendMovieId
             print("-----------------------------")
