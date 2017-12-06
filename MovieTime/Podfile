@@ -38,6 +38,8 @@ target 'MovieTime' do
   # Activity Indicator
   pod 'NVActivityIndicatorView'
 
+  pod 'SVWebViewController'
+
   # UI frameworks
   #pod 'MaterialComponents', :inhibit_warnings => true
   pod 'Material', '~> 2.0', :inhibit_warnings => true

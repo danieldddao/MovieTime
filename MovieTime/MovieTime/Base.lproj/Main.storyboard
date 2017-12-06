@@ -876,7 +876,6 @@ Rating:</string>
                         <outlet property="genresCollectionView" destination="W6m-rG-4Rr" id="wzC-qJ-SVY"/>
                         <outlet property="languageLabel" destination="hiM-Tc-mOW" id="SiE-bc-9pI"/>
                         <outlet property="movieDetailView" destination="7BP-oq-NDR" id="0C3-Xj-XEW"/>
-                        <outlet property="nativationItem" destination="DpP-cs-tR5" id="uni-EC-3KC"/>
                         <outlet property="notifyMeButton" destination="O8h-nR-IAq" id="lq1-xi-nNe"/>
                         <outlet property="overviewTextView" destination="rEE-h7-BaS" id="zVF-4r-Xat"/>
                         <outlet property="posterImage" destination="vq4-Tl-QXF" id="dFR-y9-TMD"/>

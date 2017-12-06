@@ -20,6 +20,7 @@ import AVKit
 import youtube_ios_player_helper
 import NVActivityIndicatorView
 import UserNotifications
+import SVWebViewController
 
 class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, CollectionViewDelegate, CollectionViewDataSource, YTPlayerViewDelegate, NVActivityIndicatorViewable {
     
@@ -34,7 +35,7 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     var movieOverview: String?
     var moviePosterImage: UIImage?
     
-    @IBOutlet weak var nativationItem: UINavigationItem!
+//    @IBOutlet weak var mdNavigationItem: UINavigationItem!
     @IBOutlet weak var notifyMeButton: RaisedButton!
     
     @IBAction func addToList(_ sender: Any) {
@@ -46,25 +47,10 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     }
     
     @IBAction func showtimesPressed(_ sender: RaisedButton) {
-        // Create a custom showtimes View Controller
-        let showtimesVC = ShowtimesVC(nibName: "ShowtimesVC", bundle: nil)
         let searchString = movieTitle!.replacingOccurrences(of: " ", with: "%20")
-        showtimesVC.urlString = "http://www.google.com/search?q=Showtimes%20for%20\(searchString)"
-        
-        // Create the dialog
-        let popup = PopupDialog(viewController: showtimesVC, buttonAlignment: .vertical, transitionStyle: .bounceUp, gestureDismissal: true)
-        showtimesVC.showtimesLabel.text = "Showtimes for \(movieTitle!)"
-        
-        // Create done button
-        let cancelButton = CancelButton(title: "DONE", height: 50) {
-            popup.dismiss()
-        }
-    
-        // Add button to dialog
-        popup.addButtons([cancelButton])
-        
-        // Create the dialog
-        self.present(popup, animated: true, completion: nil)
+        let urlString = "http://www.google.com/search?q=Showtimes%20for%20\(searchString)"
+        let showtimesVC = SVModalWebViewController(address: urlString)
+        self.present(showtimesVC!, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -673,7 +659,8 @@ class MovieDetailsVC: UIViewController, TableViewDelegate, TableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MovieDetailsVC loading")
-        
+        self.navigationItem.title = ""
+
         // Setup loading view
         self.loadingView = UIView(frame: view.frame)
         self.loadingView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.93)

@@ -23,9 +23,11 @@ class Genre {
 var clickedMovieId = 141052
 
 class MoviesTableViewController: UITableViewController {
-
-    let categories = ["Popular", "Top Rated", "Drama", "Comedy", "Documentary", "Action"]
     
+    let categories = ["Upcoming", "Now Playing", "Popular", "Top Rated", "Drama", "Comedy", "Documentary", "Action"]
+    
+    var upcomingMovies = [MovieMDB]()
+    var nowplayingMovies = [MovieMDB]()
     var popularMovies = [MovieMDB]()
     var topRatedMovies = [MovieMDB]()
     var dramaMovies = [MovieMDB]()
@@ -41,6 +43,25 @@ class MoviesTableViewController: UITableViewController {
         
         populatePosters(page: 1)
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl?.addTarget(self, action: #selector(MoviesTableViewController.refreshData), for: UIControlEvents.valueChanged)
+    }
+    
+    @objc func refreshData() {
+        self.genres.removeAll()
+        self.upcomingMovies.removeAll()
+        self.nowplayingMovies.removeAll()
+        self.popularMovies.removeAll()
+        self.topRatedMovies.removeAll()
+        self.dramaMovies.removeAll()
+        self.comedyMovies.removeAll()
+        self.documentaryMovies.removeAll()
+        self.horrorMovies.removeAll()
+        self.actionMovies.removeAll()
+
+        self.populatePosters(page: 1)
+        self.refreshControl?.endRefreshing()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -63,6 +84,32 @@ class MoviesTableViewController: UITableViewController {
     }
     
     func populatePosters(page: Int) {
+        
+        // Load Upcoming
+        MovieMDB.upcoming(TMDBBase.apiKey, page: page, language: "en"){
+            data, upcomingMovies in
+            if let movies = upcomingMovies{
+                self.upcomingMovies.append(contentsOf: movies)
+                self.genres.append(Genre(name: "Upcoming", movies: self.upcomingMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
+        
+        // Load Now Playing
+        MovieMDB.nowplaying(TMDBBase.apiKey, language: "en", page: page){
+            data, nowPlaying in
+            if let movies = nowPlaying{
+                self.nowplayingMovies.append(contentsOf: movies)
+                self.genres.append(Genre(name: "Now Playing", movies: self.nowplayingMovies))
+                
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
+            }
+        }
         
         // Load Popular
         MovieMDB.popular(TMDBBase.apiKey, language: "en", page: page){
