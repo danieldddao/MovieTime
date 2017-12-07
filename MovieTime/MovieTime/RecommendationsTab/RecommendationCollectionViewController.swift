@@ -21,12 +21,13 @@ class RecommendationCollectionViewController: UICollectionViewController {
     var recommendMovieId = [Int]()
     var myRecommender:recommender?
     var recommendMovie:[Int:MovieMDB] = [:]
-    @IBAction func refresh(_ sender: Any) {
-        myRecommender = recommender(){
-            (recommender:recommender) -> () in
-            let myRecommender = recommender
-            myRecommender.preprocessing(yearInterval: 5)
-            myRecommender.basicVotingRecommend(movieNum: 20){
+    
+    @IBAction func perturb(_ sender: Any) {
+        //myRecommender = recommender(){
+        //    (recommender:recommender) -> () in
+        //    let myRecommender = recommender
+        self.myRecommender?.preprocessing(yearInterval: 5)
+        self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0.5){
                 (basicRecommendMovieId:[Int]) -> () in
                 let tmpId = basicRecommendMovieId
                 print("-----------------------------")
@@ -36,16 +37,34 @@ class RecommendationCollectionViewController: UICollectionViewController {
                 print(self.recommendMovieId)
                 self.collectionView?.reloadData()
             }
-        }
+        //}
     }
-
+    @IBAction func refresh(_ sender: Any) {
+        //myRecommender = recommender(){
+        //    (recommender:recommender) -> () in
+        //    let myRecommender = recommender
+        self.myRecommender?.preprocessing(yearInterval: 5)
+        self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
+                (basicRecommendMovieId:[Int]) -> () in
+                let tmpId = basicRecommendMovieId
+                print("-----------------------------")
+                print("get basic voting")
+                print(tmpId)
+                self.recommendMovieId = tmpId
+                print(self.recommendMovieId)
+                self.collectionView?.reloadData()
+            }
+        //}
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         myRecommender = recommender(){
             (recommender:recommender) -> () in
-            let myRecommender = recommender
-            myRecommender.preprocessing(yearInterval: 5)
-            myRecommender.basicVotingRecommend(movieNum: 20){
+            self.myRecommender = recommender
+            self.myRecommender?.preprocessing(yearInterval: 5)
+            self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
                 (basicRecommendMovieId:[Int]) -> () in
                 let tmpId = basicRecommendMovieId
                 print("-----------------------------")
@@ -89,7 +108,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
-        
+        cell.imgView.image = UIImage(named: "emptyPoster")
         let movieID = self.recommendMovieId[indexPath.row]
         print(indexPath.row)
         print(movieID)
@@ -105,11 +124,15 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     print(title)
                     //print(posterPath)
                     
-                    
-                    
+                    cell.title.text = title
+                    cell.genres.text = movie.genres[0].name
+                    if movie.genres.count > 1{
+                        cell.genres.text?.append(", ")
+                        cell.genres.text?.append(movie.genres[1].name!)
+                    }
                     print("\(TMDBBase.imageURL)\(posterPath)")
                     if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
-                        DispatchQueue.global().async {
+                        DispatchQueue.main.async {
                             let data = try? Data(contentsOf: imageURL)
                             if let data = data {
                                 let image = UIImage(data: data)
@@ -120,6 +143,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                                 }
                             }
                         }
+                        
                     }
                 }
             }
@@ -145,7 +169,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
         //use machine learning here
         
         myRecommender?.preprocessing(yearInterval: 5)
-        myRecommender?.basicVotingRecommend(movieNum: num){
+        myRecommender?.basicVotingRecommend(movieNum: num, noisyTerm: 0){
             (basicRecommendMovieId:[Int]) -> () in
             let tmpId = basicRecommendMovieId
             print("-----------------------------")

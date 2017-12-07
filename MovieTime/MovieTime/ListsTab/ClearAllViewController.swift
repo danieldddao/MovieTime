@@ -16,10 +16,12 @@ class ClearAllViewController: UIViewController {
     @IBAction func clear(_ sender: Any) {
         self.removeAnimate()
     }
+    
+    @IBOutlet weak var popWindow: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        
+        popWindow.layer.cornerRadius=10
         self.showAnimate()
         // Do any additional setup after loading the view.
     }

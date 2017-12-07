@@ -68,6 +68,7 @@ class recommender{
                             let dateFeature = date?.timeIntervalSince(startDate!)
                             
                             let genreFeature = self.genreToFeature[movie.genres[0].name!]
+                            print("date-genre-feature:")
                             print(dateFeature!, genreFeature!)
                             self.hisFeature.append((genreFeature!, dateFeature!))
                             if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
@@ -131,7 +132,7 @@ class recommender{
         }
         
     }
-    func basicVotingRecommend(movieNum:Int, completion:@escaping (_ basicRecommendMovieId:[Int]) -> ()){
+    func basicVotingRecommend(movieNum:Int, noisyTerm:Double, completion:@escaping (_ basicRecommendMovieId:[Int]) -> ()){
         let favoWeight:Double = 5
         let hisWeight:Double = 1
         let maxYear:Double = 2020 - 1900
@@ -143,6 +144,7 @@ class recommender{
         var sumDateVote:Double = 0
         var recommendMovieNum = movieNum
         var notRecommended:Bool = true
+        self.basicRecommendMovieId = []
         for _ in 0...self.allGenres.count-1{
             genreVote.append(0)
         }
@@ -164,6 +166,16 @@ class recommender{
         for elem in self.favoDiscreteDate{
             dateVote[elem] += favoWeight
             sumDateVote += favoWeight
+        }
+        
+        let perturb:UInt32 = UInt32(noisyTerm * max(sumGenreVote, Double(movieNum)) )
+        print("--------------------")
+        print(perturb)
+        print("--------------------")
+        for i in 0...genreVote.count-1{
+            let randVote = Double(arc4random_uniform(perturb))
+            genreVote[i] += randVote
+            sumGenreVote += randVote
         }
         
         for i in 0...genreVote.count-1{
@@ -203,54 +215,56 @@ class recommender{
             
             let date2 = Date.init(timeInterval: Double(j+1)*yearInterval*365*24*3600, since: startDate!)
             let date2str = dateFormatter.string(from: date2)
-            
-            DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey, language: "EN", page: 2, primary_release_date_gte: "\(date1str)", primary_release_date_lte: "\(date2str)", with_genres: "\(recommendGenre!)"){
-            //DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: 1, vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: "\(recommendGenre!)"){
-                //-------------------------------------------
-                // bug: find a way to continue query if not reach the budget.
-                //-------------------------------------------
-                
-                data, movieArr  in
-                if let movieArr = movieArr{
+
+            for pageid in 1...2{
+                DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey, language: "EN", page: Double(pageid), primary_release_date_gte: "\(date1str)", primary_release_date_lte: "\(date2str)", with_genres: "\(recommendGenre!)"){
+                    //DiscoverMovieMDB.discoverMovies(apikey: TMDBBase.apiKey,  language:"EN", page: 1, vote_average_gte: 8.0, vote_average_lte: 8, vote_count_gte: 2, with_genres: "\(recommendGenre!)"){
+                    //-------------------------------------------
+                    // bug: find a way to continue query if not reach the budget.
+                    //-------------------------------------------
                     
-                    if budget > 0 && recommendMovieNum > 0{
-                        print(date1str)
-                        print(date2str)
-                        print(recommendGenre!)
-                        if movieArr.count > 0 {
-                            for i in 0...movieArr.count-1{
-                                
-                                //check it is not in watched list
-                                
-                                if budget > 0 && recommendMovieNum > 0{
-                                    if self.watchedID.contains(movieArr[i].id!) == false && self.basicRecommendMovieId.contains(movieArr[i].id!) == false && movieArr[i].id != nil{
-                                        self.basicRecommendMovieId.append(movieArr[i].id!)
-                                        budget -= 1
-                                        recommendMovieNum -= 1
-                                        
-                                        print(movieArr[i].title!)
-                                        if budget <= 0{
-                                            print(self.basicRecommendMovieId)
-                                            print(recommendMovieNum)
-                                            break
+                    data, movieArr  in
+                    if let movieArr = movieArr{
+                        
+                        if budget > 0 && recommendMovieNum > 0{
+                            print(date1str)
+                            print(date2str)
+                            print(recommendGenre!)
+                            if movieArr.count > 0 {
+                                for i in 0...movieArr.count-1{
+                                    
+                                    //check it is not in watched list
+                                    
+                                    if budget > 0 && recommendMovieNum > 0{
+                                        if self.watchedID.contains(movieArr[i].id!) == false && self.basicRecommendMovieId.contains(movieArr[i].id!) == false && movieArr[i].id != nil{
+                                            self.basicRecommendMovieId.append(movieArr[i].id!)
+                                            budget -= 1
+                                            recommendMovieNum -= 1
+                                            
+                                            print(movieArr[i].title!)
+                                            if budget <= 0{
+                                                print(self.basicRecommendMovieId)
+                                                print(recommendMovieNum)
+                                                break
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            DispatchQueue.main.async {
-                                
+                                DispatchQueue.main.async {
+                                    
+                                }
                             }
                         }
-                    }
-                    //print("returning")
-                    if recommendMovieNum <= 0 && notRecommended{
-                        notRecommended = false
-                        completion(self.basicRecommendMovieId)
+                        //print("returning")
+                        if recommendMovieNum <= 0 && notRecommended{
+                            //if recommendMovieNum <= 0{
+                            notRecommended = false
+                            completion(self.basicRecommendMovieId)
+                        }
                     }
                 }
+                //print(k)
             }
-            //print(k)
-            
         }
         
     }
