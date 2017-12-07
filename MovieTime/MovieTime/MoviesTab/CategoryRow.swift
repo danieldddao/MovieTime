@@ -16,6 +16,31 @@ class CategoryRow : UITableViewCell {
     var genre:Genre? = nil {
         didSet {
             collectionView.reloadData()
+//            print(genre?.name )
+
+            // Find upcoming movies since API doesn't give correct upcoming movies
+            if genre?.name == "Upcoming" {
+                self.genre?.movies.removeAll()
+                MovieMDB.upcoming(TMDBBase.apiKey, page: 1, language: "en"){
+                    data, upcomingMovies in
+                    if let movies = upcomingMovies{
+                        for movie in movies {
+                            MovieMDB.movie(TMDBBase.apiKey, movieID: movie.id, language: "en"){
+                                apiReturn, movieDetails in
+                                if let movieDetails = movieDetails {
+                                    if movieDetails.status != nil && movieDetails.status.lowercased() != "released" {
+                                        DispatchQueue.main.async {
+                                            self.genre?.movies.append(movie)
+                                            self.collectionView.reloadData()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
     }
 }

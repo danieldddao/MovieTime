@@ -583,7 +583,7 @@ Unknown</string>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                <integer key="value" value="2"/>
+                                                                <integer key="value" value="5"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="pulseColor">
                                                                 <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1955,7 +1955,7 @@ Kingston upon Thames, Surrey, England, UK</string>
         <image name="settingsIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="afE-oF-dRl"/>
-        <segue reference="dGQ-Xe-gfb"/>
+        <segue reference="H36-1G-F3g"/>
+        <segue reference="NHv-EK-yD2"/>
     </inferredMetricsTieBreakers>
 </document>

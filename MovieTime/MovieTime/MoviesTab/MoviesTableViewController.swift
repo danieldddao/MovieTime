@@ -11,7 +11,7 @@ import TMDBSwift
 
 class Genre {
     let name:String
-    let movies:[MovieMDB]
+    var movies:[MovieMDB]
     
     init(name: String, movies: [MovieMDB]){
         self.name = name
@@ -24,7 +24,7 @@ var clickedMovieId = 141052
 
 class MoviesTableViewController: UITableViewController {
     
-    let categories = ["Upcoming", "Now Playing", "Popular", "Top Rated", "Drama", "Comedy", "Documentary", "Action"]
+//    let categories = ["Upcoming", "Now Playing", "Popular", "Top Rated", "Drama", "Comedy", "Documentary", "Action"]
     
     var upcomingMovies = [MovieMDB]()
     var nowplayingMovies = [MovieMDB]()
@@ -42,26 +42,6 @@ class MoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         populatePosters(page: 1)
-        
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl?.addTarget(self, action: #selector(MoviesTableViewController.refreshData), for: UIControlEvents.valueChanged)
-    }
-    
-    @objc func refreshData() {
-        self.genres.removeAll()
-        self.upcomingMovies.removeAll()
-        self.nowplayingMovies.removeAll()
-        self.popularMovies.removeAll()
-        self.topRatedMovies.removeAll()
-        self.dramaMovies.removeAll()
-        self.comedyMovies.removeAll()
-        self.documentaryMovies.removeAll()
-        self.horrorMovies.removeAll()
-        self.actionMovies.removeAll()
-
-        self.populatePosters(page: 1)
-        self.refreshControl?.endRefreshing()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -80,6 +60,7 @@ class MoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CategoryRow
         cell.genre = genres[indexPath.section]
+        print("Created cell for genre \(cell.genre!.name) \(indexPath.section)")
         return cell
     }
     
@@ -87,17 +68,16 @@ class MoviesTableViewController: UITableViewController {
         
         // Load Upcoming
         MovieMDB.upcoming(TMDBBase.apiKey, page: page, language: "en"){
-            data, upcomingMovies in
-            if let movies = upcomingMovies{
-                self.upcomingMovies.append(contentsOf: movies)
+            data, nowPlaying in
+            if nowPlaying != nil {
+                self.upcomingMovies.removeAll()
                 self.genres.append(Genre(name: "Upcoming", movies: self.upcomingMovies))
-                
                 DispatchQueue.main.async {
                     self.tableView?.reloadData()
                 }
             }
         }
-        
+    
         // Load Now Playing
         MovieMDB.nowplaying(TMDBBase.apiKey, language: "en", page: page){
             data, nowPlaying in
