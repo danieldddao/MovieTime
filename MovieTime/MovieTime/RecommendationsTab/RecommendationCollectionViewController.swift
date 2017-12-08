@@ -119,6 +119,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     
                     print(movie.id!)
                     self.recommendMovie[movie.id!] = movie
+                    
                     let posterPath = "\(movie.poster_path!)"
                     let title = movie.title!
                     print(title)
@@ -130,20 +131,23 @@ class RecommendationCollectionViewController: UICollectionViewController {
                         cell.genres.text?.append(", ")
                         cell.genres.text?.append(movie.genres[1].name!)
                     }
-                    print("\(TMDBBase.imageURL)\(posterPath)")
-                    if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
-                        DispatchQueue.main.async {
-                            let data = try? Data(contentsOf: imageURL)
-                            if let data = data {
-                                let image = UIImage(data: data)
+                    //DispatchQueue.main.async {
+                        if movie.poster_path != nil{
+                            print("\(TMDBBase.imageURL)\(String(describing: posterPath))")
+                            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(String(describing: posterPath))"){
                                 DispatchQueue.main.async {
-                                    cell.imgView.image = image
-                                    //cell.title.text = title
-                                    //print(cell.title.text!)
+                                    let data = try? Data(contentsOf: imageURL)
+                                    if let data = data {
+                                        let image = UIImage(data: data)
+                                        DispatchQueue.main.async {
+                                            cell.imgView.image = image
+                                            //cell.title.text = title
+                                            //print(cell.title.text!)
+                                        }
+                                    }
                                 }
-                            }
+                            //}
                         }
-                        
                     }
                 }
             }

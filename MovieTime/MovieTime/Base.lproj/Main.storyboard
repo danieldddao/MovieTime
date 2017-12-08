@@ -1632,7 +1632,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fB7-0W-7Li">
-                                            <rect key="frame" x="117" y="45" width="248" height="32"/>
+                                            <rect key="frame" x="117" y="37" width="248" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                             <nil key="textColor"/>
@@ -1760,11 +1760,11 @@ Kingston upon Thames, Surrey, England, UK</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" id="gT3-oB-unz" customClass="posterTableCell" customModule="MovieTime" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" rowHeight="124" id="gT3-oB-unz" customClass="posterTableCell" customModule="MovieTime" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="124"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gT3-oB-unz" id="vQj-bz-dLy">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="123.66666666666667"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Cb-8e-ed8">
@@ -1774,13 +1774,21 @@ Kingston upon Thames, Surrey, England, UK</string>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kbc-N4-bgG">
                                             <rect key="frame" x="139" y="0.0" width="251" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdL-zM-qQr">
+                                            <rect key="frame" x="139" y="35" width="248" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="genre" destination="qdL-zM-qQr" id="ecs-WG-2kH"/>
                                     <outlet property="imgView" destination="5Cb-8e-ed8" id="PLw-sp-K8W"/>
                                     <outlet property="title" destination="Kbc-N4-bgG" id="M6f-yT-d9E"/>
                                     <segue destination="zSN-ng-Mms" kind="show" identifier="ShowMovieDetail" id="zfE-35-8D2"/>
@@ -1954,6 +1962,6 @@ Kingston upon Thames, Surrey, England, UK</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="H36-1G-F3g"/>
-        <segue reference="XlI-j7-kUt"/>
+        <segue reference="zfE-35-8D2"/>
     </inferredMetricsTieBreakers>
 </document>
