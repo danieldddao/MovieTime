@@ -145,6 +145,10 @@ class recommender{
         var recommendMovieNum = movieNum
         var notRecommended:Bool = true
         self.basicRecommendMovieId = []
+        if self.hisID.count==0 && self.favoID.count==0 && noisyTerm==0{
+            completion(self.basicRecommendMovieId)
+            return
+        }
         for _ in 0...self.allGenres.count-1{
             genreVote.append(0)
         }
@@ -176,6 +180,11 @@ class recommender{
             let randVote = Double(arc4random_uniform(perturb))
             genreVote[i] += randVote
             sumGenreVote += randVote
+        }
+        for i in 0...dateVote.count-1{
+            let randVote = Double(arc4random_uniform(perturb))
+            dateVote[i] += randVote
+            sumDateVote += randVote
         }
         
         for i in 0...genreVote.count-1{
