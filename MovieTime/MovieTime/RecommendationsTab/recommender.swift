@@ -165,7 +165,6 @@ class recommender{
             dateVote.append(0)
         }
         for elem in self.hisFeature{
-            print(elem.0)
             genreVote[elem.0] += hisWeight
             sumGenreVote += hisWeight
         }
@@ -174,7 +173,6 @@ class recommender{
             sumGenreVote += favoWeight
         }
         for elem in self.hisDiscreteDate{
-            print(elem)
             dateVote[elem] += hisWeight
             sumDateVote += hisWeight
         }
@@ -193,7 +191,7 @@ class recommender{
             sumGenreVote += randVote
         }
         for i in 0...dateVote.count-1{
-            let randVote = Double(arc4random_uniform(perturb))
+            let randVote = Double(arc4random_uniform(perturb)) * Double(i^2)
             dateVote[i] += randVote
             sumDateVote += randVote
         }
