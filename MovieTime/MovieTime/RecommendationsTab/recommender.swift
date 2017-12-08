@@ -25,6 +25,7 @@ class recommender{
     var yearInterval:Double = 5
     var basicRecommendMovieId:[Int] = []
     init(completion:@escaping (_ recommender: recommender) -> ()) {
+        
         if defaults.object(forKey: listNames[0]) == nil{
             hisID = []
         }else{
@@ -52,7 +53,13 @@ class recommender{
                     self.genreToFeature[$0.name!] = i
                     self.genreFeatureToRaw[i] = $0.id!
                     i += 1
+                    if self.hisID.count==0 && self.favoID.count==0 && i==genres.count{
+                        completion(self)
+                    }
                 }
+                
+                
+                
                 for id in self.hisID{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
@@ -145,6 +152,8 @@ class recommender{
         var recommendMovieNum = movieNum
         var notRecommended:Bool = true
         self.basicRecommendMovieId = []
+        print("noisy term:")
+        print(noisyTerm)
         if self.hisID.count==0 && self.favoID.count==0 && noisyTerm==0{
             completion(self.basicRecommendMovieId)
             return
@@ -156,6 +165,7 @@ class recommender{
             dateVote.append(0)
         }
         for elem in self.hisFeature{
+            print(elem.0)
             genreVote[elem.0] += hisWeight
             sumGenreVote += hisWeight
         }
@@ -164,6 +174,7 @@ class recommender{
             sumGenreVote += favoWeight
         }
         for elem in self.hisDiscreteDate{
+            print(elem)
             dateVote[elem] += hisWeight
             sumDateVote += hisWeight
         }
