@@ -23,9 +23,9 @@ class RecommendationCollectionViewController: UICollectionViewController {
     var recommendMovie:[Int:MovieMDB] = [:]
     
     @IBAction func perturb(_ sender: Any) {
-        //myRecommender = recommender(){
-        //    (recommender:recommender) -> () in
-        //    let myRecommender = recommender
+        myRecommender = recommender(){
+            (recommender:recommender) -> () in
+        self.myRecommender = recommender
         self.myRecommender?.preprocessing(yearInterval: 5)
         self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0.5){
                 (basicRecommendMovieId:[Int]) -> () in
@@ -37,14 +37,14 @@ class RecommendationCollectionViewController: UICollectionViewController {
                 print(self.recommendMovieId)
                 self.collectionView?.reloadData()
             }
-        //}
+        }
     }
     @IBAction func refresh(_ sender: Any) {
-        //myRecommender = recommender(){
-        //    (recommender:recommender) -> () in
-        //    let myRecommender = recommender
-        self.myRecommender?.preprocessing(yearInterval: 5)
-        self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
+        myRecommender = recommender(){
+            (recommender:recommender) -> () in
+            self.myRecommender = recommender
+            self.myRecommender?.preprocessing(yearInterval: 5)
+            self.myRecommender?.basicVotingRecommend(movieNum: 20, noisyTerm: 0){
                 (basicRecommendMovieId:[Int]) -> () in
                 let tmpId = basicRecommendMovieId
                 print("-----------------------------")
@@ -54,7 +54,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                 print(self.recommendMovieId)
                 self.collectionView?.reloadData()
             }
-        //}
+        }
     }
     
     
@@ -119,7 +119,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     
                     print(movie.id!)
                     self.recommendMovie[movie.id!] = movie
-                    let posterPath = "\(movie.poster_path!)"
+                    
                     let title = movie.title!
                     print(title)
                     //print(posterPath)
@@ -130,20 +130,24 @@ class RecommendationCollectionViewController: UICollectionViewController {
                         cell.genres.text?.append(", ")
                         cell.genres.text?.append(movie.genres[1].name!)
                     }
-                    print("\(TMDBBase.imageURL)\(posterPath)")
-                    if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
-                        DispatchQueue.main.async {
-                            let data = try? Data(contentsOf: imageURL)
-                            if let data = data {
-                                let image = UIImage(data: data)
+                    //DispatchQueue.main.async {
+                        if movie.poster_path != nil{
+                            let posterPath = "\(movie.poster_path!)"
+                            print("\(TMDBBase.imageURL)\(String(describing: posterPath))")
+                            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(String(describing: posterPath))"){
                                 DispatchQueue.main.async {
-                                    cell.imgView.image = image
-                                    //cell.title.text = title
-                                    //print(cell.title.text!)
+                                    let data = try? Data(contentsOf: imageURL)
+                                    if let data = data {
+                                        let image = UIImage(data: data)
+                                        DispatchQueue.main.async {
+                                            cell.imgView.image = image
+                                            //cell.title.text = title
+                                            //print(cell.title.text!)
+                                        }
+                                    }
                                 }
-                            }
+                            //}
                         }
-                        
                     }
                 }
             }

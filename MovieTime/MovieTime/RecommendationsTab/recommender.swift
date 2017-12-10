@@ -25,6 +25,7 @@ class recommender{
     var yearInterval:Double = 5
     var basicRecommendMovieId:[Int] = []
     init(completion:@escaping (_ recommender: recommender) -> ()) {
+        
         if defaults.object(forKey: listNames[0]) == nil{
             hisID = []
         }else{
@@ -52,7 +53,13 @@ class recommender{
                     self.genreToFeature[$0.name!] = i
                     self.genreFeatureToRaw[i] = $0.id!
                     i += 1
+                    if self.hisID.count==0 && self.favoID.count==0 && i==genres.count{
+                        completion(self)
+                    }
                 }
+                
+                
+                
                 for id in self.hisID{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
@@ -145,6 +152,12 @@ class recommender{
         var recommendMovieNum = movieNum
         var notRecommended:Bool = true
         self.basicRecommendMovieId = []
+        print("noisy term:")
+        print(noisyTerm)
+        if self.hisID.count==0 && self.favoID.count==0 && noisyTerm==0{
+            completion(self.basicRecommendMovieId)
+            return
+        }
         for _ in 0...self.allGenres.count-1{
             genreVote.append(0)
         }
@@ -176,6 +189,11 @@ class recommender{
             let randVote = Double(arc4random_uniform(perturb))
             genreVote[i] += randVote
             sumGenreVote += randVote
+        }
+        for i in 0...dateVote.count-1{
+            let randVote = Double(arc4random_uniform(perturb)) * Double(i^2)
+            dateVote[i] += randVote
+            sumDateVote += randVote
         }
         
         for i in 0...genreVote.count-1{

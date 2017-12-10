@@ -67,7 +67,9 @@ class ListDetailTableViewController: UITableViewController {
                 //print(posterPath)
                 
             }
-            
+            cell.genre.text = movie?.genres[0].name
+            cell.title.text = title
+            print(cell.title.text!)
             print("\(TMDBBase.imageURL)\(posterPath)")
             if let imageURL = URL(string:"\(TMDBBase.imageURL)\(posterPath)"){
                 DispatchQueue.global().async {
@@ -76,8 +78,7 @@ class ListDetailTableViewController: UITableViewController {
                         let image = UIImage(data: data)
                         DispatchQueue.main.async {
                             cell.imgView.image = image
-                            cell.title.text = title
-                            print(cell.title.text!)
+                            
                         }
                     }
                 }
