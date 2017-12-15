@@ -124,18 +124,22 @@ class RecommendationCollectionViewController: UICollectionViewController {
         print(self.recommendMovieId)
         for movieId in self.recommendMovieId {
 //            print("\nLoading Movie: \(movieId)")
-            MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
-            apiReturn, movie in
-                if let movie = movie {
-                    if movie.id != nil {
-//                        print("Loaded Movie: \(movie.id!)")
-                        self.recommendationMovies.append(movie)
-                        DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // Load movie after 0.8 seconds
+                MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
+                    apiReturn, movie in
+                    if let movie = movie{
+//                        print("movieId: \(movieId) - movie loaded: \(String(describing: movie.id))")
+                        if movie.id != nil {
+//                            print("Loaded Movie: \(movie.id!)")
+                            self.recommendationMovies.append(movie)
                             self.collectionView?.reloadData()
+                        } else {
+                            print("Couldn't load Movie: \(movieId)")
                         }
                     }
                 }
             }
+            sleep(UInt32(0.3))
         }
     }
 
@@ -156,7 +160,7 @@ class RecommendationCollectionViewController: UICollectionViewController {
         // new way to load movie
         let movie = self.recommendationMovies[indexPath.row]
         if movie.title != nil {
-            print("Loading cell for movie: \(movie.title!)")
+//            print("Loading cell for movie: \(movie.title!)")
             cell.title.text = movie.title!
         }
         if movie.genres.count > 0 {

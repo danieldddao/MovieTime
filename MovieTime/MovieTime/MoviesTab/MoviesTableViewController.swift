@@ -79,8 +79,10 @@ class MoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CategoryRow
-        cell.genre = genres[indexPath.section]
-        print("Created cell for genre \(cell.genre!.name) \(indexPath.section)")
+        if genres.count > indexPath.section {
+            cell.genre = genres[indexPath.section]
+            print("Created cell for genre \(cell.genre!.name) \(indexPath.section)")
+        }
         return cell
     }
     
