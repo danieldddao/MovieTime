@@ -124,13 +124,13 @@ class RecommendationCollectionViewController: UICollectionViewController {
         print(self.recommendMovieId)
         for movieId in self.recommendMovieId {
 //            print("\nLoading Movie: \(movieId)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // Load movie after 0.8 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Load movie after 0.5 second
                 MovieMDB.movie(TMDBBase.apiKey, movieID: movieId, language: "en"){
                     apiReturn, movie in
                     if let movie = movie{
-//                        print("movieId: \(movieId) - movie loaded: \(String(describing: movie.id))")
+                        //print("movieId: \(movieId) - movie loaded: \(String(describing: movie.id))")
                         if movie.id != nil {
-//                            print("Loaded Movie: \(movie.id!)")
+                            // print("Loaded Movie: \(movie.id!)")
                             self.recommendationMovies.append(movie)
                             self.collectionView?.reloadData()
                         } else {
@@ -139,7 +139,6 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     }
                 }
             }
-            sleep(UInt32(0.3))
         }
     }
 
