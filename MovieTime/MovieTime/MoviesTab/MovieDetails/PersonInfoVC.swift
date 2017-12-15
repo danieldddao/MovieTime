@@ -11,7 +11,7 @@ import Material
 import TMDBSwift
 import NVActivityIndicatorView
 
-class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource, NVActivityIndicatorViewable {
+class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource {
     
     @IBOutlet var backgroundImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -103,7 +103,7 @@ class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource, NV
         super.viewDidLoad()
         
         print ("loading member \(personId!)")
-        self.startAnimating()
+//        self.startAnimating()
         
         tableLabel.text = tableTitle
         movieTableView.backgroundColor = UIColor.clear
@@ -139,7 +139,7 @@ class PersonInfoVC: UIViewController, TableViewDelegate, TableViewDataSource, NV
                                 let processedImage = UIImage(cgImage: cgimg!).alpha(0.3)
                                 self.backgroundImage.image = processedImage
                                 
-                                self.stopAnimating()
+//                                self.stopAnimating()
                             }
                         }
                     }
