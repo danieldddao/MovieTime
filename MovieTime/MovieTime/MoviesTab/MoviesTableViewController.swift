@@ -49,7 +49,13 @@ class MoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return genres[section].name
+        //        print(genres.count)
+        //        print(section)
+        if genres.count <= section {
+            return "N/A"
+        } else {
+            return genres[section].name
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,8 +65,10 @@ class MoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CategoryRow
-        cell.genre = genres[indexPath.section]
-        print("Created cell for genre \(cell.genre!.name) \(indexPath.section)")
+        if genres.count > indexPath.section {
+            cell.genre = genres[indexPath.section]
+            print("Created cell for genre \(cell.genre!.name) \(indexPath.section)")
+        }
         return cell
     }
     

@@ -47,21 +47,21 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             // Set poster image
             self.posterImage.image = image
             
-            // Add blur effect to image
-            let context = CIContext(options: nil)
-            let currentFilter = CIFilter(name: "CIGaussianBlur")
-            let beginImage = CIImage(image: image!)
-            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-            currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
-            let cropFilter = CIFilter(name: "CICrop")
-            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
-            cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
-            let output = cropFilter!.outputImage
-            let cgimg = context.createCGImage(output!, from: output!.extent)
-            let processedImage = UIImage(cgImage: cgimg!).alpha(0.3)
-            
-            // Set background
-            self.backgroundImage.image = processedImage
+//            // Add blur effect to image
+//            let context = CIContext(options: nil)
+//            let currentFilter = CIFilter(name: "CIGaussianBlur")
+//            let beginImage = CIImage(image: image!)
+//            currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+//            currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+//            let cropFilter = CIFilter(name: "CICrop")
+//            cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+//            cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+//            let output = cropFilter!.outputImage
+//            let cgimg = context.createCGImage(output!, from: output!.extent)
+//            let processedImage = UIImage(cgImage: cgimg!).alpha(0.3)
+//            
+//            // Set background
+//            self.backgroundImage.image = processedImage
         }
     }
 }
