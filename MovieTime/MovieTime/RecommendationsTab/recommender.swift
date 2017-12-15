@@ -64,22 +64,25 @@ class recommender{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
                         if let movie = movie{
-                            print(movie.genres[0].name!)
-                            
-                            print(movie.release_date!)
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-MM-dd"
-                            let date = dateFormatter.date(from: movie.release_date!)
-                            let startDate = dateFormatter.date(from: "1900-01-01")
-                            // date to integer
-                            let dateFeature = date?.timeIntervalSince(startDate!)
-                            
-                            let genreFeature = self.genreToFeature[movie.genres[0].name!]
-                            print("date-genre-feature:")
-                            print(dateFeature!, genreFeature!)
-                            self.hisFeature.append((genreFeature!, dateFeature!))
-                            if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
-                                completion(self)
+                            if movie.id != nil {
+                                print(movie.genres[0].name!)
+                                
+                                print(movie.release_date!)
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd"
+                                let date = dateFormatter.date(from: movie.release_date!)
+                                let startDate = dateFormatter.date(from: "1900-01-01")
+                                // date to integer
+                                let dateFeature = date?.timeIntervalSince(startDate!)
+                                
+                                let genreFeature = self.genreToFeature[movie.genres[0].name!]
+                                print("date-genre-feature:")
+                                print(dateFeature ?? "nil")
+                                print(genreFeature ?? "nil")
+                                self.hisFeature.append((genreFeature!, dateFeature!))
+                                if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
+                                    completion(self)
+                                }
                             }
                         }
                     }

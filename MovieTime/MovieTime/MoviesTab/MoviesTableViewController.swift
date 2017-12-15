@@ -41,6 +41,20 @@ class MoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        populatePosters(page: 1)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        genres.removeAll()
+        upcomingMovies.removeAll()
+        nowplayingMovies.removeAll()
+        popularMovies.removeAll()
+        topRatedMovies.removeAll()
+        dramaMovies.removeAll()
+        comedyMovies.removeAll()
+        documentaryMovies.removeAll()
+        horrorMovies.removeAll()
+        actionMovies.removeAll()
         populatePosters(page: 1)
     }
     
@@ -49,7 +63,13 @@ class MoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return genres[section].name
+//        print(genres.count)
+//        print(section)
+        if genres.count <= section {
+            return "N/A"
+        } else {
+            return genres[section].name
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,7 +85,7 @@ class MoviesTableViewController: UITableViewController {
     }
     
     func populatePosters(page: Int) {
-        
+        print("populate Poster")
         // Load Upcoming
         MovieMDB.upcoming(TMDBBase.apiKey, page: page, language: "en"){
             data, nowPlaying in

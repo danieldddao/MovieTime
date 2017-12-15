@@ -812,6 +812,9 @@ Rating:</string>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-Tf-n3x" customClass="FlatButton" customModule="Material">
                                                 <rect key="frame" x="57" y="755" width="300" height="41"/>
                                                 <color key="backgroundColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="41" id="8Dj-av-a3y"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="23"/>
                                                 <state key="normal" title="Write a review">
                                                     <color key="titleColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
@@ -1261,7 +1264,7 @@ Kingston upon Thames, Surrey, England, UK</string>
                                                         <action selector="unleasedMovieSubscribedSwitched:" destination="w2R-gr-Yds" eventType="valueChanged" id="i3J-0q-Hqp"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notify when unleased movies I subsribed to are released" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XpH-uK-2mk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notify when upcoming movies that I've subscribed to are released" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XpH-uK-2mk">
                                                     <rect key="frame" x="20" y="1.4921397450962104e-13" width="319" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1963,8 +1966,7 @@ Kingston upon Thames, Surrey, England, UK</string>
         <image name="settingsIcon" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="H36-1G-F3g"/>
-        <segue reference="NHv-EK-yD2"/>
+        <segue reference="afE-oF-dRl"/>
         <segue reference="zfE-35-8D2"/>
     </inferredMetricsTieBreakers>
 </document>
