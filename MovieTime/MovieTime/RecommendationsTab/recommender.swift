@@ -73,10 +73,16 @@ class recommender{
                                 let date = dateFormatter.date(from: movie.release_date!)
                                 let startDate = dateFormatter.date(from: "1900-01-01")
                                 // date to integer
-                                let dateFeature = date?.timeIntervalSince(startDate!)
+                                var dateFeature = date?.timeIntervalSince(startDate!)
                                 
-                                let genreFeature = self.genreToFeature[movie.genres[0].name!]
+                                var genreFeature = self.genreToFeature[movie.genres[0].name!]
                                 print("date-genre-feature:")
+                                if dateFeature==nil{
+                                    dateFeature=3719692800.0
+                                }
+                                if genreFeature==nil{
+                                    genreFeature=12
+                                }
                                 print(dateFeature ?? "nil")
                                 print(genreFeature ?? "nil")
                                 self.hisFeature.append((genreFeature!, dateFeature!))
@@ -101,8 +107,16 @@ class recommender{
                             let date = dateFormatter.date(from: movie.release_date!)
                             let startDate = dateFormatter.date(from: "1900-01-01")
                             // date to integer
-                            let dateFeature = date?.timeIntervalSince(startDate!)
-                            let genreFeature = self.genreToFeature[movie.genres[0].name!]
+                            var dateFeature = date?.timeIntervalSince(startDate!)
+                            
+                            var genreFeature = self.genreToFeature[movie.genres[0].name!]
+                            print("date-genre-feature:")
+                            if dateFeature==nil{
+                                dateFeature=3719692800.0
+                            }
+                            if genreFeature==nil{
+                                genreFeature=12
+                            }
                             print(dateFeature!, genreFeature!)
                             self.favoFeature.append((genreFeature!, dateFeature!))
                             if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
