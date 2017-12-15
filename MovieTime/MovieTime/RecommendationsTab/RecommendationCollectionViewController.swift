@@ -110,6 +110,8 @@ class RecommendationCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! posterCell
         cell.imgView.image = UIImage(named: "emptyPoster")
         let movieID = self.recommendMovieId[indexPath.row]
+        cell.title.text = ""
+        cell.genres.text = ""
         print(indexPath.row)
         print(movieID)
         MovieMDB.movie(TMDBBase.apiKey, movieID: movieID, language: "en"){
@@ -121,37 +123,38 @@ class RecommendationCollectionViewController: UICollectionViewController {
                     self.recommendMovie[movie.id!] = movie
                     
                     let title = movie.title!
-                    print(title)
+//                        print(title)
                     //print(posterPath)
                     
                     cell.title.text = title
-                    cell.genres.text = movie.genres[0].name
-                    if movie.genres.count > 1{
-                        cell.genres.text?.append(", ")
-                        cell.genres.text?.append(movie.genres[1].name!)
-                    }
-                    //DispatchQueue.main.async {
-                        if movie.poster_path != nil{
-                            let posterPath = "\(movie.poster_path!)"
-                            print("\(TMDBBase.imageURL)\(String(describing: posterPath))")
-                            if let imageURL = URL(string:"\(TMDBBase.imageURL)\(String(describing: posterPath))"){
-                                DispatchQueue.main.async {
-                                    let data = try? Data(contentsOf: imageURL)
-                                    if let data = data {
-                                        let image = UIImage(data: data)
-                                        DispatchQueue.main.async {
-                                            cell.imgView.image = image
-                                            //cell.title.text = title
-                                            //print(cell.title.text!)
-                                        }
-                                    }
-                                }
-                            //}
+                    if movie.genres.count > 0 {
+                        cell.genres.text = movie.genres[0].name
+                        if movie.genres.count > 1{
+                            cell.genres.text?.append(", ")
+                            cell.genres.text?.append(movie.genres[1].name!)
                         }
                     }
+                    
+                    if movie.poster_path != nil{
+                        let posterPath = "\(movie.poster_path!)"
+//                            print("\(TMDBBase.imageURL)\(String(describing: posterPath))")
+                        if let imageURL = URL(string:"\(TMDBBase.imageURL)\(String(describing: posterPath))"){
+                            let data = try? Data(contentsOf: imageURL)
+                            if let data = data {
+                                DispatchQueue.main.async {
+                                    cell.imgView.image = UIImage(data: data)
+                                    //cell.title.text = title
+                                    //print(cell.title.text!)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    print("Couldn't load movie: \(movieID)")
                 }
             }
         }
+        
         return cell
     }
     

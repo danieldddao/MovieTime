@@ -64,28 +64,30 @@ class recommender{
                     MovieMDB.movie(TMDBBase.apiKey, movieID: id, language: "en"){
                         apiReturn, movie in
                         if let movie = movie{
-                            //print(movie.genres[0].name!)
-                            
-                            print(movie.release_date!)
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-MM-dd"
-                            let date = dateFormatter.date(from: movie.release_date!)
-                            let startDate = dateFormatter.date(from: "1900-01-01")
-                            // date to integer
-                            var dateFeature = date?.timeIntervalSince(startDate!)
-                            
-                            var genreFeature = self.genreToFeature[movie.genres[0].name!]
-                            print("date-genre-feature:")
-                            if dateFeature==nil{
-                                dateFeature=3719692800.0
-                            }
-                            if genreFeature==nil{
-                                genreFeature=12
-                            }
-                            print(dateFeature!, genreFeature!)
-                            self.hisFeature.append((genreFeature!, dateFeature!))
-                            if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
-                                completion(self)
+                            if movie.id != nil {
+                                //print(movie.genres[0].name!)
+                                
+                                // print(movie.release_date!)
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd"
+                                let date = dateFormatter.date(from: movie.release_date!)
+                                let startDate = dateFormatter.date(from: "1900-01-01")
+                                // date to integer
+                                var dateFeature = date?.timeIntervalSince(startDate!)
+                                
+                                var genreFeature = self.genreToFeature[movie.genres[0].name!]
+                                print("date-genre-feature:")
+                                if dateFeature==nil{
+                                    dateFeature=3719692800.0
+                                }
+                                if genreFeature==nil{
+                                    genreFeature=12
+                                }
+                                print(dateFeature!, genreFeature!)
+                                self.hisFeature.append((genreFeature!, dateFeature!))
+                                if self.hisFeature.count == self.hisID.count && self.favoFeature.count == self.favoID.count{
+                                    completion(self)
+                                }
                             }
                         }
                     }
