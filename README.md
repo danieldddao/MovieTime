@@ -19,6 +19,12 @@ Some basic functionalities of the app:
 
 * Movie recommendations using machine learning. 
 
+## Authors
+
+* Daniel Dao - University of Iowa
+* Jon Halverson - University of Iowa
+* Dixian Zhu - University of Iowa
+
 ## Screenshots
 
 <img src="https://github.com/danieldddao/MovieTime/blob/master/screenshots/1.png" width="250"> <img src="https://github.com/danieldddao/MovieTime/blob/master/screenshots/2.png" width="250"> <img src="https://github.com/danieldddao/MovieTime/blob/master/screenshots/3.png" width="250">
