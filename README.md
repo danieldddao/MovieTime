@@ -1,7 +1,7 @@
 # MovieTime
 ## iOS Movie Tracking App
 
-The app uses TMDB database to get movie information. 
+The app uses TMDB database to get movie information and Firebase to store user information, and reviews and ratings submitted by registered users.
 
 Some basic functionalities of the app: 
 
@@ -11,11 +11,11 @@ Some basic functionalities of the app:
 
 * View details of a movie such as overview, release date, cast and crew members, genres, etc. 
 
-* Reviews and ratings system. 
+* Reviews and ratings system with Firebase.
 
-* Login and registration system. 
+* Login and registration system with Firebase.
 
-* Push notifications. 
+* Push notifications.
 
 * Movie recommendations using machine learning. 
 
